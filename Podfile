@@ -43,6 +43,7 @@ target 'Friendzr' do
   pod 'AMShimmer'
 
   pod 'ImageSlideshow', '~> 1.9.0'
+  pod "TLPhotoPicker"
   pod "ImageSlideshow/SDWebImage"
 
   post_install do |installer|

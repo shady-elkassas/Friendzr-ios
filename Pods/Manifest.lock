@@ -904,6 +904,7 @@ PODS:
     - SDWebImage/Core (= 5.13.5)
   - SDWebImage/Core (5.13.5)
   - SweeterSwift (1.2.1)
+  - TLPhotoPicker (2.1.9)
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
@@ -938,6 +939,7 @@ DEPENDENCIES:
   - QCropper
   - RevealingSplashView
   - SDWebImage
+  - TLPhotoPicker
 
 SPEC REPOS:
   trunk:
@@ -1003,6 +1005,7 @@ SPEC REPOS:
     - RevealingSplashView
     - SDWebImage
     - SweeterSwift
+    - TLPhotoPicker
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -1067,7 +1070,8 @@ SPEC CHECKSUMS:
   RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
+  TLPhotoPicker: 939c40eaad130b69f9571e61e021e8120fa76329
 
-PODFILE CHECKSUM: c2512e885f328b2d8ffd423990b92ba8f7f9b6f4
+PODFILE CHECKSUM: 88fa8dc1fce25555403f2d6cadeb0e7063551f99
 
 COCOAPODS: 1.11.3

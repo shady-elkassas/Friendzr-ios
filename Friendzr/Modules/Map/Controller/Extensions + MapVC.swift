@@ -54,8 +54,8 @@ extension MapVC {
         self.startDate = formatter.string(from: self.datePicker1.date)
         
         var comps2:DateComponents = DateComponents()
-        comps2.year = 20
-        comps2.month = 12
+        comps2.year = 10
+        comps2.month = 1
         comps2.day = -1
         
         self.minimumDate = (self.datePicker1.date)

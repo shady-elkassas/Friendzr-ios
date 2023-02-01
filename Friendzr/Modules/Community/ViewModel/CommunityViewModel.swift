@@ -2,7 +2,7 @@
 //  CommunityViewModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 30/08/2022.
+//  Created by Muhammad Sabri Saad on 30/08/2022.
 //
 
 import Foundation

@@ -33,6 +33,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zE-dg-y5C">
+                        <rect key="frame" x="279.5" y="0.0" width="40.5" height="243"/>
+                        <state key="normal" image="next-page_ic"/>
+                        <connections>
+                            <action selector="arrowNextBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4b9-mC-sh6"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KMj-3J-i6l">
+                        <rect key="frame" x="0.0" y="0.0" width="40.5" height="243"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" image="previous-page_ic"/>
+                        <connections>
+                            <action selector="arrowPreviousBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="sdV-GQ-Ake"/>
+                        </connections>
+                    </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PH6-pw-v9d" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="146" width="320" height="97"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -177,24 +192,30 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="1si-eJ-NJj"/>
+                    <constraint firstItem="KMj-3J-i6l" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="4xq-IM-UE2"/>
                     <constraint firstAttribute="bottom" secondItem="URm-zQ-O8Y" secondAttribute="bottom" id="50V-ud-6k4"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="centerX" secondItem="Xq5-ul-Ewy" secondAttribute="centerX" id="5Jv-aS-7A5"/>
                     <constraint firstItem="URm-zQ-O8Y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BWf-vj-zS0"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="width" secondItem="Xq5-ul-Ewy" secondAttribute="width" id="Cub-9B-s4R"/>
+                    <constraint firstItem="KMj-3J-i6l" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EtH-vH-q80"/>
                     <constraint firstAttribute="trailing" secondItem="PH6-pw-v9d" secondAttribute="trailing" id="Gkq-L7-mOt"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="Rmj-V1-6Re"/>
                     <constraint firstAttribute="bottom" secondItem="qpP-t8-g4L" secondAttribute="bottom" id="SRN-ZA-fwq"/>
                     <constraint firstAttribute="bottom" secondItem="PH6-pw-v9d" secondAttribute="bottom" id="UiW-Pe-Lbg"/>
                     <constraint firstItem="qpP-t8-g4L" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Wfd-Nu-cMR"/>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="XYW-Al-Ysr"/>
+                    <constraint firstAttribute="trailing" secondItem="5zE-dg-y5C" secondAttribute="trailing" id="XxR-Ba-Zfs"/>
                     <constraint firstAttribute="trailing" secondItem="Xq5-ul-Ewy" secondAttribute="trailing" constant="20" id="b0u-Ti-U3o"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="height" secondItem="Xq5-ul-Ewy" secondAttribute="height" id="eep-Ty-Nom"/>
                     <constraint firstAttribute="trailing" secondItem="URm-zQ-O8Y" secondAttribute="trailing" id="erx-ll-gNg"/>
+                    <constraint firstItem="5zE-dg-y5C" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="iWm-5U-V24"/>
+                    <constraint firstAttribute="bottom" secondItem="5zE-dg-y5C" secondAttribute="bottom" id="k9z-Hd-fx9"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="leading" secondItem="4EA-8j-zLg" secondAttribute="trailing" constant="20" id="lH2-R2-CNx"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="mDj-9y-Vhx"/>
                     <constraint firstItem="URm-zQ-O8Y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="rh0-Cl-JRN"/>
                     <constraint firstItem="qpP-t8-g4L" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tz0-BD-1CU"/>
                     <constraint firstItem="Xq5-ul-Ewy" firstAttribute="bottom" secondItem="PH6-pw-v9d" secondAttribute="bottom" constant="-10" id="u3O-y2-rcW"/>
+                    <constraint firstAttribute="bottom" secondItem="KMj-3J-i6l" secondAttribute="bottom" id="uI1-qF-67f"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="height" secondItem="qpP-t8-g4L" secondAttribute="height" multiplier="0.4" id="wh2-If-Mvz"/>
                     <constraint firstAttribute="trailing" secondItem="qpP-t8-g4L" secondAttribute="trailing" id="wok-zM-4qc"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="x3E-2z-39S"/>
@@ -206,6 +227,8 @@
             <connections>
                 <outlet property="acceptBtn" destination="fQX-6Q-Nwh" id="VAh-Pl-gEI"/>
                 <outlet property="ageLbl" destination="18H-Hj-0YY" id="pOl-C9-vcM"/>
+                <outlet property="arrowNextBtn" destination="5zE-dg-y5C" id="3ET-zG-Kj9"/>
+                <outlet property="arrowPreviousBtn" destination="KMj-3J-i6l" id="ZtE-qC-mKg"/>
                 <outlet property="cancelBtn" destination="4Ji-AE-pB2" id="GaG-k3-nVC"/>
                 <outlet property="friendStackView" destination="jQg-L6-SAb" id="gwR-oe-a0Y"/>
                 <outlet property="genderLlb" destination="ZgM-Gi-geX" id="yPG-gV-llT"/>
@@ -218,13 +241,15 @@
                 <outlet property="unBlockBtn" destination="GyG-Mc-9LD" id="Yka-4V-OLf"/>
                 <outlet property="unfriendBtn" destination="MlD-kx-rk4" id="dK8-bV-tGE"/>
             </connections>
-            <point key="canvasLocation" x="162" y="107"/>
+            <point key="canvasLocation" x="160.86956521739131" y="106.80803571428571"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="next-page_ic" width="40.5" height="40.5"/>
         <image name="placeholder" width="1000" height="1000"/>
+        <image name="previous-page_ic" width="40.5" height="40.5"/>
         <namedColor name="primaryColor">
-            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

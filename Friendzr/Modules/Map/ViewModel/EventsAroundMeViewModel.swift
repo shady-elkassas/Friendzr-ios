@@ -24,12 +24,13 @@ class EventsAroundMeViewModel {
     func getAllEventsAroundMe(ByCatIds catIDs: [String],dateCriteria:String,startDate:String,endDate:String) {
         CancelRequest.currentTask = false
         var url = URLs.baseURLFirst + "Public/EventsAroundMe"
+        
         if Defaults.token != "" {
             url = URLs.baseURLFirst + "Events/EventsAroundUser"
         }
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         var params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng]
-
+        
         if catIDs.count != 0 {
             if dateCriteria != "" {
                 if dateCriteria != "Custom" {
@@ -77,7 +78,7 @@ class EventsAroundMeViewModel {
         var url = URLs.baseURLFirst + "Public/OnlyEventsAround"
         
         if Defaults.token != "" {
-            url = URLs.baseURLFirst + "Events/OnlyEventsAroundUser" 
+            url = URLs.baseURLFirst + "Events/OnlyEventsAroundUser"
         }
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
@@ -104,7 +105,7 @@ class EventsAroundMeViewModel {
                 }
             }
         }
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsOnlyAroundMeResponse>().map(JSON: data!) else {
@@ -134,27 +135,27 @@ class EventsAroundMeViewModel {
         }
     }
     
-        func getEventsByLoction(lat:Double,lng:Double) {
-            CancelRequest.currentTask = false
-            let url = URLs.baseURLFirst + "Events/locationEvente"
-            let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-            let params:[String:Any] = ["lat":lat,"lang":lng]
-            RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
-    
-                guard let userResponse = Mapper<EventsListByLocationModel>().map(JSON: data!) else {
-                    self.error.value = error
-                    return
-                }
-                if let error = error {
-                    print ("Error while fetching data \(error)")
-                    self.error.value = error
-                }
-                else {
-                    // When set the listener (if any) will be notified
-                    if let toAdd = userResponse.data {
-                        self.events.value = toAdd
-                    }
+    func getEventsByLoction(lat:Double,lng:Double) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Events/locationEvente"
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+        let params:[String:Any] = ["lat":lat,"lang":lng]
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
+            
+            guard let userResponse = Mapper<EventsListByLocationModel>().map(JSON: data!) else {
+                self.error.value = error
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.data {
+                    self.events.value = toAdd
                 }
             }
         }
+    }
 }

@@ -18,7 +18,12 @@ class ImageProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var ageLbl: UILabel!
     @IBOutlet weak var imagesSlider: ImageSlideshow!
     
+    @IBOutlet weak var arrowPreviousBtn: UIButton!
+    @IBOutlet weak var arrowNextBtn: UIButton!
+    
     var HandleEditBtn: (()->())?
+    var HandleArrowPreviousBtn: (()->())?
+    var HandleArrowNextBtn: (()->())?
     var parentVC:UIViewController = UIViewController()
 
     override func awakeFromNib() {
@@ -49,4 +54,11 @@ class ImageProfileTableViewCell: UITableViewCell {
         HandleEditBtn?()
     }
     
+    @IBAction func arrowNextBtn(_ sender: Any) {
+        HandleArrowNextBtn?()
+    }
+    
+    @IBAction func arrowPreviousBtn(_ sender: Any) {
+        HandleArrowPreviousBtn?()
+    }
 }

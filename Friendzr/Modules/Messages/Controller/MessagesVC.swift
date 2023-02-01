@@ -182,7 +182,7 @@ class MessagesVC: UIViewController {
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         self.tabBarController?.tabBar.isHidden = true
-//        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+        //        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,7 +210,7 @@ class MessagesVC: UIViewController {
     
     //MARK: - Setup Messages
     func setupImageShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageImage) {
-//        cell.imagesSlider.slideshowInterval = 5.0
+        //        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
@@ -225,7 +225,7 @@ class MessagesVC: UIViewController {
     }
     
     func setupFileShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageFile) {
-//        cell.imagesSlider.slideshowInterval = 5.0
+        //        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
@@ -440,7 +440,6 @@ extension MessagesVC {
     
     @IBAction func expandItemsPressed(_ sender: UIButton) {
         presentInputActionSheet()
-        //        presentImagePickerSheet()
     }
     
     private func presentInputActionSheet() {
@@ -449,12 +448,15 @@ extension MessagesVC {
         let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
             self.openCamera()
         }
+        
         let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
             self.openLibrary()
         }
-        //        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
-        //            self.openFileLibrary()
-        //        }
+        
+        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+            self.openFileLibrary()
+        }
+        
         let locationBtn = UIAlertAction(title: "Location", style: .default) {_ in
             self.openShareLocationVC()
         }
@@ -580,11 +582,11 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             
             
             cell.HandleUserProfileBtn = {
-                    if !model.sender.isWhitelabel {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                        vc.userID = model.sender.senderId
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+                if !model.sender.isWhitelabel {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model.sender.senderId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             
             return cell
@@ -593,13 +595,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
             
             cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-
-//            if model.messageImage.image == "" {
-//                cell.attachmentImageView.image = model.messageImage.imageView
-//            }
-//            else {
-//                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
-//            }
+            
+            //            if model.messageImage.image == "" {
+            //                cell.attachmentImageView.image = model.messageImage.imageView
+            //            }
+            //            else {
+            //                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
+            //            }
             cell.imagesSlider.isHidden = false
             cell.attachmentImageView.isHidden = true
             cell.tapImageBtn.isHidden = true
@@ -612,11 +614,11 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
             cell.HandleProfileBtn = {
-                    if !model.sender.isWhitelabel {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                        vc.userID = model.sender.senderId
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+                if !model.sender.isWhitelabel {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model.sender.senderId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             
             cell.attachmentContainerView.setBorder()
@@ -632,14 +634,14 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.imagesSlider.isHidden = true
             cell.attachmentImageView.isHidden = false
             cell.tapImageBtn.isHidden = false
-
+            
             if model.messageFile.file == "" {
                 cell.attachmentImageView.image = model.messageFile.fileView
             }else {
                 cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "placeHolderApp"))
             }
             
-//            setupFileShow(cell, model.messageFile)
+            //            setupFileShow(cell, model.messageFile)
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -683,13 +685,11 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.startEventDateLbl.text = model.messageLink.messsageLinkEventDate
             
             cell.HandleUserProfileBtn = {
-//                if !Defaults.isWhiteLable {
-                    if !model.sender.isWhitelabel {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                        vc.userID = model.sender.senderId
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-//                }
+                if !model.sender.isWhitelabel {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model.sender.senderId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             cell.HandleTapEventLinkBtn = {
                 if !Defaults.isWhiteLable {
@@ -717,51 +717,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
-    
-    //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    //        guard tableView.isDragging else { return }
-    //        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-    //        UIView.animate(withDuration: 0.3, animations: {
-    //            cell.transform = CGAffineTransform.identity
-    //        })
-    //    }
 }
-
-//extension MessagesVC {
-//    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        let velocity : CGPoint = gestureRecognizer.location(in: tableView)
-//        if velocity.x < 0 {
-//            return false
-//        }
-//        return abs(Float(velocity.x)) > abs(Float(velocity.y))
-//    }
-//
-//    @objc func panGestureCellAction(recognizer: UIPanGestureRecognizer)  {
-//        let translation = recognizer.translation(in: tableView)
-//        if recognizer.view?.frame.origin.x ?? 0 < 0 {
-//            return
-//        }
-//        recognizer.view?.center = CGPoint(
-//            x: (recognizer.view?.center.x ?? 0) + translation.x,
-//            y: (recognizer.view?.center.y ?? 0))
-//        recognizer.setTranslation(CGPoint(x: 0, y: 0), in: view)
-//        if (recognizer.view?.frame.origin.x ?? 0) > UIScreen.main.bounds.size.width * 0.9 {
-//            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
-//                recognizer.view?.frame = CGRect(x: 0, y: recognizer.view?.frame.origin.y ?? 0, width: recognizer.view?.frame.size.width ?? 0, height: recognizer.view?.frame.size.height ?? 0)
-//            })
-//        }
-//        if recognizer.state == .ended {
-//            let x = recognizer.view?.frame.origin.x ?? 0
-//            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut) {
-//                recognizer.view?.frame = CGRect(x: 0, y: recognizer.view?.frame.origin.y ?? 0, width: recognizer.view?.frame.size.width ?? 0, height: recognizer.view?.frame.size.height ?? 0)
-//            } completion: { (finished) in
-//                if x > ((recognizer.view?.frame.size.width ?? 0) / 2) {
-//                    self.inputTextField.becomeFirstResponder()
-//                }
-//            }
-//        }
-//    }
-//}
 
 //MARK: UItextField Delegate
 extension MessagesVC: UITextFieldDelegate ,UIPopoverPresentationControllerDelegate{
@@ -1452,10 +1408,10 @@ extension MessagesVC {
     }
     
     @objc func handleAttendeesWhiteLable() {
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
-            vc.eventID = self.eventChatID
-            vc.eventKey = 1
-            self.navigationController?.pushViewController(vc, animated: true)
+        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+        vc.eventID = self.eventChatID
+        vc.eventKey = 1
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func initOptionsInChatEventButton() {

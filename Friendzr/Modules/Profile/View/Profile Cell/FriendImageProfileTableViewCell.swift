@@ -23,7 +23,9 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var unfriendBtn: UIButton!
     @IBOutlet weak var imagesSlider: ImageSlideshow!
     @IBOutlet weak var unBlockBtn: UIButton!
-    
+    @IBOutlet weak var arrowPreviousBtn: UIButton!
+    @IBOutlet weak var arrowNextBtn: UIButton!
+
     var HandleMessageBtn: (()->())?
     var HandleRefuseBtn: (()->())?
     var HandleCancelBtn: (()->())?
@@ -31,6 +33,8 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     var HandleUnFriendBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
     var HandleUnblockBtn: (()->())?
+    var HandleArrowPreviousBtn: (()->())?
+    var HandleArrowNextBtn: (()->())?
 
     let localSource = [BundleImageSource(imageString: "image1"), BundleImageSource(imageString: "image2"), BundleImageSource(imageString: "image3"), BundleImageSource(imageString: "image4"),BundleImageSource(imageString: "image5")]
 
@@ -91,5 +95,13 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     }
     @IBAction func acceptBtn(_ sender: Any) {
         HandleAcceptBtn?()
+    }
+    
+    @IBAction func arrowNextBtn(_ sender: Any) {
+        HandleArrowNextBtn?()
+    }
+    
+    @IBAction func arrowPreviousBtn(_ sender: Any) {
+        HandleArrowPreviousBtn?()
     }
 }

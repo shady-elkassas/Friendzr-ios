@@ -2,7 +2,7 @@
 //  ShowMoreTagsVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 11/09/2022.
+//  Created by Muhammad Sabri Saad on 11/09/2022.
 //
 
 import UIKit

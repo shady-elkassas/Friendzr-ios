@@ -2,12 +2,14 @@
 //  AddEditProfileImagesVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 15/01/2023.
+//  Created by Muhammad Sabri Saad on 15/01/2023.
 //
 
 import UIKit
 import QCropper
 import QuartzCore
+import TLPhotoPicker
+import Photos
 
 class AddEditProfileImagesVC: UIViewController {
 
@@ -19,8 +21,8 @@ class AddEditProfileImagesVC: UIViewController {
     
     var imagesStr:[String] = [String]()
     var profileImages:[UIImage] = [UIImage]()
-    let imagePicker = UIImagePickerController()
     var attachedImg = false
+    var selectedAssets = [TLPHAsset]()
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
     
     var onAdditionalPhotosCallBackResponse: ((_ data: [UIImage], _ value: [String]) -> ())?
@@ -38,10 +40,6 @@ class AddEditProfileImagesVC: UIViewController {
     }
     
     func setupViews() {
-        
-//        for item in imagesStr {
-//            profileImages.append(convertToImage(imagURL: item))
-//        }
         self.title = "Additional Images"
         collectionView.register(UINib(nibName: cellID, bundle: nil), forCellWithReuseIdentifier: cellID)
         saveBtn.cornerRadiusView(radius: 8)
@@ -132,29 +130,29 @@ extension AddEditProfileImagesVC {
         self.navigationItem.rightBarButtonItem = barButton
     }
     
+    func showExceededMaximumAlert(vc: UIViewController) {
+        vc.view.makeToast("You can only add 5 additional photos.")
+    }
+    
     @objc func handleAddImg() {
         print("Add Images")
         if profileImages.count != 5 {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
+            let viewController = CustomPhotoPickerViewController()
+            viewController.modalPresentationStyle = .fullScreen
+            viewController.delegate = self
+            viewController.didExceedMaximumNumberOfSelection = { [weak self] (picker) in
+                self?.showExceededMaximumAlert(vc: picker)
             }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
+            var configure = TLPhotosPickerConfigure()
+            configure.numberOfColumn = 3
+            configure.selectedColor = UIColor.FriendzrColors.primary!
+            configure.maxSelectedAssets = 5 - profileImages.count
+//            configure.cameraIcon = nil
             
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated: true, completion: nil)
+            viewController.configure = configure
+            viewController.selectedAssets = self.selectedAssets
+            viewController.logDelegate = self
+            self.present(viewController, animated: true, completion: nil)
         }
         else {
             self.view.makeToast("You can only add 5 additional photos.")
@@ -162,68 +160,41 @@ extension AddEditProfileImagesVC {
     }
 }
 
-//MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
-extension AddEditProfileImagesVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate {
-    //MARK: - Take Picture
-    func openCamera(){
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.mediaTypes = ["kUTTypeMovie"]
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    //MARK: - Open Library
-    func openLibrary(){
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.mediaTypes = ["kUTTypeMovie"]
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
+extension AddEditProfileImagesVC : TLPhotosPickerLogDelegate , TLPhotosPickerViewControllerDelegate {
+    //For Log User Interaction
+    func selectedCameraCell(picker: TLPhotosPickerViewController) {
+        print("selectedCameraCell")
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let image = info[.originalImage] as! UIImage
-        let originImg = image.fixOrientation()
-        
-        let cropper = CustomCropperViewController(originalImage: originImg)
-        cropper.delegate = self
-        self.navigationController?.pushViewController(cropper, animated: true)
-        picker.dismiss(animated: true) {
-        }
+    func selectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
+        print("selectedPhoto")
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.attachedImg = false
-        self.tabBarController?.tabBar.isHidden = false
-        picker.dismiss(animated:true, completion: nil)
+    func deselectedPhoto(picker: TLPhotosPickerViewController, at: Int) {
+        print("deselectedPhoto")
     }
-}
+    
+    func selectedAlbum(picker: TLPhotosPickerViewController, title: String, at: Int) {
+        print("selectedAlbum")
+    }
+    
+    func dismissPhotoPicker(withPHAssets: [PHAsset]) {
+        // if you want to used phasset.
+        print("withPHAssets = \(withPHAssets.count)")
+        
+        for item in withPHAssets {
+            profileImages.append(getAssetThumbnail(asset: item))
+            self.collectionView.reloadData()
+        }
+    }
 
-extension AddEditProfileImagesVC: CropperViewControllerDelegate {
-    
-    func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
-        print("\(String(describing: aspectRatio.dictionary))")
+    func photoPickerDidCancel() {
+        // cancel
+        print("cancel")
     }
-    
-    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
-        cropper.onPopup()
-        if let state = state,
-           let image = cropper.originalImage.cropped(withCropperState: state) {
-                profileImages.append(image)
-                collectionView.reloadData()
-            self.attachedImg = true
-            print(cropper.isCurrentlyInInitialState)
-            print(image)
-        }
-    }
-    
-    func cropperDidCancel(_ cropper: CropperViewController) {
-        cropper.onPopup()
+
+    func dismissComplete() {
+        // picker dismiss completion
+        print("picker dismiss completion")
     }
 }

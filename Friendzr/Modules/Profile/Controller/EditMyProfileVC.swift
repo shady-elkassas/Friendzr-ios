@@ -1222,6 +1222,41 @@ extension EditMyProfileVC {
         }
     }
     
+    func updateImagesUser() {
+        self.viewmodel.UpdateUserImages(WithAchedImg: true, AndUserImage: self.profileImages) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard data != nil else {return}
+            
+            DispatchQueue.main.async {
+                if Defaults.isWhiteLable {
+                    Router().toInbox()
+                }else {
+                    if Defaults.needUpdate == 1 {
+                        return
+                    } else {
+                        if Defaults.isFirstLogin == false {//toprofile
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.onPopup()
+                            }
+                        }
+                        else if Defaults.isFirstLogin == true {//tofeed if socail media login
+                            Router().toFeed()
+                        }
+                        else {//to login
+                            Router().toOptionsSignUpVC(IsLogout: true)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func editSaving() {
         initSaveBarButton(istap: true)
         let startDate = Date()
@@ -1240,63 +1275,8 @@ extension EditMyProfileVC {
 
             guard let _ = data else {return}
             
-            if self.profileImages.count != 0 {
-                self.viewmodel.UpdateUserImages(WithAchedImg: true, AndUserImage: self.profileImages) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard data != nil else {return}
-                    
-                    DispatchQueue.main.async {
-                        if Defaults.isWhiteLable {
-                            Router().toInbox()
-                        }else {
-                            if Defaults.needUpdate == 1 {
-                                return
-                            } else {
-                                if Defaults.isFirstLogin == false {//toprofile
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        self.onPopup()
-                                    }
-                                }
-                                else if Defaults.isFirstLogin == true {//tofeed if socail media login
-                                    Router().toFeed()
-                                }
-                                else {//to login
-                                    Router().toOptionsSignUpVC(IsLogout: true)
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
-            else {
-                DispatchQueue.main.async {
-                    if Defaults.isWhiteLable {
-                        Router().toInbox()
-                    }else {
-                        if Defaults.needUpdate == 1 {
-                            return
-                        } else {
-                            if Defaults.isFirstLogin == false {//toprofile
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    self.onPopup()
-                                }
-                            }
-                            else if Defaults.isFirstLogin == true {//tofeed if socail media login
-                                Router().toFeed()
-                            }
-                            else {//to login
-                                Router().toOptionsSignUpVC(IsLogout: true)
-                            }
-                        }
-                    }
-                }
+            DispatchQueue.main.async {
+                self.updateImagesUser()
             }
         }
     }

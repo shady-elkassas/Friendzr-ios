@@ -757,7 +757,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         
         dateTypeSelected = didselect
-        Defaults.dateTypeSelected = didselect
+//        Defaults.dateTypeSelected = didselect
         
         print("dateTypeSelected = \(dateTypeSelected) = \(Defaults.dateTypeSelected)")
     }
@@ -799,10 +799,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         DispatchQueue.main.async {
             self.setupDatePickerForStartDate()
-//            self.startDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(self.dismissKeyboard))
-//            self.endDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(self.dismissKeyboard))
         }
         
+//        startDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+//        endDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
         profileImg.isHidden = true
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
@@ -1051,6 +1052,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func hideCatsSuperView(_ sender: Any) {
         catsSuperView.isHidden = true
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+        self.dismissKeyboard()
     }
     
     @IBAction func nextBtn(_ sender: Any) {

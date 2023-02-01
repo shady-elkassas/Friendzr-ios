@@ -59,6 +59,7 @@
 		431D739327BB9EEC00EC8F7B /* IamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739227BB9EEC00EC8F7B /* IamViewModel.swift */; };
 		431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739427BB9EF800EC8F7B /* IamModel.swift */; };
 		431D739727BBA08900EC8F7B /* IamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739627BBA08900EC8F7B /* IamVC.swift */; };
+		431EC58F2987DDAA00845508 /* CustomPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		432098D427956E5F005B83A8 /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432098D627956E5F005B83A8 /* More.storyboard */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
@@ -494,6 +495,7 @@
 		431D739227BB9EEC00EC8F7B /* IamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamViewModel.swift; sourceTree = "<group>"; };
 		431D739427BB9EF800EC8F7B /* IamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamModel.swift; sourceTree = "<group>"; };
 		431D739627BBA08900EC8F7B /* IamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamVC.swift; sourceTree = "<group>"; };
+		431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPhotoPickerViewController.swift; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		432098D527956E5F005B83A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
@@ -1556,6 +1558,7 @@
 				433CDE2427CE0E0900A80A40 /* FacialRecognitionPopUpView.swift */,
 				433CDE2627CE132F00A80A40 /* FacialRecognitionPopUpView2.swift */,
 				43C0E18127FB28CD00555023 /* Celebrity.swift */,
+				431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2505,6 +2508,7 @@
 				431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
+				431EC58F2987DDAA00845508 /* CustomPhotoPickerViewController.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,

@@ -255,6 +255,23 @@ extension MyProfileViewController: UITableViewDataSource {
             cell.parentVC = self
             setupSliderShow(cell, model)
             
+            
+            if model?.userImages.count == 0 {
+                cell.arrowNextBtn.isHidden = true
+                cell.arrowPreviousBtn.isHidden = true
+            }else {
+                cell.arrowNextBtn.isHidden = false
+                cell.arrowPreviousBtn.isHidden = false
+            }
+            
+            cell.HandleArrowNextBtn = {
+                cell.imagesSlider.nextPage(animated: true)
+            }
+            
+            cell.HandleArrowPreviousBtn = {
+                cell.imagesSlider.previousPage(animated: true)
+            }
+            
             cell.HandleEditBtn = {
                 self.btnSelect = true
                 if NetworkConected.internetConect {

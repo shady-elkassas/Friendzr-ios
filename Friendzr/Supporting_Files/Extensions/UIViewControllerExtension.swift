@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import IQKeyboardManager
+import Photos
 
 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -314,6 +315,21 @@ extension UIViewController {
         return image!
     }
     
+    
+    func getAssetThumbnail(asset: PHAsset) -> UIImage {
+        var img: UIImage?
+        let manager = PHImageManager.default()
+        let options = PHImageRequestOptions()
+        options.version = .original
+        options.isSynchronous = true
+        manager.requestImageData(for: asset, options: options) { data, _, _, _ in
+            
+            if let data = data {
+                img = UIImage(data: data)
+            }
+        }
+        return img!
+    }
     
     func showToast(message:String, font:UIFont? = UIFont(name: "Montserrat-Medium", size: 12)) {
         

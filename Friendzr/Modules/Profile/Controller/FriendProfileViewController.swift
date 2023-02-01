@@ -332,6 +332,22 @@ extension FriendProfileViewController:UITableViewDataSource {
                         
             setupSliderShow(cell, model)
             
+            if model?.userImages.count == 0 {
+                cell.arrowNextBtn.isHidden = true
+                cell.arrowPreviousBtn.isHidden = true
+            }else {
+                cell.arrowNextBtn.isHidden = false
+                cell.arrowPreviousBtn.isHidden = false
+            }
+            
+            cell.HandleArrowNextBtn = {
+                cell.imagesSlider.nextPage(animated: true)
+            }
+            
+            cell.HandleArrowPreviousBtn = {
+                cell.imagesSlider.previousPage(animated: true)
+            }
+            
             if Defaults.isWhiteLable {
                 if model?.key == 4 {
                     //Status = I block user

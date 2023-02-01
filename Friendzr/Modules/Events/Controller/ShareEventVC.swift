@@ -67,6 +67,10 @@ class ShareEventVC: UIViewController {
     var eventname:String = ""
     var eventimage:String = ""
     var eventDesc:String = ""
+    var eventType:String = ""
+    
+    
+    var eventModel:EventObj?
     
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -478,18 +482,30 @@ class ShareEventVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func shareEvent(withURL url:URL) {
+    
+    func convertShortURL(longUrl:URL) {
+//        let url: URL //your short url
+        DynamicLinks.dynamicLinks().resolveShortLink(longUrl) { url, error in
+            // url
+            print("New : \(String(describing: url))")
+        }
+//        return url
+    }
+    
+    func shareEventOut() {
         // Setting description
-//        let firstActivityItem = "https://friendzr.com/about-us/"
-        
-        // Setting url
-//        let secondActivityItem : URL = url
-        
+        let urlString = "https://friendzr.onelink.me/59hw?af_xp=custom&pid=Event&c=shareEvent&deep_link_value=event&deep_link_sub2=\(eventType)&deep_link_sub1=\(eventID)"
+
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
         
+//        let url = URL(string: "https://tinyurl.com/api-create.php?url=\(urlString)")!
+//        let shortLink = try! String(contentsOf: url)
+
+        let url = URL(string: urlString)
+        convertShortURL(longUrl: url!)
         let activityViewController : UIActivityViewController = UIActivityViewController(
-            activityItems: [url, image], applicationActivities: nil)
+            activityItems: [url!, image], applicationActivities: nil)
         
         // This lines is for the popover you need to show in iPad
         activityViewController.popoverPresentationController?.sourceView = activityViewController.view
@@ -521,19 +537,14 @@ class ShareEventVC: UIViewController {
     }
     
     //firebase deeplink share
-    func shareEventOut() {
+    func shareEventOut2() {
 
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "friendzsocialmedialimited.page.link"
-        components.path = "/events"
+        let url:URL? = URL(string: "https://friendzr.onelink.me/59hw?af_xp=custom&pid=Event&c=shareEvent&deep_link_value=event&deep_link_sub2=\(eventType)&deep_link_sub1=\(eventID)")
         
-        let eventQuaryItem = URLQueryItem(name: "eventID", value: self.encryptedID)
-        components.queryItems = [eventQuaryItem]
-        guard let linkParameter = components.url else {return}
+        guard let linkParameter = url else {return}
         print("I am sharing \(linkParameter)")
         
-        let dynamicLinksDomainURIPrefix = "https://friendzsocialmedialimited.page.link"
+        let dynamicLinksDomainURIPrefix = "https://friendzr.onelink.me"
         guard let shareLink = DynamicLinkComponents(link: linkParameter, domainURIPrefix: dynamicLinksDomainURIPrefix) else {
             print("Couldn't create FDL components")
             return
@@ -611,8 +622,6 @@ class ShareEventVC: UIViewController {
         let activityVC = UIActivityViewController(activityItems: [promoText,url], applicationActivities: nil)
         present(activityVC, animated: true)
     }
-    
-    
     func setupViews() {
         friendsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         groupsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -688,9 +697,8 @@ class ShareEventVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
-//        shareEvent()
 //        shareEventOut()
-        copyShareInviteLink()
+//        shareEventOut2()
     }
 }
 

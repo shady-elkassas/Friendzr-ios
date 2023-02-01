@@ -2,7 +2,7 @@
 //  NewFriendsCommunityCollectionViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 07/09/2022.
+//  Created by Muhammad Sabri Saad on 07/09/2022.
 //
 
 import UIKit

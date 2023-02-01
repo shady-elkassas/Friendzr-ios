@@ -2,7 +2,7 @@
 //  AddImagesCollectionViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 15/01/2023.
+//  Created by Muhammad Sabri Saad on 15/01/2023.
 //
 
 import UIKit
