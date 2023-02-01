@@ -997,7 +997,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func additionalPhotoBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "AddEditProfileImagesVC") as? AddEditProfileImagesVC else {return}
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "AdditionalImagesVC") as? AdditionalImagesVC else {return}
         vc.onAdditionalPhotosCallBackResponse = self.onAdditionalPhotosCallBack
         vc.profileImages = self.profileImages
         self.navigationController?.pushViewController(vc, animated: true)

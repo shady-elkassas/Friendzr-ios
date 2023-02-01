@@ -107,7 +107,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                                     Defaults.isDeeplinkDirectionalLogin = true
                                     Router().toLogin()
                                 }else {
-                                    Router().toWelcomeVC()
+                                    Router().toOptionsSignUpVC(IsLogout: false)
                                 }
                             }
                         }

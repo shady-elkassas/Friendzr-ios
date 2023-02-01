@@ -460,6 +460,16 @@ class Defaults {
         }
     }
     
+    static var ConversationType: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ConversationType")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "ConversationType") ?? ""
+        }
+    }
+    
     static var isFirstFilter: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isFirstFilter")
@@ -752,8 +762,8 @@ class Defaults {
         defaults.removeObject(forKey: "isDeeplinkClicked")
         defaults.removeObject(forKey: "isDeeplinkDirectionalFiltering")
         defaults.removeObject(forKey: "isDeeplinkDirectionalLogin")
+        defaults.removeObject(forKey: "ConversationType")
         
-
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

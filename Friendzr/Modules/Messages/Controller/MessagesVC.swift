@@ -144,6 +144,8 @@ class MessagesVC: UIViewController {
         setupViews()
         initBackButton()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSetupMessages), name: Notification.Name("handleSetupMessages"), object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
@@ -174,10 +176,13 @@ class MessagesVC: UIViewController {
         
         if isEvent {
             Defaults.ConversationID = eventChatID
+            Defaults.ConversationType = "Event"
         }else if isChatGroup {
             Defaults.ConversationID = groupId
+            Defaults.ConversationType = "Group"
         }else {
             Defaults.ConversationID = chatuserID
+            Defaults.ConversationType = "User"
         }
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
@@ -190,6 +195,7 @@ class MessagesVC: UIViewController {
         
         CancelRequest.currentTask = true
         self.tabBarController?.tabBar.isHidden = false
+        Defaults.ConversationType = ""
     }
     
     func setupViews() {
@@ -260,8 +266,17 @@ class MessagesVC: UIViewController {
                 self.getUserChatMessages(pageNumber: 1)
             }
         }
-        
-        //        self.isRefreshNewMessages = true
+    }
+    
+    
+    @objc func handleSetupMessages() {
+        if Defaults.ConversationType == "Event" {
+            self.getEventChatMessages(pageNumber: 1)
+        }else if Defaults.ConversationType == "Group" {
+            self.getGroupChatMessages(pageNumber: 1)
+        }else {
+            self.getUserChatMessages(pageNumber: 1)
+        }
     }
     
     //MARK: - Load More Messages
@@ -1016,6 +1031,7 @@ extension MessagesVC {
                 self.messageInputBarView.isHidden = true
             }
         }
+        
         viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
             let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)

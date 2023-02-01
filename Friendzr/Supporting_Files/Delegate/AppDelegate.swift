@@ -345,6 +345,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("AuthorizationSatus is restricted")
                 case .authorized:
                     print("AuthorizationSatus is authorized")
+                    print("availableVC\(Defaults.availableVC) && ConversationType = \(Defaults.ConversationType)")
+                    if Defaults.availableVC == "MessagesVC" {
+                        NotificationCenter.default.post(name: Notification.Name("handleSetupMessages"), object: nil, userInfo: nil)
+                    }
+                    else if Defaults.availableVC == "InboxVC" {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
                 @unknown default:
                     fatalError("Invalid authorization status")
                 }
@@ -569,7 +576,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 return
             }
             
-                
+            
             let userInfo = response.notification.request.content.userInfo
             self.userInfoo = userInfo
             Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -581,17 +588,25 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
             
+//            AnyHashable("aps"): {
+//                alert =     {
+//                    body = Hi;
+//                    title = "shady elkassas";
+//                };
+                
+            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
+            let alert = apsAlert?["alert"] as? [String:Any]
+            let body =  alert?["body"]  as? String
+            let titlebody =  alert?["title"]  as? String
+
             //            self.content.sound = UNNotificationSound.default
             self.content.badge = 0
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
             center.add(request, withCompletionHandler: nil)
             
-            
-            self.redirectNotification(action, rootViewController, actionId, isEventAdmin, imageNotifications, chatTitle)
-            
+            self.redirectNotification(action, rootViewController, actionId, isEventAdmin, imageNotifications, chatTitle,body,titlebody)
         }
-        
         completionHandler()
     }
     
@@ -646,7 +661,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             isWhiteLabel = false
         }
         
-        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
+        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
             notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId,isWhiteLabel)
         }
         
@@ -694,7 +709,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let messageTime = userInfo["time"] as? String ?? ""
         let messagedate = userInfo["date"] as? String ?? ""
         let IsWhitelabel = userInfo["IsWhitelabel"] as? String ?? ""
-
         let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
         let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
         let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
@@ -708,7 +722,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let messsageLinkEvenjoined = userInfo["messsageLinkEvenjoined"] as? String ?? ""
         let messsageLinkEveneventdateto = userInfo["messsageLinkEveneventdateto"] as? String ?? ""
         let messsageLinkEvencategorie = userInfo["messsageLinkEvencategorie"] as? String ?? ""
-        
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
@@ -943,7 +956,7 @@ extension AppDelegate {
 }
 
 extension AppDelegate {
-    func redirectNotification(_ action: String?, _ rootViewController: UIViewController, _ actionId: String?, _ isEventAdmin: String?, _ imageNotifications: String?, _ chatTitle: String?) {
+    func redirectNotification(_ action: String?, _ rootViewController: UIViewController, _ actionId: String?, _ isEventAdmin: String?, _ imageNotifications: String?, _ chatTitle: String?,_ body:String?, _ titlebody:String?) {
         if action == "Friend_Request" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                let tabBarController = rootViewController as? UITabBarController,
@@ -1094,6 +1107,16 @@ extension AppDelegate {
         }
         else {
             print("fail")
+            if body?.contains("events by date") == true {
+                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = "eventFilter"
+                    Defaults.availableVC = ""
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
         }
     }
     
@@ -1338,27 +1361,6 @@ extension AppDelegate {
             }
         }
     }
-    
-    
-//    @available(iOS 9.0, *)
-//    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-//
-//        let handledDynamicLinks = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
-//            guard error == nil else {
-//                print("found an error = \(String(describing: error?.localizedDescription))")
-//                return
-//            }
-//
-//            if let dynamiclink = dynamiclink {
-//                if !Defaults.isWhiteLable {
-//                    self.handleIncommingDynamiclink(dynamiclink)
-//                }
-//            }
-//        }
-//
-//        return handledDynamicLinks
-//    }
-    
 
     // Open Universal Links
     // For Swift version < 4.2 replace function signature with the commented out code
@@ -1390,7 +1392,7 @@ extension AppDelegate: AppsFlyerLibDelegate {
         guard let rootViewController = Initializer.getWindow().rootViewController else {
             return
         }
-        if !Defaults.isWhiteLable && NetworkConected.internetConect {
+        if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != "" {
             if eventType == "External" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
@@ -1515,7 +1517,7 @@ extension AppDelegate: DeepLinkDelegate {
                 
                 let vcName:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
                 print("vcName : \(vcName)")
-                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != "" {
                     if vcName == "editProfile" || vcName == "interests" {
                         if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
                            let tabBarController = rootViewController as? UITabBarController,
@@ -1547,7 +1549,8 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             else if deeplinkValue == "editProfile" || deeplinkValue == "interests" {
-                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""
+                {
                     if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
                        let tabBarController = rootViewController as? UITabBarController,
                        let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1558,7 +1561,7 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             else if deeplinkValue == "eventFilter" || deeplinkValue == "createEvent" {
-                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""{
                     if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                        let tabBarController = rootViewController as? UITabBarController,
                        let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1570,7 +1573,7 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             else if deeplinkValue == "personalSpace" || deeplinkValue == "ageFilter" || deeplinkValue == "privateMode" || deeplinkValue == "distanceFilter" {
-                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""{
                     if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
                        let tabBarController = rootViewController as? UITabBarController,
                        let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1581,7 +1584,7 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             else if deeplinkValue == "directionalFiltering" {
-                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""{
                     Defaults.isDeeplinkClicked = false
                     Defaults.isDeeplinkDirectionalFiltering = true
                     Defaults.availableVC = ""
@@ -1596,12 +1599,12 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             else if deeplinkValue == "feed" {
-                if !Defaults.isWhiteLable {
+                if !Defaults.isWhiteLable && Defaults.token != ""{
                     Defaults.availableVC = ""
                     Router().toFeed()
                 }
             }
-            else if deeplinkValue == "map" {
+            else if deeplinkValue == "map" && Defaults.token != ""{
                 if !Defaults.isWhiteLable {
                     Defaults.availableVC = ""
                     Router().toMap()

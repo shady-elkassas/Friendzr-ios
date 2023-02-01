@@ -353,6 +353,17 @@ extension NotificationsVC: UITableViewDelegate {
                 else if model?.action == "Kickedout_ChatGroup" {
                     Router().toHome()
                 }
+                else {
+//                    if model?.body ==
+//                    if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+//                       let tabBarController = rootViewController as? UITabBarController,
+//                       let navController = tabBarController.selectedViewController as? UINavigationController {
+//                        vc.checkoutName = "eventFilter"
+//                        Defaults.availableVC = ""
+//                        Defaults.isDeeplinkClicked = false
+//                        navController.pushViewController(vc, animated: true)
+//                    }
+                }
             }
         }
     }

@@ -63,11 +63,11 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if isOpenVC {
-            initBackButton()
-        }else {
-            initBackToFeedButton()
-        }
+//        if isOpenVC {
+//            initBackButton()
+//        }else {
+//            initBackToFeedButton()
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -467,21 +467,21 @@ extension OptionsSignUpVC: ASAuthorizationControllerPresentationContextProviding
     }
 }
 
-extension OptionsSignUpVC {
-    func initBackToFeedButton() {
-        var imageName = ""
-        imageName = "back_icon"
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(goToWelcomeVC), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
-    
-    @objc func goToWelcomeVC() {
-        Router().toFeed()
-    }
-}
+//extension OptionsSignUpVC {
+//    func initBackToFeedButton() {
+//        var imageName = ""
+//        imageName = "back_icon"
+//        let button = UIButton.init(type: .custom)
+//        let image = UIImage.init(named: imageName)
+//        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        button.setImage(image, for: .normal)
+//        image?.withTintColor(UIColor.blue)
+//        button.addTarget(self, action:  #selector(goToWelcomeVC), for: .touchUpInside)
+//        let barButton = UIBarButtonItem(customView: button)
+//        self.navigationItem.leftBarButtonItem = barButton
+//    }
+//    
+//    @objc func goToWelcomeVC() {
+//        Router().toFeed()
+//    }
+//}

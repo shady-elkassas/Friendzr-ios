@@ -88,10 +88,10 @@ class LoginVC: UIViewController {
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
         
         if Defaults.isDeeplinkDirectionalLogin {
-            initBackToFeedButton()
+//            initBackToFeedButton()
             Defaults.isDeeplinkDirectionalLogin = false
         }else{
-            initBackButton()
+//            initBackButton()
         }
     }
     

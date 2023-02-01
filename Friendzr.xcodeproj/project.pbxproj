@@ -60,6 +60,7 @@
 		431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739427BB9EF800EC8F7B /* IamModel.swift */; };
 		431D739727BBA08900EC8F7B /* IamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739627BBA08900EC8F7B /* IamVC.swift */; };
 		431EC58F2987DDAA00845508 /* CustomPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */; };
+		431EC593298A810300845508 /* AdditionalImagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431EC592298A810300845508 /* AdditionalImagesVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		432098D427956E5F005B83A8 /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432098D627956E5F005B83A8 /* More.storyboard */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
@@ -496,6 +497,7 @@
 		431D739427BB9EF800EC8F7B /* IamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamModel.swift; sourceTree = "<group>"; };
 		431D739627BBA08900EC8F7B /* IamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamVC.swift; sourceTree = "<group>"; };
 		431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPhotoPickerViewController.swift; sourceTree = "<group>"; };
+		431EC592298A810300845508 /* AdditionalImagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalImagesVC.swift; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		432098D527956E5F005B83A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
@@ -1559,6 +1561,7 @@
 				433CDE2627CE132F00A80A40 /* FacialRecognitionPopUpView2.swift */,
 				43C0E18127FB28CD00555023 /* Celebrity.swift */,
 				431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */,
+				431EC592298A810300845508 /* AdditionalImagesVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2370,6 +2373,7 @@
 				43D1A4B12883FD0B00830D8D /* LandingPageVC.swift in Sources */,
 				43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
+				431EC593298A810300845508 /* AdditionalImagesVC.swift in Sources */,
 				43886863278344F1004D36B2 /* WriteProblemTableViewCell.swift in Sources */,
 				437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */,
 				4309E73926EF813A001B227D /* SocialMediaLoginViewModel.swift in Sources */,
