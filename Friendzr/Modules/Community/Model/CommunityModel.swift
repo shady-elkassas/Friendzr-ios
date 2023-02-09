@@ -37,6 +37,7 @@ class RecommendedPeopleObj: Mappable {
     var interestMatchPercent: Double? = 0.0
     var distanceFromYou: Double? = 0.0
     var matchedInterests: [String]? = []
+    var imageIsVerified:Bool? = false
     
     required init?(map: Map) {
     }
@@ -52,6 +53,7 @@ class RecommendedPeopleObj: Mappable {
         interestMatchPercent  <- map["interestMatchPercent"]
         distanceFromYou  <- map["distanceFromYou"]
         matchedInterests  <- map["matchedInterests"]
+        imageIsVerified    <- map["imageIsVerified"]
     }
 }
 
@@ -156,7 +158,8 @@ class RecentlyConnectedObj: NSObject,Mappable {
     var name: String? = ""
     var image: String? = ""
     var date: String? = ""
-    
+    var imageIsVerified:Bool = false
+
     required init?(map: Map) {
     }
     
@@ -170,5 +173,6 @@ class RecentlyConnectedObj: NSObject,Mappable {
         name   <- map["name"]
         image  <- map["image"]
         date  <- map["date"]
+        imageIsVerified    <- map["imageIsVerified"]
     }
 }

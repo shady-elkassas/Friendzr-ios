@@ -63,29 +63,24 @@ extension Date {
 extension String {
 
     func toDate(withFormat format: String = "dd-MM-yyyy HH:mm:ss")-> Date?{
-
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
         dateFormatter.dateStyle = .full
-        dateFormatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        dateFormatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
         dateFormatter.dateFormat = format
         let date = dateFormatter.date(from: self)
         return date
-    }
-    
+    }    
 }
 
-extension Date {
-
+extension Date {    
     func toString(withFormat format: String = "EEEE ، d MMMM yyyy") -> String {
-
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.autoupdatingCurrent
         dateFormatter.dateStyle = .full
         dateFormatter.calendar = Calendar(identifier: .persian)
         dateFormatter.dateFormat = format
         let str = dateFormatter.string(from: self)
-
         return str
     }
 }

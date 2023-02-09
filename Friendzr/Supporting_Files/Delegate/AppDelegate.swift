@@ -587,13 +587,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let isEventAdmin = userInfo["isAdmin"] as? String
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
-            
-//            AnyHashable("aps"): {
-//                alert =     {
-//                    body = Hi;
-//                    title = "shady elkassas";
-//                };
-                
+
             let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
             let alert = apsAlert?["alert"] as? [String:Any]
             let body =  alert?["body"]  as? String
@@ -1518,7 +1512,7 @@ extension AppDelegate: DeepLinkDelegate {
                 let vcName:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
                 print("vcName : \(vcName)")
                 if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != "" {
-                    if vcName == "editProfile" || vcName == "interests" {
+                    if vcName == "editProfile" || vcName == "interests" || vcName == "additionalImages" {
                         if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
                            let tabBarController = rootViewController as? UITabBarController,
                            let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1610,6 +1604,25 @@ extension AppDelegate: DeepLinkDelegate {
                     Router().toMap()
                 }
             }
+            else if deeplinkValue == "additionalImages" {
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = deeplinkValue
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+            else if deeplinkValue == "profilePhotos" {
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc.checkoutName = deeplinkValue
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+            
         }
         print("deeplinkValue : \(deeplinkValue)")
     }

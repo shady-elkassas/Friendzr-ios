@@ -199,11 +199,10 @@ class MyProfileViewController: UIViewController {
     }
     
     func setupSliderShow(_ cell: ImageProfileTableViewCell, _ model: ProfileObj?) {
-//        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageControl.backgroundColor = .blue
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
-        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
         cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
         cell.imagesSlider.delegate = self
         
@@ -214,7 +213,6 @@ class MyProfileViewController: UIViewController {
         for item in model?.userImages ?? [] {
             sdWebImageSource.append(SDWebImageSource(urlString: item)!)
         }
-        
         
         cell.imagesSlider.setImageInputs(sdWebImageSource)
     }
@@ -287,6 +285,13 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: userNameCellId, for: indexPath) as? ProfileUserNameTableViewCell else {return UITableViewCell()}
             cell.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.nameLbl.text = model?.userName
+            
+            if model?.imageIsVerified == true {
+                cell.imageIsVerifiedImg.isHidden = false
+            }else {
+                cell.imageIsVerifiedImg.isHidden = true
+            }
+            
             return cell
         }
         else if indexPath.row == 2 {//interests...

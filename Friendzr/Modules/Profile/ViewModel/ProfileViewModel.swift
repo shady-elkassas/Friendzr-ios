@@ -68,9 +68,8 @@ class ProfileViewModel {
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
-//        Defaults.isWhiteLable = user.isWhiteLable
         Defaults.universityCode = user.universityCode
-
+        Defaults.imageIsVerified = user.imageIsVerified
         Defaults.interestIds.removeAll()
         for item in user.listoftagsmodel ?? [] {
             Defaults.interestIds.append(item.tagID)

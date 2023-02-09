@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -34,6 +34,13 @@
                                 <rect key="frame" x="20" y="3" width="138" height="138"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6R1-XU-4Nb" secondAttribute="height" multiplier="1:1" id="egT-Bm-1kl"/>
+                                </constraints>
+                            </imageView>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="83r-UH-hTy">
+                                <rect key="frame" x="128" y="111" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="lWm-L2-4i0"/>
+                                    <constraint firstAttribute="width" constant="25" id="nQP-TD-SUR"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88% interest match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imR-gR-puA">
@@ -241,6 +248,7 @@
                             <constraint firstItem="IvE-Ul-tl9" firstAttribute="centerY" secondItem="aJn-mX-Esn" secondAttribute="centerY" id="4ZS-fV-YT8"/>
                             <constraint firstItem="IvE-Ul-tl9" firstAttribute="height" secondItem="aJn-mX-Esn" secondAttribute="height" id="83J-M0-LwT"/>
                             <constraint firstItem="XFL-Ls-SBH" firstAttribute="bottom" secondItem="6R1-XU-4Nb" secondAttribute="bottom" constant="-3" id="8XO-aw-xfR"/>
+                            <constraint firstItem="83r-UH-hTy" firstAttribute="trailing" secondItem="6R1-XU-4Nb" secondAttribute="trailing" constant="-5" id="Cl0-Xu-0Cb"/>
                             <constraint firstItem="Tci-Me-fQl" firstAttribute="centerX" secondItem="Zcg-Vu-YeL" secondAttribute="centerX" id="Fzx-Yc-b9J"/>
                             <constraint firstAttribute="trailing" secondItem="Zcg-Vu-YeL" secondAttribute="trailing" constant="15" id="GuZ-k8-tt1"/>
                             <constraint firstItem="Tci-Me-fQl" firstAttribute="height" secondItem="Zcg-Vu-YeL" secondAttribute="height" id="L0G-79-DOo"/>
@@ -248,6 +256,7 @@
                             <constraint firstItem="Tci-Me-fQl" firstAttribute="width" secondItem="Zcg-Vu-YeL" secondAttribute="width" id="Opk-8L-Hi5"/>
                             <constraint firstItem="N15-Sa-zDH" firstAttribute="leading" secondItem="imR-gR-puA" secondAttribute="leading" id="QIT-qW-shp"/>
                             <constraint firstItem="eEr-T5-Unq" firstAttribute="centerX" secondItem="6R1-XU-4Nb" secondAttribute="centerX" id="S5w-gN-UKM"/>
+                            <constraint firstItem="83r-UH-hTy" firstAttribute="bottom" secondItem="6R1-XU-4Nb" secondAttribute="bottom" constant="-5" id="S9r-pF-cIT"/>
                             <constraint firstItem="aJn-mX-Esn" firstAttribute="trailing" secondItem="XFL-Ls-SBH" secondAttribute="trailing" id="SCR-zn-vxa"/>
                             <constraint firstItem="imR-gR-puA" firstAttribute="top" secondItem="6R1-XU-4Nb" secondAttribute="top" constant="1" id="TOm-mo-JRd"/>
                             <constraint firstItem="hlv-QP-guL" firstAttribute="centerY" secondItem="Zcg-Vu-YeL" secondAttribute="centerY" id="VSx-XV-k5g"/>
@@ -284,6 +293,7 @@
                 <outlet property="cancelRequestBtn" destination="vdV-Pd-ejX" id="gwP-aR-aYB"/>
                 <outlet property="containerView" destination="pr9-7E-sSm" id="MOl-E2-5pd"/>
                 <outlet property="imageBtn" destination="eEr-T5-Unq" id="d7G-Xf-8Le"/>
+                <outlet property="imageIsVerifiedImg" destination="83r-UH-hTy" id="ZQ2-Q3-HMh"/>
                 <outlet property="interestMatchLbl" destination="imR-gR-puA" id="Suo-e0-Nbo"/>
                 <outlet property="milesLbl" destination="N15-Sa-zDH" id="lfQ-Dt-5dC"/>
                 <outlet property="nameTitleLbl" destination="Ert-ev-B0P" id="5rv-dV-7xY"/>
@@ -303,6 +313,7 @@
     </objects>
     <resources>
         <image name="Face-Reading_img" width="911" height="911"/>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="next_skip_ic" width="512" height="512"/>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

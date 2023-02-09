@@ -18,6 +18,8 @@ import FirebaseAuth
 import ImageSlideshow
 import SDWebImage
 
+let userPlaceHolderImage = [BundleImageSource(imageString: "userPlaceHolderImage")]
+
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
     //MARK:- Outlets
@@ -30,7 +32,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imagesSliderWidth: NSLayoutConstraint!
     @IBOutlet weak var imagesSliderHeight: NSLayoutConstraint!
-    
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
+
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
     var moreList : [(String,UIImage)] = []
@@ -74,6 +77,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateNotificationBadge), name: Notification.Name("updateNotificationBadge"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateImageMore), name: Notification.Name("updateImageMore"), object: nil)
         
         if Defaults.isSubscribe == false {
             setupAds()
@@ -94,23 +98,14 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         
     }
 
+    @objc func updateImageMore() {
+        self.setupUserData()
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
-    
 
-//    @IBAction func showProfileImgBtn(_ sender: Any) {
-//        guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-//        popupVC.modalPresentationStyle = .overCurrentContext
-//        popupVC.modalTransitionStyle = .crossDissolve
-//        let pVC = popupVC.popoverPresentationController
-//        pVC?.permittedArrowDirections = .any
-//        pVC?.delegate = self
-//        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-//        popupVC.imgURL = Defaults.Image
-//        present(popupVC, animated: true, completion: nil)
-//    }
-    
     //MARK: - Helpers
     
     func setupAds() {
@@ -187,19 +182,25 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     func setupUserData() {
-//        imagesSlider.slideshowInterval = 5.0
         imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
-        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
         imagesSlider.activityIndicator = DefaultActivityIndicator()
         imagesSlider.delegate = self
+
+        if Defaults.Image != "" {
+            imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        }else {
+            imagesSlider.setImageInputs(userPlaceHolderImage)
+        }
         
-        //        imagesSlider.setImageInputs(localSource)
-        imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        if Defaults.imageIsVerified == true {
+            imageIsVerifiedImg.isHidden = false
+        }else {
+            imageIsVerifiedImg.isHidden = true
+        }
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         imagesSlider.addGestureRecognizer(recognizer)
-
         nameLbl.text = Defaults.userName
     }
     

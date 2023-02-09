@@ -30,7 +30,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mId-F3-GkZ">
-                                <rect key="frame" x="150" y="100" width="114" height="24.5"/>
+                                <rect key="frame" x="150.5" y="100" width="113.5" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="20"/>
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
@@ -80,6 +80,13 @@
                                     <constraint firstItem="90X-R9-2q9" firstAttribute="top" secondItem="m29-v9-K82" secondAttribute="top" id="yjO-FF-qHn"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ODn-0a-ZDE">
+                                <rect key="frame" x="161" y="46" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="lXG-fM-9Fj"/>
+                                    <constraint firstAttribute="width" constant="30" id="uTv-dn-Bws"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="BGColor"/>
@@ -89,6 +96,8 @@
                             <constraint firstItem="8UJ-DC-w0L" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="J42-sW-eWs"/>
                             <constraint firstItem="m29-v9-K82" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="P7G-QM-hpf"/>
                             <constraint firstItem="rEb-65-IiA" firstAttribute="top" secondItem="8UJ-DC-w0L" secondAttribute="bottom" constant="5" id="Pjh-gE-K0X"/>
+                            <constraint firstItem="ODn-0a-ZDE" firstAttribute="trailing" secondItem="90X-R9-2q9" secondAttribute="trailing" constant="-16" id="SqW-bL-CZT"/>
+                            <constraint firstItem="ODn-0a-ZDE" firstAttribute="bottom" secondItem="90X-R9-2q9" secondAttribute="bottom" constant="-16" id="gxS-lL-NcZ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="rEb-65-IiA" secondAttribute="bottom" id="iKO-dF-vCR"/>
                             <constraint firstItem="8UJ-DC-w0L" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="j2g-w5-cPe"/>
                             <constraint firstItem="m29-v9-K82" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="kzS-Dk-B6z"/>
@@ -101,6 +110,7 @@
                         <outlet property="bannerView" destination="rEb-65-IiA" id="NCZ-DF-Qpa"/>
                         <outlet property="bannerViewHeight" destination="9ET-x4-aLA" id="Mye-ay-4nI"/>
                         <outlet property="containerView" destination="8UJ-DC-w0L" id="UkD-di-6pd"/>
+                        <outlet property="imageIsVerifiedImg" destination="ODn-0a-ZDE" id="XK2-pl-d6R"/>
                         <outlet property="imagesSlider" destination="90X-R9-2q9" id="Fwv-rO-WSt"/>
                         <outlet property="imagesSliderContainerView" destination="m29-v9-K82" id="dcm-AW-OuS"/>
                         <outlet property="imagesSliderHeight" destination="Apw-WP-fjS" id="TN7-vf-fZG"/>
@@ -1184,6 +1194,7 @@
     </scenes>
     <resources>
         <image name="blocklistnodata_img" width="583.5" height="529"/>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="more_selected_ic" width="27" height="27"/>
         <image name="more_unselected_ic" width="27" height="27"/>
         <image name="notificationnodata_img" width="583.5" height="529"/>

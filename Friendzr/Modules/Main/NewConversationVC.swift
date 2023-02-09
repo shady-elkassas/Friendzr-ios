@@ -58,9 +58,7 @@ class NewConversationVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         CancelRequest.currentTask = false
         setupHideView()
-        
         hideNavigationBar(NavigationBar: false, BackButton: false)
-
         setupNavBar()
     }
     
@@ -151,7 +149,8 @@ class NewConversationVC: UIViewController {
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
-     func getAllFriends(pageNumber:Int,search:String) {
+    
+    func getAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [weak self] value in
@@ -183,6 +182,7 @@ class NewConversationVC: UIViewController {
             }
         }
     }
+    
     func LaodAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = false
         AMShimmer.start(for: self.hideView)
@@ -242,6 +242,7 @@ class NewConversationVC: UIViewController {
         }
     }
     
+    
     //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
@@ -272,10 +273,16 @@ extension NewConversationVC: UITableViewDataSource {
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
         cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
+        }
+        
+        if model?.imageIsVerified == true {
+            cell.imageIsVerifiedImg.isHidden = false
+        }else {
+            cell.imageIsVerifiedImg.isHidden = true
         }
         
         return cell

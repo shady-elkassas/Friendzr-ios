@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,6 +36,13 @@
                         <color key="textColor" name="ColorLbl3"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="wsM-R5-s62">
+                        <rect key="frame" x="50" y="37.5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="dzb-ki-JfY"/>
+                            <constraint firstAttribute="height" constant="20" id="z3G-oe-7pg"/>
+                        </constraints>
+                    </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBh-up-VOZ">
                         <rect key="frame" x="20" y="59" width="300" height="1"/>
                         <color key="backgroundColor" name="BGColor"/>
@@ -48,10 +55,12 @@
                 <constraints>
                     <constraint firstItem="QcA-Wm-oap" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DCB-Ab-8B6"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="88p-bQ-hAw" secondAttribute="trailing" constant="10" id="FLb-O4-lGn"/>
+                    <constraint firstItem="wsM-R5-s62" firstAttribute="trailing" secondItem="QcA-Wm-oap" secondAttribute="trailing" id="Fxs-nt-Wbz"/>
                     <constraint firstItem="sBh-up-VOZ" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="leading" id="JXk-pq-7E8"/>
                     <constraint firstAttribute="bottom" secondItem="sBh-up-VOZ" secondAttribute="bottom" constant="5" id="OpO-hU-TBj"/>
                     <constraint firstItem="QcA-Wm-oap" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="f2o-f1-6R2"/>
                     <constraint firstItem="88p-bQ-hAw" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="trailing" constant="5" id="gWf-qi-iAV"/>
+                    <constraint firstItem="wsM-R5-s62" firstAttribute="bottom" secondItem="QcA-Wm-oap" secondAttribute="bottom" id="kcE-6e-4MV"/>
                     <constraint firstAttribute="trailing" secondItem="sBh-up-VOZ" secondAttribute="trailing" id="taS-b4-5fd"/>
                     <constraint firstItem="88p-bQ-hAw" firstAttribute="centerY" secondItem="QcA-Wm-oap" secondAttribute="centerY" id="wrs-Sw-UMr"/>
                 </constraints>
@@ -59,6 +68,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="imageIsVerifiedImg" destination="wsM-R5-s62" id="wQY-TM-U2T"/>
                 <outlet property="nameLbl" destination="88p-bQ-hAw" id="gP5-NS-yPv"/>
                 <outlet property="profileImg" destination="QcA-Wm-oap" id="jmC-Og-MFf"/>
                 <outlet property="underView" destination="sBh-up-VOZ" id="SfN-Ni-Lzv"/>
@@ -67,6 +77,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

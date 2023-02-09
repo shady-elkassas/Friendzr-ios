@@ -322,7 +322,7 @@ extension AddGroupVC: UITableViewDataSource {
         cell.titleLbl.text = model?.userName
         
         cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.bottomView.isHidden = true

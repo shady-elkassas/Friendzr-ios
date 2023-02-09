@@ -90,7 +90,8 @@ class LoginVC: UIViewController {
         if Defaults.isDeeplinkDirectionalLogin {
 //            initBackToFeedButton()
             Defaults.isDeeplinkDirectionalLogin = false
-        }else{
+        }
+        else{
 //            initBackButton()
         }
     }

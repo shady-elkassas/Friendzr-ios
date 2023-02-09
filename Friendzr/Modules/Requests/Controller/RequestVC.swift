@@ -480,7 +480,14 @@ extension RequestVC:UITableViewDataSource {
             cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
             
             cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+            
+            
+            if model?.imageIsVerified == true {
+                cell.imageIsVerifiedImg.isHidden = false
+            }else {
+                cell.imageIsVerifiedImg.isHidden = true
+            }
             
             if indexPath.row == (viewmodel.requests.value?.data?.count ?? 0) - 1 {
                 cell.bottomView.isHidden = true

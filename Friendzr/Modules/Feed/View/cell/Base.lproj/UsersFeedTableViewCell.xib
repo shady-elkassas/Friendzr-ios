@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,6 +41,13 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="P9S-ye-uXB"/>
                             <constraint firstAttribute="width" secondItem="j3q-OK-73z" secondAttribute="height" multiplier="1:1" id="Xr9-xk-XjL"/>
+                        </constraints>
+                    </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="81j-HJ-Qo2">
+                        <rect key="frame" x="60" y="70" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="irE-bw-ltP"/>
+                            <constraint firstAttribute="width" constant="20" id="n3V-bV-l4D"/>
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="gU2-4c-CCD">
@@ -181,9 +188,6 @@
                             <constraint firstAttribute="height" constant="1" id="sTr-fj-DBQ"/>
                         </constraints>
                     </view>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2un-cW-8Zy">
-                        <rect key="frame" x="40" y="50" width="20" height="20"/>
-                    </activityIndicatorView>
                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.12" translatesAutoresizingMaskIntoConstraints="NO" id="NSH-MH-y80">
                         <rect key="frame" x="88" y="67" width="45" height="4"/>
                         <constraints>
@@ -199,7 +203,6 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="2un-cW-8Zy" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="07J-Fc-w7M"/>
                     <constraint firstItem="gU2-4c-CCD" firstAttribute="top" secondItem="j3q-OK-73z" secondAttribute="top" constant="10" id="1AP-uZ-ZM3"/>
                     <constraint firstAttribute="bottom" secondItem="P0K-fl-uqX" secondAttribute="bottom" id="2qL-uh-Ddl"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="height" secondItem="9sO-WH-tQf" secondAttribute="height" id="80a-Ha-qMl"/>
@@ -212,12 +215,13 @@
                     <constraint firstItem="P0K-fl-uqX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X3h-NU-rcS"/>
                     <constraint firstItem="fux-tx-UhI" firstAttribute="leading" secondItem="NSH-MH-y80" secondAttribute="trailing" constant="3" id="bp9-0K-GCg"/>
                     <constraint firstAttribute="trailing" secondItem="9sO-WH-tQf" secondAttribute="trailing" constant="20" id="dmJ-SD-sY7"/>
-                    <constraint firstItem="2un-cW-8Zy" firstAttribute="centerX" secondItem="j3q-OK-73z" secondAttribute="centerX" id="fKv-Vr-jrP"/>
                     <constraint firstItem="6Ld-CC-cBM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="qA8-l2-bZc"/>
                     <constraint firstItem="j3q-OK-73z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rmX-s0-66z"/>
                     <constraint firstItem="fux-tx-UhI" firstAttribute="top" secondItem="gU2-4c-CCD" secondAttribute="bottom" constant="5" id="rnA-vu-VbP"/>
                     <constraint firstItem="9sO-WH-tQf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fux-tx-UhI" secondAttribute="trailing" constant="10" id="sdl-9m-xjq"/>
                     <constraint firstAttribute="trailing" secondItem="6Ld-CC-cBM" secondAttribute="trailing" id="sta-Xy-UzX"/>
+                    <constraint firstItem="81j-HJ-Qo2" firstAttribute="bottom" secondItem="j3q-OK-73z" secondAttribute="bottom" id="td6-Yy-8ch"/>
+                    <constraint firstItem="81j-HJ-Qo2" firstAttribute="trailing" secondItem="j3q-OK-73z" secondAttribute="trailing" id="u7v-3R-00b"/>
                     <constraint firstItem="NSH-MH-y80" firstAttribute="leading" secondItem="gU2-4c-CCD" secondAttribute="leading" id="wxG-wH-pZc"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="xHA-Ke-VFd"/>
                     <constraint firstItem="9sO-WH-tQf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gU2-4c-CCD" secondAttribute="trailing" constant="5" id="xSk-Rn-SkN"/>
@@ -232,8 +236,8 @@
                 <outlet property="friendRequestImg" destination="j3q-OK-73z" id="7NY-nk-TLp"/>
                 <outlet property="friendRequestNameLbl" destination="2mt-gd-63X" id="b7i-79-0Ae"/>
                 <outlet property="friendRequestUserNameLbl" destination="HVf-lY-knW" id="ZZF-GF-CJU"/>
+                <outlet property="imageIsVerifiedImg" destination="81j-HJ-Qo2" id="18Q-2F-dWt"/>
                 <outlet property="interestMatchPercentLbl" destination="fux-tx-UhI" id="wac-Pf-yxu"/>
-                <outlet property="loaderImg" destination="2un-cW-8Zy" id="uIN-Gf-lh9"/>
                 <outlet property="messageBtn" destination="wjr-cu-EjV" id="FbV-m2-zQR"/>
                 <outlet property="progressBarView" destination="NSH-MH-y80" id="LCb-Jl-NGl"/>
                 <outlet property="refusedRequestBtn" destination="IWi-hd-7t5" id="Vu1-Wt-HjQ"/>
@@ -249,6 +253,7 @@
     <resources>
         <image name="acceptRequest_ic" width="52" height="52"/>
         <image name="deleteRequest_ic" width="52" height="52"/>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

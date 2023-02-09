@@ -395,6 +395,12 @@ extension InboxVC:UITableViewDataSource {
                 }
             }
             
+            if model?.imageIsVerified == true {
+                cell.imageIsVerifiedImg.isHidden = false
+            }else {
+                cell.imageIsVerifiedImg.isHidden = true
+            }
+            
             if model?.message_not_Read != 0 {
                 cell.noMessagesUnreadLbl.isHidden = false
                 cell.noMessagesUnreadLbl.text = "\(model?.message_not_Read ?? 0)"

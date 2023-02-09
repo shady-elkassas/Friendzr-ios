@@ -62,6 +62,7 @@ class UserFeedObj: NSObject,Mappable {
     var key: Int? = 0
     var regestdata:String? = ""
     var interestMatchPercent:Int? = 0
+    var imageIsVerified:Bool = false
     
     required init?(map: Map) {
     }
@@ -82,5 +83,6 @@ class UserFeedObj: NSObject,Mappable {
         key    <- map["key"]
         regestdata    <- map["regestdata"]
         interestMatchPercent    <- map["interestMatchPercent"]
+        imageIsVerified    <- map["imageIsVerified"]
     }
 }

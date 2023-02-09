@@ -503,7 +503,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         else if deeplinkValue == "checkOut" {
             print("deeplinksub1 : \(deeplinksub1)")
             if !Defaults.isWhiteLable {
-                if deeplinksub1 == "editProfile" || deeplinksub1 == "interests" {
+                if deeplinksub1 == "editProfile" || deeplinksub1 == "interests" || deeplinksub1 == "additionalImages" {
                     if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
                        let tabBarController = rootViewController as? UITabBarController,
                        let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -561,6 +561,24 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     vc.checkoutName = deeplinkValue
                     navController.pushViewController(vc, animated: true)
                 }
+            }
+        }
+        else if deeplinkValue == "additionalImages" {
+            if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.checkoutName = deeplinkValue
+                Defaults.isDeeplinkClicked = false
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if deeplinkValue == "profilePhotos" {
+            if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc.checkoutName = deeplinkValue
+                Defaults.isDeeplinkClicked = false
+                navController.pushViewController(vc, animated: true)
             }
         }
         else if deeplinkValue == "directionalFiltering" {
@@ -914,7 +932,6 @@ extension FeedVC:UITableViewDataSource {
             return 1
         }
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         

@@ -440,6 +440,13 @@ extension FriendProfileViewController:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: userNameCellId, for: indexPath) as? ProfileUserNameTableViewCell else {return UITableViewCell()}
             cell.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.nameLbl.text = model?.userName
+            
+            if model?.imageIsVerified == true {
+                cell.imageIsVerifiedImg.isHidden = false
+            }else {
+                cell.imageIsVerifiedImg.isHidden = true
+            }
+            
             return cell
         }
         

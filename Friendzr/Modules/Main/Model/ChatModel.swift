@@ -78,6 +78,8 @@ class UserChatObj: NSObject,Mappable {
     var isCommunityGroup:Bool = false
     var isSendEvent:Bool = false
     var isWhiteLabel:Bool = false
+    var imageIsVerified:Bool = false
+    
     
     override init() {
         super.init()
@@ -109,6 +111,8 @@ class UserChatObj: NSObject,Mappable {
         isCommunityGroup <- map["isCommunityGroup"]
         message_not_Read <- map["message_not_Read"]
         isWhiteLabel <- map["isWhiteLabel"]
+        imageIsVerified    <- map["imageIsVerified"]
+
     }
 }
 
@@ -181,6 +185,8 @@ class UserConversationModel: NSObject,Mappable {
     
     var isSelected:Bool = false
     var isSendEvent:Bool = false
+    var imageIsVerified:Bool = false
+    
     
     override init() {
         super.init()
@@ -210,6 +216,7 @@ class UserConversationModel: NSObject,Mappable {
         leaveDateTime <- map["leaveDateTime"]
         leaveGroup <- map["leaveGroup"]
         removedDateTime <- map["removedDateTime"]
+        imageIsVerified    <- map["imageIsVerified"]
     }
 }
 

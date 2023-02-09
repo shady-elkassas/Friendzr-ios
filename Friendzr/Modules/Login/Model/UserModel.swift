@@ -26,7 +26,6 @@ class UserObj: Mappable {
         gender <- map["gender"]
         birthdate <- map["birthdate"]
         linkAccountmodel <- map["linkAccountmodel"]
-//        listoftagsmodel <- map["listoftagsmodel"]
         facebook <- map["facebook"]
         instagram <- map["instagram"]
         snapchat <- map["snapchat"]
@@ -49,7 +48,7 @@ class UserObj: Mappable {
         interests <- map["interests"]
         isWhiteLable <- map["isWhiteLable"]
         universityCode <- map["universityCode"]
-         
+        imageIsVerified    <- map["imageIsVerified"]
     }
     
     var userid:String = ""
@@ -65,7 +64,6 @@ class UserObj: Mappable {
     var OtherGenderName:String = ""
     var birthdate:String = ""
     var linkAccountmodel:LinkAccountModel? = nil
-//    var listoftagsmodel:TagsModel? = nil
     var facebook = ""
     var instagram = ""
     var snapchat = ""
@@ -87,6 +85,8 @@ class UserObj: Mappable {
     var interests:[String] = []
     var isWhiteLable:Bool = false
     var universityCode:String = ""
+    var imageIsVerified:Bool = false
+
 }
 
 

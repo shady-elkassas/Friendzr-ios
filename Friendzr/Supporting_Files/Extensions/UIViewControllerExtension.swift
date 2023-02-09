@@ -124,7 +124,7 @@ extension UIViewController {
         view.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         
         let imgView = UIImageView()
-        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         imgView.contentMode = .scaleAspectFill
         imgView.frame = view.bounds
         imgView.cornerRadiusView(radius: 22)
@@ -348,5 +348,13 @@ extension UIViewController {
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
+    }
+    
+    func getDate(isoDate:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
+        let date = dateFormatter.date(from:isoDate)!
+        return date
     }
 }

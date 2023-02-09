@@ -345,7 +345,7 @@ extension AttendeesVC:UITableViewDataSource {
         
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         cell.joinDateLbl.text = "join Date: " + "\(model?.joinDate ?? "")"
         
         if eventKey == 1 {

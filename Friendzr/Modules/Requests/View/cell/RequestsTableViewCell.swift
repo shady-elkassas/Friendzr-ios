@@ -22,7 +22,8 @@ class RequestsTableViewCell: UITableViewCell {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var interestMatchPercentLbl: UILabel!
     @IBOutlet weak var progressBarView: UIProgressView!
-
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
+    
     var HandleDeleteBtn: (() -> ())?
     var HandleAcceptBtn: (() -> ())?
     var HandleMessageBtn: (() -> ())?

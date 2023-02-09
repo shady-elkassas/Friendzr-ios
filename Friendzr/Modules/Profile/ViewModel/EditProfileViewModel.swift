@@ -35,7 +35,7 @@ class EditProfileViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit Profile
-    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,OtherGenderName:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,WhatBestDescrips:[String],preferto:[String],universityCode:String,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
+    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,OtherGenderName:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,imageIsVerified:Bool,WhatBestDescrips:[String],preferto:[String],universityCode:String,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         CancelRequest.currentTask = false
         userNameViewModel.data = userName
@@ -59,7 +59,7 @@ class EditProfileViewModel {
         
         let url = URLs.baseURLFirst + "Account/update"
 
-        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId,"OtherGenderName":OtherGenderName,"Iam[]":WhatBestDescrips,"preferto":preferto,"universityCode":universityCode]
+        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId,"OtherGenderName":OtherGenderName,"Iam[]":WhatBestDescrips,"preferto":preferto,"universityCode":universityCode,"imageIsVerified":imageIsVerified]
         let o = NSString(string: parameters.description)
         print(o)
         
@@ -313,7 +313,7 @@ class EditProfileViewModel {
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
         Defaults.message_Count = user.message_Count
-//        Defaults.isWhiteLable = user.isWhiteLable
+        Defaults.imageIsVerified = user.imageIsVerified
         Defaults.universityCode = user.universityCode
     }
     

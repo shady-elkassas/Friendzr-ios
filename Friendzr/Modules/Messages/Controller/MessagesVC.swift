@@ -358,8 +358,11 @@ class MessagesVC: UIViewController {
     
     @objc func updateNavBar() {
         setupNavigationbar()
-        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
+        
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
+        }
     }
 }
 
@@ -591,7 +594,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageTextView?.text = model.messageText.text
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
             
@@ -615,7 +618,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             //                cell.attachmentImageView.image = model.messageImage.imageView
             //            }
             //            else {
-            //                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
+            //                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             //            }
             cell.imagesSlider.isHidden = false
             cell.attachmentImageView.isHidden = true
@@ -624,7 +627,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             
             cell.parentVC = self
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
@@ -653,13 +656,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             if model.messageFile.file == "" {
                 cell.attachmentImageView.image = model.messageFile.fileView
             }else {
-                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "placeHolderApp"))
+                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             }
             
             //            setupFileShow(cell, model.messageFile)
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             cell.attachmentContainerView.backgroundColor = .clear
             cell.attachmentContainerView.setBorder()
@@ -693,7 +696,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.eventImage.sd_setImage(with: URL(string: model.messageLink.messsageLinkImageURL), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             cell.eventNameLbl.text = model.messageLink.messsageLinkTitle
             cell.categoryNameLbl.text = model.messageLink.messsageLinkCategory
             cell.attendeesLbl.text = "Attendees: \(model.messageLink.messsageLinkAttendeesJoined) / \(model.messageLink.messsageLinkAttendeesTotalnumbert)"
@@ -738,7 +741,9 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
 extension MessagesVC: UITextFieldDelegate ,UIPopoverPresentationControllerDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {    //delegate method
         print("handleTouched handleTouched")
-        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -1295,7 +1300,7 @@ extension MessagesVC {
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleAspectFill
         imageUser.cornerRadiusForHeight()
-        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeHolderApp"))
+        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 34, width: 0, height: 0))
         subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
@@ -2144,8 +2149,8 @@ extension MessagesVC {
         navigationController?.navigationBar.shadowImage = UIColor.black.as1ptImage()
         navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
         navigationController?.navigationBar.backgroundColor = .white
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        self.view.backgroundColor = .white
+//        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+//        self.view.backgroundColor = .white
         navigationController?.navigationBar.layoutIfNeeded()
         self.view.layoutIfNeeded()
     }

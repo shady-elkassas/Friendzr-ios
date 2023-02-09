@@ -18,6 +18,7 @@ class InboxTableViewCell: UITableViewCell {
     @IBOutlet weak var attachTypeLbl: UILabel!
     @IBOutlet weak var muteImg: UIImageView!
     
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     @IBOutlet weak var noMessagesUnreadLbl: UILabel!
     
     override func awakeFromNib() {

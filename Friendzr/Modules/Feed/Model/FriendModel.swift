@@ -50,7 +50,8 @@ class FriendObj: NSObject,Mappable {
     var otherGenderName:String? = ""
     var isSentRequest:Int = 0
     var userImages:[String] = [String]()
-    
+    var imageIsVerified:Bool = false
+
     required init?(map: Map) {
     }
     
@@ -84,5 +85,6 @@ class FriendObj: NSObject,Mappable {
         otherGenderName    <- map["otherGenderName"]
         isSentRequest    <- map["isSentRequest"]
         userImages    <- map["userImages"]
+        imageIsVerified <- map["imageIsVerified"]
     }
 }

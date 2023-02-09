@@ -12,7 +12,7 @@ class ProfileUserNameTableViewCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var nameLbl: UILabel!
-    
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

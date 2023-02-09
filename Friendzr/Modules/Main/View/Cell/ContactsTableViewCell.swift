@@ -8,10 +8,12 @@
 import UIKit
 
 class ContactsTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var underView: UIView!
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -26,7 +26,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9B-Xy-24t">
                         <rect key="frame" x="5" y="5" width="127" height="145"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="4EO-57-41W">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="4EO-57-41W">
                                 <rect key="frame" x="26" y="5" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="RA1-LR-fHM"/>
@@ -39,6 +39,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="lT4-1V-xRQ">
+                                <rect key="frame" x="81" y="60" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Gkf-Dj-2R5"/>
+                                    <constraint firstAttribute="width" constant="20" id="ISy-I9-AGY"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYY-uY-EYg">
                                 <rect key="frame" x="8" y="102.5" width="111" height="9"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="7"/>
@@ -56,6 +63,8 @@
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CYY-uY-EYg" secondAttribute="bottom" constant="3" id="Wrn-LR-qGY"/>
                             <constraint firstItem="CYY-uY-EYg" firstAttribute="top" secondItem="6kL-vF-GKX" secondAttribute="bottom" constant="5" id="foS-2I-Fvo"/>
                             <constraint firstItem="CYY-uY-EYg" firstAttribute="trailing" secondItem="6kL-vF-GKX" secondAttribute="trailing" id="ksx-hd-qLy"/>
+                            <constraint firstItem="lT4-1V-xRQ" firstAttribute="trailing" secondItem="4EO-57-41W" secondAttribute="trailing" id="nAj-gv-aHV"/>
+                            <constraint firstItem="lT4-1V-xRQ" firstAttribute="bottom" secondItem="4EO-57-41W" secondAttribute="bottom" id="u6c-0m-EzV"/>
                             <constraint firstItem="6kL-vF-GKX" firstAttribute="top" secondItem="4EO-57-41W" secondAttribute="bottom" constant="5" id="xir-2x-N1B"/>
                         </constraints>
                     </view>
@@ -72,6 +81,7 @@
             <connections>
                 <outlet property="connectedDateLbl" destination="CYY-uY-EYg" id="dhn-N0-cT6"/>
                 <outlet property="containerView" destination="q9B-Xy-24t" id="6z5-pe-Vmn"/>
+                <outlet property="imageIsVerifiedImg" destination="lT4-1V-xRQ" id="So9-MJ-PmM"/>
                 <outlet property="userImage" destination="4EO-57-41W" id="MY3-FQ-n1M"/>
                 <outlet property="userNameLbl" destination="6kL-vF-GKX" id="xEg-M4-IYe"/>
             </connections>
@@ -79,7 +89,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="placeHolderApp" width="2583" height="2479"/>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
+        <image name="userPlaceHolderImage" width="400" height="400"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

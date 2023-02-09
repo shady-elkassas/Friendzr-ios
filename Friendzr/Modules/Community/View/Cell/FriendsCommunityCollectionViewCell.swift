@@ -27,6 +27,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var seemoreLbl: UILabel!
     @IBOutlet weak var seemoreBtn: UIButton!
     @IBOutlet weak var viewProfileFromTagsBtn: UIButton!
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
@@ -43,8 +44,14 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
             interestMatchLbl.text = "\(Int(model?.interestMatchPercent ?? 0.0)) % interest match"
             
             userImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             
+            if model?.imageIsVerified == true {
+                imageIsVerifiedImg.isHidden = false
+            }
+            else {
+                imageIsVerifiedImg.isHidden = true
+            }
             
             seemoreBtn.isHidden = true
             seemoreLbl.isHidden = true

@@ -69,6 +69,7 @@ class ProfileObj: Mappable {
         isWhiteLable <- map["isWhiteLable"]
         universityCode <- map["universityCode"]
         userImages <- map["userImages"]
+        imageIsVerified <- map["imageIsVerified"]
     }
     
     
@@ -107,6 +108,7 @@ class ProfileObj: Mappable {
     var isWhiteLable:Bool = false
     var universityCode:String = ""
     var userImages:[String] = [String]()
+    var imageIsVerified:Bool = false
 }
 
 

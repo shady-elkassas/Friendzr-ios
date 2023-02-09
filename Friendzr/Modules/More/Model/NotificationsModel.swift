@@ -62,6 +62,9 @@ class NotificationObj: NSObject,Mappable {
     var title:String? = ""
     var imageUrl:String? = ""
     var isChatGroupAdmin:Bool = false
+    
+    var notificationDate:String? = ""
+    
     required init?(map: Map) {
     }
     
@@ -81,6 +84,7 @@ class NotificationObj: NSObject,Mappable {
         title  <- map["title"]
         imageUrl  <- map["imageUrl"]
         isChatGroupAdmin  <- map["isChatGroupAdmin"]
+        notificationDate  <- map["notificationDate"]
 
     }
 }

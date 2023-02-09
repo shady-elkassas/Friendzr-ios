@@ -92,7 +92,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var preferToid:[String] = [String]()
     var preferToNames:[String] = [String]()
     
-    var attachedImg:Bool = false
+//    var attachedImg:Bool = false
     var birthDay = ""
     
     var UserFBID = ""
@@ -116,14 +116,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var firstLogin:Int? = 0
     
     var imgTake: Int = 0
-    
+    var imageIsVerified:Bool = false
     let datePicker = UIDatePicker()
     
     var infoLinksMap: [Int:String] = [1000:""]
     var rekognitionObject:AWSRekognition?
     
     var checkoutName:String = ""
-
+    
     var profileImages:[UIImage] = [UIImage]()
     
     //MARK: - Life Cycle
@@ -133,19 +133,20 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         self.title = "Edit Profile".localizedString
         setup()
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
-        showDatePicker()
         
         DispatchQueue.main.async {
-            if self.checkoutName == "editProfile" ||  self.checkoutName == "interests" {
+            if self.checkoutName == "editProfile" ||  self.checkoutName == "interests" || self.checkoutName == "additionalImages" {
                 self.getProfileInformation()
             }
             else {
                 self.setupData()
             }
+        }
+        
+        showDatePicker()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
         }
         
         initSaveBarButton(istap: false)
@@ -164,11 +165,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         if needUpdateVC == true {
             logoutBtn.isHidden = false
             initCloseApp()
-//            additionalPhotoBtnView.isHidden = true
         }else {
             logoutBtn.isHidden = true
             initBackButton()
-//            additionalPhotoBtnView.isHidden = false
         }
         
         CancelRequest.currentTask = false
@@ -181,7 +180,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
-
+        
     }
     
     //MARK: - APIs
@@ -214,6 +213,16 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                 vc.arrSelectedDataIds = self?.tagsid ?? []
                                 vc.arrSelectedDataNames = self?.tagsNames ?? []
                                 vc.onInterestsCallBackResponse = self?.OnInterestsCallBack
+                                self?.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                    }
+                    else if self?.checkoutName == "additionalImages" {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            if NetworkConected.internetConect {
+                                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "AdditionalImagesVC") as? AdditionalImagesVC else {return}
+                                vc.onAdditionalPhotosCallBackResponse = self?.onAdditionalPhotosCallBack
+                                vc.profileImages = self?.profileImages ?? []
                                 self?.navigationController?.pushViewController(vc, animated: true)
                             }
                         }
@@ -337,13 +346,15 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             dateBirthdayTxt.text = profileModel?.birthdate
             
-            if Defaults.isFirstLogin == false {
-                profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-                self.attachedImg = true
-            }
-            else {
-                self.attachedImg = false
-            }
+            profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+
+//            if Defaults.isFirstLogin == false {
+//                profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+//                self.attachedImg = true
+//            }
+//            else {
+//                self.attachedImg = false
+//            }
             
             tagsListView.removeAllTags()
             tagsid.removeAll()
@@ -511,7 +522,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         print("self.profileImages.cout \(self.profileImages.count)")
         self.profileImages = data
     }
-
+    
     func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
@@ -659,29 +670,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
     }
     
-    func onOkCallBack(_ okBtn: Bool) -> () {
-        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-        
-        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-            self.openCamera()
-        }
-        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-            self.openLibrary()
-        }
-        
-        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-        
-        settingsActionSheet.addAction(cameraBtn)
-        settingsActionSheet.addAction(libraryBtn)
-        settingsActionSheet.addAction(cancelBtn)
-        
-        present(settingsActionSheet, animated: true, completion: nil)
-    }
-    
     // Send Request for Facial Recognition API
     func FacialRecognitionAPI(imageOne:UIImage,imageTwo:UIImage) {
         
@@ -723,7 +711,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         DispatchQueue.main.async {
                             self.ProcessingLbl.text = "Matched"
                             self.ProcessingLbl.textColor = .green
-                            self.attachedImg = true
+//                            self.attachedImg = true
                         }
                         
                         let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
@@ -738,8 +726,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         DispatchQueue.main.async {
                             self.profileImg.image = imageOne
                             self.imgTake = 0
+                            self.imageIsVerified = true
                         }
-                    } else {
+                    }
+                    else {
                         let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
                         print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
                         
@@ -747,12 +737,12 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             self.ProcessingLbl.text = "Not Matched"
                             self.ProcessingLbl.textColor = .red
                             
-                            if Defaults.isFirstLogin == false {
-                                self.attachedImg = true
-                            }
-                            else {
-                                self.attachedImg = false
-                            }
+//                            if Defaults.isFirstLogin == false {
+//                                self.attachedImg = true
+//                            }
+//                            else {
+//                                self.attachedImg = false
+//                            }
                         }
                         
                         let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
@@ -763,6 +753,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             self.ProcessingLbl.text = "Processing...".localizedString
                             self.ProcessingLbl.textColor = .blue
                             self.imgTake = 0
+                            
+                            self.profileImg.image = self.faceImgOne
+                            self.imageIsVerified = false
                         }
                     }
                 }
@@ -775,12 +768,15 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         self.showFailAlert()
                     }
                     
-                    if Defaults.isFirstLogin == false {
-                        self.attachedImg = true
-                    }
-                    else {
-                        self.attachedImg = false
-                    }
+//                    if Defaults.isFirstLogin == false {
+//                        self.attachedImg = true
+//                    }
+//                    else {
+//                        self.attachedImg = false
+//                    }
+                    
+                    self.profileImg.image = self.faceImgOne
+                    self.imageIsVerified = false
                     
                     self.imgTake = 0
                     let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
@@ -792,17 +788,29 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
     
-    func onVerifyCallBack(_ okBtn: Bool) -> () {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = false
-            imagePicker.cameraCaptureMode = .photo
-            imagePicker.cameraDevice = .front
-            imagePicker.cameraFlashMode = .off
-            imagePicker.cameraViewTransform = .identity
-            self.present(imagePicker, animated: true, completion: nil)
+    func onVerifyCallBack(_ tapSelected: String) -> () {
+        if tapSelected == "verify" {
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                imagePicker.allowsEditing = false
+                imagePicker.cameraCaptureMode = .photo
+                imagePicker.cameraDevice = .front
+                imagePicker.cameraFlashMode = .off
+                imagePicker.cameraViewTransform = .identity
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+        else if tapSelected == "skip" {
+            self.profileImg.image = self.faceImgOne
+            self.imageIsVerified = false
+            self.imgTake = 0
+        }
+        else if tapSelected == "remove" {
+            self.profileImg.image = UIImage(named: "userPlaceHolderImage")
+            self.imageIsVerified = false
+            self.imgTake = 0
         }
     }
     
@@ -1045,10 +1053,11 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             
             picker.dismiss(animated:true, completion: {
             })
-        }else if self.imgTake == 2 {
+        }
+        else if self.imgTake == 2 {
             let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             picker.dismiss(animated:true, completion: {
-                self.attachedImg = true
+//                self.attachedImg = true
                 self.faceImgTwo = image2.fixOrientation()
                 self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
             })
@@ -1061,13 +1070,16 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         self.tabBarController?.tabBar.isHidden = false
         
         picker.dismiss(animated:true, completion: {
-            if Defaults.isFirstLogin == false {
-                self.imgTake = 0
-                self.attachedImg = true
-            }else {
-                self.attachedImg = false
-            }
+//            if Defaults.isFirstLogin == false {
+//                self.attachedImg = true
+//            }else {
+//                self.attachedImg = false
+//            }
         })
+        
+        self.imgTake = 0
+        self.profileImg.image = self.faceImgOne
+        self.imageIsVerified = false
     }
 }
 
@@ -1084,10 +1096,10 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
         if let state = state,
            let image = cropper.originalImage.cropped(withCropperState: state) {
             self.faceImgOne = image
-            self.attachedImg = true
+//            self.attachedImg = true
             imgTake = 2
             
-            guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView") as? FacialRecognitionPopUpView else {return}
             popupVC.modalPresentationStyle = .overCurrentContext
             popupVC.modalTransitionStyle = .crossDissolve
             let pVC = popupVC.popoverPresentationController
@@ -1105,13 +1117,14 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
     
     func cropperDidCancel(_ cropper: CropperViewController) {
         cropper.onPopup()
-        
-        if Defaults.isFirstLogin == false {
-            imgTake = 0
-            self.attachedImg = true
-        }else {
-            self.attachedImg = false
-        }
+        imgTake = 0
+
+//        if Defaults.isFirstLogin == false {
+//            imgTake = 0
+//            self.attachedImg = true
+//        }else {
+//            self.attachedImg = false
+//        }
     }
 }
 
@@ -1182,44 +1195,44 @@ extension EditMyProfileVC {
         hideKeyboard()
         
         print(imgTake)
-        if self.attachedImg == false {
-            DispatchQueue.main.async {
-                self.view.makeToast("Please add a profile image".localizedString)
-            }
-            initSaveBarButton(istap: false)
-            return
-        }
-        else {
-            if imgTake == 0 {
-                if tagsid.isEmpty {
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Please select what you enjoy doing".localizedString)
-                    }
-                    initSaveBarButton(istap: false)
-                    return
+        //        if self.attachedImg == false {
+        //            DispatchQueue.main.async {
+        //                self.view.makeToast("Please add a profile image".localizedString)
+        //            }
+        //            initSaveBarButton(istap: false)
+        //            return
+        //        }
+        //        else {
+        if imgTake == 0 {
+            if tagsid.isEmpty {
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please select what you enjoy doing".localizedString)
                 }
-                else {
-                    if iamid.isEmpty {
-                        iamid.append(Defaults.iamid)
-                    }
-                    
-                    if preferToid.isEmpty {
-                        preferToid.append(Defaults.preferToid)
-                    }
-                    
-                    if bioTxtView.text == "" {
-                        bioTxtView.text = "."
-                    }
-                    
-                    if NetworkConected.internetConect {
-                        editSaving()
-                    }
-                }
+                initSaveBarButton(istap: false)
+                return
             }
             else {
-                self.view.makeToast("Please wait a moment while the image comparison process is completed")
+                if iamid.isEmpty {
+                    iamid.append(Defaults.iamid)
+                }
+                
+                if preferToid.isEmpty {
+                    preferToid.append(Defaults.preferToid)
+                }
+                
+                if bioTxtView.text == "" {
+                    bioTxtView.text = "."
+                }
+                
+                if NetworkConected.internetConect {
+                    editSaving()
+                }
             }
         }
+        else {
+            self.view.makeToast("Please wait a moment while the image comparison process is completed")
+        }
+        //        }
     }
     
     func updateImagesUser() {
@@ -1234,6 +1247,8 @@ extension EditMyProfileVC {
             guard data != nil else {return}
             
             DispatchQueue.main.async {
+                self.additionalPhotoBtn.isUserInteractionEnabled = true
+                
                 if Defaults.isWhiteLable {
                     Router().toInbox()
                 }else {
@@ -1259,21 +1274,27 @@ extension EditMyProfileVC {
     
     func editSaving() {
         initSaveBarButton(istap: true)
+        self.additionalPhotoBtn.isUserInteractionEnabled = false
         let startDate = Date()
-        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
+        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: true, AndUserImage: self.profileImg.image ?? UIImage(), imageIsVerified: self.imageIsVerified,WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                     self.initSaveBarButton(istap: false)
+                    self.additionalPhotoBtn.isUserInteractionEnabled = true
                 }
                 return
             }
             
             let executionTimeWithSuccessFeed2 = Date().timeIntervalSince(startDate)
             print("executionTimeWithSuccess-edit \(executionTimeWithSuccessFeed2) second")
-
+            
             guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateImageMore"), object: nil, userInfo: nil)
+            }
             
             DispatchQueue.main.async {
                 self.updateImagesUser()
@@ -1340,5 +1361,4 @@ extension EditMyProfileVC {
             }
         }
     }
-    
 }

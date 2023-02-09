@@ -21,7 +21,8 @@ class NotificationTableViewCell: UITableViewCell {
         didSet {
             notificationBodyLbl.text = model?.body
             notificationTitleLbl.text = model?.title
-            notificationDateLbl.text = model?.createdAt
+            
+//            notificationDateLbl.text = model?.createdAt
             
             notificationImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))

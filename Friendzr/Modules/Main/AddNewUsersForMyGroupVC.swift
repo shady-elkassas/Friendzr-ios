@@ -270,7 +270,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
         cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         
         if selectedIDs.contains(model?.userId ?? "") {
             cell.selectedImg.image = UIImage(named: "selected_ic")

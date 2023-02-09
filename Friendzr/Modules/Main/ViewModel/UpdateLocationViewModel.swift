@@ -65,8 +65,8 @@ class UpdateLocationViewModel {
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
         Defaults.frindRequestNumber = user.frindRequestNumber
-        //        Defaults.isWhiteLable = user.isWhiteLable
-        //        Defaults.universityCode = user.universityCode
+        Defaults.imageIsVerified = user.imageIsVerified
+        
         UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
         
         Defaults.interestIds.removeAll()

@@ -50,13 +50,13 @@ class Defaults {
         }
     }
     
-    static var isVerified: Bool {
+    static var imageIsVerified: Bool {
         set{
-            UserDefaults.standard.set(newValue, forKey: "isVerified")
+            UserDefaults.standard.set(newValue, forKey: "imageIsVerified")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.bool(forKey: "isVerified")
+            return UserDefaults.standard.bool(forKey: "imageIsVerified")
         }
     }
     
@@ -684,6 +684,7 @@ class Defaults {
         Defaults.iamIds = user.iam
         Defaults.isWhiteLable = user.isWhiteLable
         Defaults.universityCode = user.universityCode
+        Defaults.imageIsVerified = user.imageIsVerified
     }
     
     static func deleteUserData(){
@@ -763,7 +764,8 @@ class Defaults {
         defaults.removeObject(forKey: "isDeeplinkDirectionalFiltering")
         defaults.removeObject(forKey: "isDeeplinkDirectionalLogin")
         defaults.removeObject(forKey: "ConversationType")
-        
+        defaults.removeObject(forKey: "imageIsVerified")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

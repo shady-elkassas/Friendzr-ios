@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,6 +31,13 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="5lz-L1-sxC"/>
                             <constraint firstAttribute="width" secondItem="Vca-hl-6gq" secondAttribute="height" id="KEf-m2-TEn"/>
+                        </constraints>
+                    </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="6C2-Sg-MQ1">
+                        <rect key="frame" x="55" y="72" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="jb9-0F-UQD"/>
+                            <constraint firstAttribute="height" constant="20" id="rFZ-CU-CHB"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LKO-jZ-n28">
@@ -102,8 +109,10 @@
                     <constraint firstItem="v3B-hz-WlP" firstAttribute="leading" secondItem="8ph-kw-rIW" secondAttribute="trailing" constant="4" id="SZ1-Ot-3nr"/>
                     <constraint firstItem="v3B-hz-WlP" firstAttribute="centerY" secondItem="8ph-kw-rIW" secondAttribute="centerY" constant="2" id="W2x-gy-SEm"/>
                     <constraint firstItem="Vca-hl-6gq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="WdM-FR-9e3"/>
+                    <constraint firstItem="6C2-Sg-MQ1" firstAttribute="trailing" secondItem="Vca-hl-6gq" secondAttribute="trailing" id="XGu-n0-oin"/>
                     <constraint firstItem="5y3-Dl-xhs" firstAttribute="centerY" secondItem="1CV-2V-m8i" secondAttribute="centerY" id="Y7t-89-ZOc"/>
                     <constraint firstAttribute="trailing" secondItem="5y3-Dl-xhs" secondAttribute="trailing" constant="20" id="Zm5-b7-49g"/>
+                    <constraint firstItem="6C2-Sg-MQ1" firstAttribute="bottom" secondItem="Vca-hl-6gq" secondAttribute="bottom" id="dkE-0v-TmI"/>
                     <constraint firstItem="Vca-hl-6gq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fRU-K4-Drh"/>
                     <constraint firstItem="zGL-jE-m7X" firstAttribute="top" secondItem="5y3-Dl-xhs" secondAttribute="bottom" constant="5" id="g26-gO-g08"/>
                     <constraint firstItem="RTh-pQ-CMi" firstAttribute="leading" secondItem="Vca-hl-6gq" secondAttribute="trailing" constant="10" id="hBl-NT-KpR"/>
@@ -121,6 +130,7 @@
                 <outlet property="attachImg" destination="8ph-kw-rIW" id="UWs-WU-29y"/>
                 <outlet property="attachTypeLbl" destination="v3B-hz-WlP" id="Fhs-cq-Psj"/>
                 <outlet property="downView" destination="LKO-jZ-n28" id="pZr-lv-acO"/>
+                <outlet property="imageIsVerifiedImg" destination="6C2-Sg-MQ1" id="hpO-ZS-hrm"/>
                 <outlet property="lastMessageDateLbl" destination="5y3-Dl-xhs" id="Og6-yG-Cr4"/>
                 <outlet property="lastMessageLbl" destination="RTh-pQ-CMi" id="W2P-Kb-pxW"/>
                 <outlet property="muteImg" destination="zGL-jE-m7X" id="NW2-nX-8YI"/>
@@ -132,6 +142,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="mute_ic" width="20" height="20"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="BGColor">

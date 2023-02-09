@@ -460,7 +460,7 @@ extension GroupDetailsVC : UITableViewDataSource {
         
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "userPlaceHolderImage"))
         
         cell.joinDateLbl.isHidden = true
         

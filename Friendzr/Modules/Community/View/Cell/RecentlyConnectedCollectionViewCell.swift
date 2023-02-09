@@ -15,13 +15,19 @@ class RecentlyConnectedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     
+    @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     
     var model :RecentlyConnectedObj! {
         didSet {
             userImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             userNameLbl.text = model?.name
             connectedDateLbl.text = "Connected: \(model?.date ?? "")"
+            if model.imageIsVerified {
+                imageIsVerifiedImg.isHidden = false
+            }else {
+                imageIsVerifiedImg.isHidden = true
+            }
         }
     }
     override func awakeFromNib() {

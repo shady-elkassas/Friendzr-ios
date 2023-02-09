@@ -340,7 +340,7 @@ extension BlockedListVC: UITableViewDataSource {
             cell.nameLbl.text = model?.userName
             
             cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             
             if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
                 cell.underView.isHidden = true
