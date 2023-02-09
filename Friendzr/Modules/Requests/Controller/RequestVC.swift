@@ -484,7 +484,7 @@ extension RequestVC:UITableViewDataSource {
             
             
             if model?.imageIsVerified == true {
-                cell.imageIsVerifiedImg.isHidden = false
+                cell.imageIsVerifiedImg.isHidden = true
             }else {
                 cell.imageIsVerifiedImg.isHidden = true
             }

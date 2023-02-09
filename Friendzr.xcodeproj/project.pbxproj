@@ -308,6 +308,7 @@
 		43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */; };
 		43C0E19127FDB97500555023 /* ExternalEventWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E19027FDB97500555023 /* ExternalEventWebView.swift */; };
 		43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 43C342F22871BDC500577F19 /* Friendzrlogomark.gif */; };
+		43C551C12994F627007EF092 /* Extension + EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C551C02994F627007EF092 /* Extension + EditProfileVC.swift */; };
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
@@ -749,6 +750,7 @@
 		43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		43C0E19027FDB97500555023 /* ExternalEventWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalEventWebView.swift; sourceTree = "<group>"; };
 		43C342F22871BDC500577F19 /* Friendzrlogomark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Friendzrlogomark.gif; sourceTree = "<group>"; };
+		43C551C02994F627007EF092 /* Extension + EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + EditProfileVC.swift"; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -1550,6 +1552,7 @@
 				4367E47227BA4D0B00FE1880 /* MyProfileViewController.swift */,
 				4367E47427BA4D3200FE1880 /* FriendProfileViewController.swift */,
 				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
+				43C551C02994F627007EF092 /* Extension + EditProfileVC.swift */,
 				43EED13F2973EEB300213BB0 /* AddEditProfileImagesVC.swift */,
 				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
 				431D739627BBA08900EC8F7B /* IamVC.swift */,
@@ -2433,6 +2436,7 @@
 				43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */,
 				43D1A4AF28803B9500830D8D /* TutorialScreensSixVC.swift in Sources */,
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
+				43C551C12994F627007EF092 /* Extension + EditProfileVC.swift in Sources */,
 				43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */,
 				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
 				4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */,

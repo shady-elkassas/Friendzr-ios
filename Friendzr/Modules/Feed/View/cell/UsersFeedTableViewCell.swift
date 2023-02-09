@@ -44,7 +44,7 @@ class UsersFeedTableViewCell: UITableViewCell {
             friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             
             if model.imageIsVerified {
-                imageIsVerifiedImg.isHidden = false
+                imageIsVerifiedImg.isHidden = true
             }else {
                 imageIsVerifiedImg.isHidden = true
             }

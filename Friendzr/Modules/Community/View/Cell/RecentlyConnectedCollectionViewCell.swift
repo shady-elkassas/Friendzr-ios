@@ -24,7 +24,7 @@ class RecentlyConnectedCollectionViewCell: UICollectionViewCell {
             userNameLbl.text = model?.name
             connectedDateLbl.text = "Connected: \(model?.date ?? "")"
             if model.imageIsVerified {
-                imageIsVerifiedImg.isHidden = false
+                imageIsVerifiedImg.isHidden = true
             }else {
                 imageIsVerifiedImg.isHidden = true
             }

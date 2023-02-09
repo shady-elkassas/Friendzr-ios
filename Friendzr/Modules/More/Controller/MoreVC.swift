@@ -194,7 +194,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         }
         
         if Defaults.imageIsVerified == true {
-            imageIsVerifiedImg.isHidden = false
+            imageIsVerifiedImg.isHidden = true
         }else {
             imageIsVerifiedImg.isHidden = true
         }

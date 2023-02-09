@@ -80,7 +80,7 @@
                                     <constraint firstItem="90X-R9-2q9" firstAttribute="top" secondItem="m29-v9-K82" secondAttribute="top" id="yjO-FF-qHn"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ODn-0a-ZDE">
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageIsVerified_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ODn-0a-ZDE">
                                 <rect key="frame" x="161" y="46" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="lXG-fM-9Fj"/>

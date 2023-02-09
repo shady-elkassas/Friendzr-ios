@@ -6,8 +6,6 @@
 //
 
 import UIKit
-//import SCSDKLoginKit
-//import TikTokOpenSDK
 import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
@@ -62,6 +60,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var universalCodeTxt: UITextField!
     @IBOutlet weak var additionalPhotoBtn: UIButton!
     @IBOutlet weak var additionalPhotoBtnView: UIView!
+    @IBOutlet weak var additionalPhotosBtnViewHeight: NSLayoutConstraint!
+    
     
     //MARK: - Properties
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -196,40 +196,23 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             }
         }
     }
-    
+
     func getProfileInformation() {
         profileVM.getProfileInfo()
         profileVM.userModel.bind { [weak self]value in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self?.profileModel = value
-                    self?.setupData()
-                    
-                    
-                    if self?.checkoutName == "interests" {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            if NetworkConected.internetConect {
-                                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
-                                vc.arrSelectedDataIds = self?.tagsid ?? []
-                                vc.arrSelectedDataNames = self?.tagsNames ?? []
-                                vc.onInterestsCallBackResponse = self?.OnInterestsCallBack
-                                self?.navigationController?.pushViewController(vc, animated: true)
-                            }
-                        }
-                    }
-                    else if self?.checkoutName == "additionalImages" {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            if NetworkConected.internetConect {
-                                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "AdditionalImagesVC") as? AdditionalImagesVC else {return}
-                                vc.onAdditionalPhotosCallBackResponse = self?.onAdditionalPhotosCallBack
-                                vc.profileImages = self?.profileImages ?? []
-                                self?.navigationController?.pushViewController(vc, animated: true)
-                            }
-                        }
-                    }
-                    
-                    self?.checkoutName = ""
+                
+                self?.profileModel = value
+                
+                self?.setupData()
+                
+                if Defaults.imageIsVerified == true {
+                    self?.additionalPhotoBtnView.isHidden = false
+                }else {
+                    self?.additionalPhotoBtnView.isHidden = true
                 }
+                
+                self?.setupDeepLinkInEditProfile()
             }
         }
         
@@ -348,173 +331,21 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
 
-//            if Defaults.isFirstLogin == false {
-//                profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
-//                self.attachedImg = true
-//            }
-//            else {
-//                self.attachedImg = false
-//            }
+            //            if Defaults.isFirstLogin == false {
+            //                profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+            //                self.attachedImg = true
+            //            }
+            //            else {
+            //                self.attachedImg = false
+            //            }
             
-            tagsListView.removeAllTags()
-            tagsid.removeAll()
-            tagsNames.removeAll()
-            for itm in profileModel?.listoftagsmodel ?? [] {
-                tagsListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-                tagsid.append(itm.tagID)
-                tagsNames.append(itm.tagname)
-            }
+            setupMyProfileTags()
+            setupMyIamListProfile()
+            setupMyPrefertoListProfile()
             
-            if tagsListView.rows == 0 {
-                tagsViewHeight.constant = 45
-                selectTagsLbl.isHidden = false
-                selectTagsLbl.textColor = .lightGray
-            }else {
-                tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
-                selectTagsLbl.isHidden = true
-                
-                print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
-            }
+            setupMyGinderProfile()
             
-            tagsListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
-            if tagsListView.rows == 0 {
-                tagsTopSpaceLayout.constant = 5
-                tagsBottomSpaceLayout.constant = 5
-            }else if tagsListView.rows == 1 {
-                tagsTopSpaceLayout.constant = 25
-                tagsBottomSpaceLayout.constant = 5
-            }else if tagsListView.rows == 2 {
-                tagsTopSpaceLayout.constant = 16
-                tagsBottomSpaceLayout.constant = 5
-            }else if tagsListView.rows == 3 {
-                tagsTopSpaceLayout.constant = 10
-                tagsBottomSpaceLayout.constant = 5
-            }else if tagsListView.rows == 4 {
-                tagsTopSpaceLayout.constant = 10
-                tagsBottomSpaceLayout.constant = 17
-            }
-            
-            
-            bestDescribesListView.removeAllTags()
-            iamid.removeAll()
-            iamNames.removeAll()
-            for itm in profileModel?.iamList ?? [] {
-                if itm.tagname.contains("#") == false {
-                    bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-                    iamid.append(itm.tagID)
-                    iamNames.append(itm.tagname)
-                }else {
-                    print("iamList.tagname.contains(#)")
-                }
-            }
-            
-            if bestDescribesListView.rows == 0 {
-                bestDescribesViewHeight.constant = 45
-                selectbestDescribesLbl.isHidden = false
-                selectbestDescribesLbl.textColor = .lightGray
-            }else {
-                bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
-                selectbestDescribesLbl.isHidden = true
-                
-                print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
-            }
-            
-            bestDescribesListView.textFont = UIFont(name: "Montserrat-SemiBold", size: 10)!
-            
-            if bestDescribesListView.rows == 0 {
-                bestDescribessTopSpaceLayout.constant = 5
-                bestDescribesBottomSpaceLayout.constant = 5
-            }else if bestDescribesListView.rows == 1 {
-                bestDescribessTopSpaceLayout.constant = 25
-                bestDescribesBottomSpaceLayout.constant = 5
-            }else if bestDescribesListView.rows == 2 {
-                bestDescribessTopSpaceLayout.constant = 16
-                bestDescribesBottomSpaceLayout.constant = 5
-            }else if bestDescribesListView.rows == 3 {
-                bestDescribessTopSpaceLayout.constant = 10
-                bestDescribesBottomSpaceLayout.constant = 5
-            }else if bestDescribesListView.rows == 4 {
-                bestDescribessTopSpaceLayout.constant = 10
-                bestDescribesBottomSpaceLayout.constant = 17
-            }
-            
-            
-            
-            preferToListView.removeAllTags()
-            preferToNames.removeAll()
-            preferToid.removeAll()
-            for itm in profileModel?.prefertoList ?? [] {
-                if itm.tagname.contains("#") == false {
-                    preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-                    preferToid.append(itm.tagID)
-                    preferToNames.append(itm.tagname)
-                }else {
-                    print("prefertoList.tagname.contains(#)")
-                }
-            }
-            
-            if preferToListView.rows == 0 {
-                preferToViewHeight.constant = 45
-                selectPreferToLbl.isHidden = false
-                selectPreferToLbl.textColor = .lightGray
-            }else {
-                preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
-                selectPreferToLbl.isHidden = true
-                
-                print("bestViewHeight.constant >> \(preferToViewHeight.constant)")
-            }
-            
-            preferToListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
-            
-            if preferToListView.rows == 0 {
-                preferToTopSpaceLayout.constant = 5
-                preferToBottomSpaceLayout.constant = 5
-            }else if preferToListView.rows == 1 {
-                preferToTopSpaceLayout.constant = 25
-                preferToBottomSpaceLayout.constant = 5
-            }else if preferToListView.rows == 2 {
-                preferToTopSpaceLayout.constant = 16
-                preferToBottomSpaceLayout.constant = 5
-            }else if preferToListView.rows == 3 {
-                preferToTopSpaceLayout.constant = 10
-                preferToBottomSpaceLayout.constant = 5
-            }else if preferToListView.rows == 4 {
-                preferToTopSpaceLayout.constant = 10
-                preferToBottomSpaceLayout.constant = 17
-            }
-            
-            
-            
-            if profileModel?.gender == "male" {
-                maleImg.image = UIImage(named: "select_ic")
-                femaleImg.image = UIImage(named: "unSelect_ic")
-                otherImg.image = UIImage(named: "unSelect_ic")
-                otherGenderView.isHidden = true
-                otherGenderTxt.text = ""
-                
-                genderString = "male"
-            }else if profileModel?.gender == "female" {
-                femaleImg.image = UIImage(named: "select_ic")
-                maleImg.image = UIImage(named: "unSelect_ic")
-                otherImg.image = UIImage(named: "unSelect_ic")
-                otherGenderView.isHidden = true
-                otherGenderTxt.text = ""
-                
-                genderString = "female"
-            }else {
-                otherImg.image = UIImage(named: "select_ic")
-                maleImg.image = UIImage(named: "unSelect_ic")
-                femaleImg.image = UIImage(named: "unSelect_ic")
-                otherGenderView.isHidden = false
-                otherGenderTxt.text = profileModel?.otherGenderName
-                
-                genderString = "other"
-            }
-            
-            self.profileImages.removeAll()
-            for item in profileModel?.userImages ?? [] {
-                profileImages.append(convertToImage(imagURL: item))
-            }
+            setupMyAdditionalImagesBtn()
         }
     }
     
@@ -569,7 +400,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             tagsTopSpaceLayout.constant = 8
             tagsBottomSpaceLayout.constant = 20
         }
-        
     }
     
     func OnIamCallBack(_ data: [String], _ value: [String]) -> () {
@@ -727,6 +557,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             self.profileImg.image = imageOne
                             self.imgTake = 0
                             self.imageIsVerified = true
+                            self.additionalPhotoBtnView.isHidden = false
                         }
                     }
                     else {
@@ -756,6 +587,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             
                             self.profileImg.image = self.faceImgOne
                             self.imageIsVerified = false
+                            self.additionalPhotoBtnView.isHidden = true
                         }
                     }
                 }
@@ -777,7 +609,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     
                     self.profileImg.image = self.faceImgOne
                     self.imageIsVerified = false
-                    
+                    self.additionalPhotoBtnView.isHidden = true
+
                     self.imgTake = 0
                     let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC3 \(executionTimeWithSuccessVC3 * 1000) second")
@@ -806,11 +639,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             self.profileImg.image = self.faceImgOne
             self.imageIsVerified = false
             self.imgTake = 0
+            self.additionalPhotoBtnView.isHidden = true
         }
         else if tapSelected == "remove" {
             self.profileImg.image = UIImage(named: "userPlaceHolderImage")
             self.imageIsVerified = false
             self.imgTake = 0
+            self.additionalPhotoBtnView.isHidden = true
         }
     }
     
@@ -1080,6 +915,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         self.imgTake = 0
         self.profileImg.image = self.faceImgOne
         self.imageIsVerified = false
+        self.additionalPhotoBtnView.isHidden = true
     }
 }
 

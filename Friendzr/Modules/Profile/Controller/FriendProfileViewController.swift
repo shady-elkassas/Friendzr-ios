@@ -292,8 +292,10 @@ class FriendProfileViewController: UIViewController {
         
         var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
         
-        for item in model?.userImages ?? [] {
-            sdWebImageSource.append(SDWebImageSource(urlString: item)!)
+        if model?.imageIsVerified == true {
+            for item in model?.userImages ?? [] {
+                sdWebImageSource.append(SDWebImageSource(urlString: item)!)
+            }
         }
         
         cell.imagesSlider.setImageInputs(sdWebImageSource)
@@ -332,7 +334,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                         
             setupSliderShow(cell, model)
             
-            if model?.userImages.count == 0 {
+            if model?.imageIsVerified == false || model?.userImages.count == 0 {
                 cell.arrowNextBtn.isHidden = true
                 cell.arrowPreviousBtn.isHidden = true
             }else {
@@ -442,7 +444,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.nameLbl.text = model?.userName
             
             if model?.imageIsVerified == true {
-                cell.imageIsVerifiedImg.isHidden = false
+                cell.imageIsVerifiedImg.isHidden = true
             }else {
                 cell.imageIsVerifiedImg.isHidden = true
             }

@@ -57,7 +57,7 @@ class AdditionalImagesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Additional Images"
+        self.title = "Additional Photos"
         
         initSaveBarButton(istap: false)
         initBackButton()
@@ -411,8 +411,8 @@ extension AdditionalImagesVC : UIImagePickerControllerDelegate,UINavigationContr
                 self.img4.isHidden = false
                 self.img4.image = originImg
                 self.additionalImg4Found = true
-                self.additionalImg4Found  = true
                 self.addImg4Btn.isHidden = true
+                self.removeImg4Btn.isHidden = false
                 self.profileImages.append(originImg)
 
             }

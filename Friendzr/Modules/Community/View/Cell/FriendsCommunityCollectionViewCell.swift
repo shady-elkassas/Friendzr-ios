@@ -47,7 +47,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
             userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             
             if model?.imageIsVerified == true {
-                imageIsVerifiedImg.isHidden = false
+                imageIsVerifiedImg.isHidden = true
             }
             else {
                 imageIsVerifiedImg.isHidden = true
