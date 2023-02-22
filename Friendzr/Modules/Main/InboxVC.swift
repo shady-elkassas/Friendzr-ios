@@ -385,7 +385,12 @@ extension InboxVC:UITableViewDataSource {
             //            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
             
             cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            if model?.isChatGroup == true || model?.isevent == true {
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            }else {
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+            }
             
             if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                 if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {

@@ -305,7 +305,7 @@ extension UIViewController {
     func convertToImage(imagURL:String) -> UIImage {
         var image: UIImage? = UIImage()
         
-        let imgURL = URL(string: imagURL) ?? URL(string: "jpeg.ly/G2tv")!
+        let imgURL = URL(string: imagURL) ?? URL(string: placeholderString)!
         do {
             let imgData = try NSData(contentsOf: imgURL, options: NSData.ReadingOptions())
             image = UIImage(data: imgData as Data)

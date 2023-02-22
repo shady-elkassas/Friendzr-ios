@@ -31,7 +31,7 @@ class ShareLocationVC: UIViewController {
     var locationLng:Double = 0.0
     var locationTitle:String = ""
 
-    var onLocationCallBackResponse: ((_ lat: Double, _ lng: Double,_ title:String) -> ())?
+    var onLocationCallBackResponse: ((_ lat: Double, _ lng: Double,_ locationTitle:String) -> ())?
     
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
@@ -95,9 +95,11 @@ class ShareLocationVC: UIViewController {
         location?.latitude = Double(Defaults.LocationLat)!
         location?.longitude = Double(Defaults.LocationLng)!
 
-        let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17.0)
+        let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17)
         self.mapView.animate(to: camera)
+        self.mapView.animate(toViewingAngle: 10)
         self.setupMarker(for: location!)
+        
         geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
             
             guard let error = error else {
@@ -160,9 +162,11 @@ class ShareLocationVC: UIViewController {
     }
     
     @IBAction func shareMyCurrentLocationBtn(_ sender: Any) {
-        
+        onLocationCallBackResponse?(Defaults.LocationLat.toDouble() ?? 0.0,Defaults.LocationLng.toDouble() ?? 0.0,"Current Location")
+        self.onDismiss()
     }
     @IBAction func shareLocationBtn(_ sender: Any) {
+        
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
@@ -185,6 +189,7 @@ extension ShareLocationVC : GMSMapViewDelegate {
                 self.locationLng = self.location!.longitude
                 self.locationTitle = PM?.name ?? ""
                 
+                print("Location Name: \(self.locationTitle)")
                 self.locationNameLbl.text = "Location Name: \(self.locationTitle)"
                 return
             }

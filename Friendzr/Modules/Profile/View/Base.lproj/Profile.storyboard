@@ -615,6 +615,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="eGr-IB-vIz">
                                                 <rect key="frame" x="157" y="16" width="100" height="100"/>
+                                                <color key="backgroundColor" name="BGColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="SPf-Pe-Snm"/>
                                                     <constraint firstAttribute="width" constant="100" id="Vsq-om-H3D"/>
@@ -2048,7 +2049,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nzC-CH-gLM">
-                                <rect key="frame" x="34.5" y="229.5" width="345" height="451.5"/>
+                                <rect key="frame" x="34.5" y="255" width="345" height="400.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="aVh-nU-PNF">
                                         <rect key="frame" x="92.5" y="20" width="160" height="160"/>
@@ -2064,39 +2065,36 @@
                                             <constraint firstAttribute="width" id="FgQ-vR-7d3"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jou-YS-0EK">
-                                        <rect key="frame" x="28" y="207" width="297" height="119.5"/>
-                                        <string key="text">Upload a profile photo now for verification, or complete later.
-
-Tip: a verified photo (✔️) helps others get to know you and increases your chances of receiving friend requests, or being accepted.</string>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help us keep Friendzr safe by verifying your photo. Your verification image will not display or be used for any other purpose." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jou-YS-0EK">
+                                        <rect key="frame" x="28" y="207" width="297" height="68.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="QOf-OQ-cA0">
-                                        <rect key="frame" x="103.5" y="346.5" width="138" height="85"/>
+                                        <rect key="frame" x="96" y="295.5" width="153" height="85"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeH-p2-rt2">
-                                                <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeH-p2-rt2">
+                                                <rect key="frame" x="0.0" y="0.0" width="153" height="40"/>
                                                 <color key="backgroundColor" name="primaryColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="icT-8i-kH9"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="VERIFY">
-                                                    <fontDescription key="titleFontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </buttonConfiguration>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="VERIFY">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="verifyBtn:" destination="acg-ga-EaI" eventType="touchUpInside" id="4As-Te-voT"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-BX-My8">
-                                                <rect key="frame" x="0.0" y="45" width="138" height="40"/>
+                                                <rect key="frame" x="0.0" y="45" width="153" height="40"/>
                                                 <color key="backgroundColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="VERIFY LATER">
+                                                <state key="normal" title="COMPLETE LATER">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -2104,7 +2102,7 @@ Tip: a verified photo (✔️) helps others get to know you and increases your c
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrO-om-joI">
-                                                <rect key="frame" x="0.0" y="85" width="138" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="85" width="153" height="0.0"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="SKIP">
@@ -2142,7 +2140,7 @@ Tip: a verified photo (✔️) helps others get to know you and increases your c
                             <constraint firstItem="nzC-CH-gLM" firstAttribute="centerX" secondItem="fYT-Pv-Zxp" secondAttribute="centerX" id="FBf-4J-nan"/>
                             <constraint firstItem="nzC-CH-gLM" firstAttribute="width" secondItem="mgX-m1-Dhy" secondAttribute="width" multiplier="1:1.2" id="NHF-UU-kt8"/>
                             <constraint firstAttribute="bottom" secondItem="fby-BN-13g" secondAttribute="bottom" id="XuT-nk-CJP"/>
-                            <constraint firstItem="QOf-OQ-cA0" firstAttribute="width" secondItem="fby-BN-13g" secondAttribute="width" multiplier="1:3" id="tJD-eT-nam"/>
+                            <constraint firstItem="QOf-OQ-cA0" firstAttribute="width" secondItem="fby-BN-13g" secondAttribute="width" multiplier="1:2.7" id="tJD-eT-nam"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2226,6 +2224,97 @@ Tip: a verified photo (✔️) helps others get to know you and increases your c
             </objects>
             <point key="canvasLocation" x="1695.6521739130435" y="1607.8125"/>
         </scene>
+        <!--Forget Add PictureVC-->
+        <scene sceneID="t3j-jH-4UE">
+            <objects>
+                <viewController storyboardIdentifier="ForgetAddPictureVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eYe-96-woI" customClass="ForgetAddPictureVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0VR-Je-sY9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uWb-o5-Gdu">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NFR-hK-2Vz">
+                                <rect key="frame" x="34.5" y="331.5" width="345" height="247.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PzN-Ln-sbU">
+                                        <rect key="frame" x="20" y="20" width="305" height="102.5"/>
+                                        <string key="text">Wait! Did you forget to add a picture? 
+
+Tip: A verified profile photo helps others get to know you, and increases your chances of receiving friend requests, or being accepted.</string>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" name="ColorLbl2"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="TJu-CX-dL3">
+                                        <rect key="frame" x="96" y="142.5" width="153" height="85"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qib-yy-vjQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="153" height="40"/>
+                                                <color key="backgroundColor" name="primaryColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="4Gl-WX-oaH"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Upload and Verify">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="verifyBtn:" destination="eYe-96-woI" eventType="touchUpInside" id="obc-hT-vwp"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="paS-PD-grI">
+                                                <rect key="frame" x="0.0" y="45" width="153" height="40"/>
+                                                <color key="backgroundColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Complete later">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="completeLaterBtn:" destination="eYe-96-woI" eventType="touchUpInside" id="9Ah-jZ-q3C"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="bgColorContainers"/>
+                                <constraints>
+                                    <constraint firstItem="PzN-Ln-sbU" firstAttribute="leading" secondItem="NFR-hK-2Vz" secondAttribute="leading" constant="20" id="3GL-ZM-LQE"/>
+                                    <constraint firstItem="TJu-CX-dL3" firstAttribute="top" secondItem="PzN-Ln-sbU" secondAttribute="bottom" constant="20" id="EiH-MS-298"/>
+                                    <constraint firstAttribute="trailing" secondItem="PzN-Ln-sbU" secondAttribute="trailing" constant="20" id="QZy-O0-isz"/>
+                                    <constraint firstAttribute="bottom" secondItem="TJu-CX-dL3" secondAttribute="bottom" constant="20" id="kCS-fB-aBm"/>
+                                    <constraint firstItem="PzN-Ln-sbU" firstAttribute="top" secondItem="NFR-hK-2Vz" secondAttribute="top" constant="20" id="q3c-df-BtL"/>
+                                    <constraint firstItem="TJu-CX-dL3" firstAttribute="centerX" secondItem="NFR-hK-2Vz" secondAttribute="centerX" id="xWI-iE-EXp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mDF-XJ-N3G"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NFR-hK-2Vz" firstAttribute="width" secondItem="0VR-Je-sY9" secondAttribute="width" multiplier="1:1.2" id="8hC-Nk-apK"/>
+                            <constraint firstItem="NFR-hK-2Vz" firstAttribute="centerY" secondItem="mDF-XJ-N3G" secondAttribute="centerY" id="Ebe-pf-7Hv"/>
+                            <constraint firstItem="uWb-o5-Gdu" firstAttribute="top" secondItem="0VR-Je-sY9" secondAttribute="top" id="QKg-3u-8vk"/>
+                            <constraint firstItem="mDF-XJ-N3G" firstAttribute="trailing" secondItem="uWb-o5-Gdu" secondAttribute="trailing" id="UNu-Gb-8fh"/>
+                            <constraint firstItem="NFR-hK-2Vz" firstAttribute="centerX" secondItem="mDF-XJ-N3G" secondAttribute="centerX" id="ar3-kM-8U0"/>
+                            <constraint firstAttribute="bottom" secondItem="uWb-o5-Gdu" secondAttribute="bottom" id="bK0-L9-Ozl"/>
+                            <constraint firstItem="TJu-CX-dL3" firstAttribute="width" secondItem="uWb-o5-Gdu" secondAttribute="width" multiplier="1:2.7" id="ffz-rj-RZN"/>
+                            <constraint firstItem="uWb-o5-Gdu" firstAttribute="leading" secondItem="mDF-XJ-N3G" secondAttribute="leading" id="l9b-aC-IPE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="completeLaterBtn" destination="paS-PD-grI" id="6uY-Be-9ix"/>
+                        <outlet property="containerView" destination="NFR-hK-2Vz" id="GlB-YZ-bw8"/>
+                        <outlet property="verifyBtn" destination="qib-yy-vjQ" id="wT6-wx-C8i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dJV-2r-ceM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2109" y="846"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Group19286" width="20" height="19.5"/>
@@ -2236,9 +2325,9 @@ Tip: a verified photo (✔️) helps others get to know you and increases your c
         <image name="placeholder2_ic" width="128" height="128"/>
         <image name="remove_ic" width="50" height="50"/>
         <image name="unSelect_ic" width="24" height="24"/>
-        <image name="userPlaceHolderImage" width="400" height="400"/>
+        <image name="userPlaceHolderImage" width="512" height="512"/>
         <namedColor name="BGColor">
-            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

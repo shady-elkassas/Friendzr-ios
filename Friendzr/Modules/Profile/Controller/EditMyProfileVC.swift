@@ -139,6 +139,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 self.getProfileInformation()
             }
             else {
+//                self.getProfileInformation()
                 self.setupData()
             }
         }
@@ -292,6 +293,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
         logoutBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+        
         
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
@@ -339,13 +342,24 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             //                self.attachedImg = false
             //            }
             
-            setupMyProfileTags()
-            setupMyIamListProfile()
-            setupMyPrefertoListProfile()
+            DispatchQueue.main.async {
+                self.setupMyProfileTags()
+            }
             
-            setupMyGinderProfile()
+            DispatchQueue.main.async {
+                self.setupMyIamListProfile()
+            }
+            DispatchQueue.main.async {
+                self.setupMyPrefertoListProfile()
+            }
+            DispatchQueue.main.async {
+                self.setupMyGinderProfile()
+            }
             
-            setupMyAdditionalImagesBtn()
+            DispatchQueue.main.async {
+                self.setupMyAdditionalImagesBtn()
+            }
+            
         }
     }
     
@@ -354,151 +368,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         self.profileImages = data
     }
     
-    func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
-        print(data, value)
-        
-        selectTagsLbl.isHidden = true
-        tagsListView.removeAllTags()
-        tagsNames.removeAll()
-        for item in value {
-            tagsListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
-            tagsNames.append(item)
-        }
-        
-        if tagsListView.rows == 0 {
-            tagsViewHeight.constant = 45
-            selectTagsLbl.isHidden = false
-            selectTagsLbl.textColor = .lightGray
-        }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
-            selectTagsLbl.isHidden = true
-        }
-        
-        print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
-        
-        tagsid.removeAll()
-        for itm in data {
-            tagsid.append(itm)
-        }
-        
-        if tagsListView.rows == 0 {
-            tagsTopSpaceLayout.constant = 5
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 1 {
-            tagsTopSpaceLayout.constant = 25
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 2 {
-            tagsTopSpaceLayout.constant = 16
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 3 {
-            tagsTopSpaceLayout.constant = 10
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 4 {
-            tagsTopSpaceLayout.constant = 10
-            tagsBottomSpaceLayout.constant = 17
-        }else {
-            tagsTopSpaceLayout.constant = 8
-            tagsBottomSpaceLayout.constant = 20
-        }
-    }
-    
-    func OnIamCallBack(_ data: [String], _ value: [String]) -> () {
-        print(data, value)
-        
-        selectbestDescribesLbl.isHidden = true
-        bestDescribesListView.removeAllTags()
-        iamNames.removeAll()
-        for item in value {
-            bestDescribesListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
-            iamNames.append(item)
-        }
-        
-        if bestDescribesListView.rows == 0 {
-            bestDescribesViewHeight.constant = 45
-            selectbestDescribesLbl.isHidden = false
-            selectbestDescribesLbl.textColor = .lightGray
-        }else {
-            bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
-            selectbestDescribesLbl.isHidden = true
-        }
-        
-        print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
-        
-        iamid.removeAll()
-        for itm in data {
-            iamid.append(itm)
-        }
-        
-        if bestDescribesListView.rows == 0 {
-            bestDescribessTopSpaceLayout.constant = 5
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 1 {
-            bestDescribessTopSpaceLayout.constant = 25
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 2 {
-            bestDescribessTopSpaceLayout.constant = 16
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 3 {
-            bestDescribessTopSpaceLayout.constant = 10
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 4 {
-            bestDescribessTopSpaceLayout.constant = 10
-            bestDescribesBottomSpaceLayout.constant = 17
-        }else {
-            bestDescribessTopSpaceLayout.constant = 8
-            bestDescribesBottomSpaceLayout.constant = 20
-        }
-        
-    }
-    
-    func OnPreferToCallBack(_ data: [String], _ value: [String]) -> () {
-        print(data, value)
-        
-        selectPreferToLbl.isHidden = true
-        preferToListView.removeAllTags()
-        preferToNames.removeAll()
-        for item in value {
-            preferToListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
-            preferToNames.append(item)
-        }
-        
-        if preferToListView.rows == 0 {
-            preferToViewHeight.constant = 45
-            selectPreferToLbl.isHidden = false
-            selectPreferToLbl.textColor = .lightGray
-        }else {
-            preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
-            selectPreferToLbl.isHidden = true
-        }
-        
-        print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
-        
-        preferToid.removeAll()
-        for itm in data {
-            preferToid.append(itm)
-        }
-        
-        if preferToListView.rows == 0 {
-            preferToTopSpaceLayout.constant = 5
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 1 {
-            preferToTopSpaceLayout.constant = 25
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 2 {
-            preferToTopSpaceLayout.constant = 16
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 3 {
-            preferToTopSpaceLayout.constant = 10
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 4 {
-            preferToTopSpaceLayout.constant = 10
-            preferToBottomSpaceLayout.constant = 17
-        }else {
-            preferToTopSpaceLayout.constant = 8
-            preferToBottomSpaceLayout.constant = 20
-        }
-        
-    }
     
     // Send Request for Facial Recognition API
     func FacialRecognitionAPI(imageOne:UIImage,imageTwo:UIImage) {
@@ -585,7 +454,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             self.ProcessingLbl.textColor = .blue
                             self.imgTake = 0
                             
-                            self.profileImg.image = self.faceImgOne
+//                            self.profileImg.image = self.faceImgOne
                             self.imageIsVerified = false
                             self.additionalPhotoBtnView.isHidden = true
                         }
@@ -607,7 +476,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
 //                        self.attachedImg = false
 //                    }
                     
-                    self.profileImg.image = self.faceImgOne
+//                    self.profileImg.image = self.faceImgOne
                     self.imageIsVerified = false
                     self.additionalPhotoBtnView.isHidden = true
 
@@ -617,6 +486,22 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     
                 }
                 return
+            }
+        }
+    }
+    
+    func onForgetAddPictureCallBack(_ tapSelected: String) -> () {
+        if tapSelected == "UploadAndVerify" {
+            self.presentActionSheetImage()
+        }
+        else if tapSelected == "CompleteLater" {
+            self.profileImg.image = UIImage(named: "userPlaceHolderImage")
+            self.imageIsVerified = false
+            self.imgTake = 0
+            self.additionalPhotoBtnView.isHidden = true
+            
+            DispatchQueue.main.async {
+                self.editSaving()
             }
         }
     }
@@ -752,7 +637,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         logout()
     }
     
-    @IBAction func editProfileImgBtn(_ sender: Any) {
+     func presentActionSheetImage() {
         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
         
         let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
@@ -773,6 +658,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         settingsActionSheet.addAction(cancelBtn)
         
         present(settingsActionSheet, animated: true, completion: nil)
+    }
+    
+    @IBAction func editProfileImgBtn(_ sender: Any) {
+        presentActionSheetImage()
     }
     
     @IBAction func maleBtn(_ sender: Any) {
@@ -887,6 +776,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             self.navigationController?.pushViewController(cropper, animated: true)
             
             picker.dismiss(animated:true, completion: {
+                
             })
         }
         else if self.imgTake == 2 {
@@ -910,12 +800,12 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //            }else {
 //                self.attachedImg = false
 //            }
+            self.imgTake = 0
         })
         
-        self.imgTake = 0
-        self.profileImg.image = self.faceImgOne
-        self.imageIsVerified = false
-        self.additionalPhotoBtnView.isHidden = true
+//        self.profileImg.image = self.faceImgOne
+//        self.imageIsVerified = false
+//        self.additionalPhotoBtnView.isHidden = true
     }
 }
 
@@ -1061,7 +951,20 @@ extension EditMyProfileVC {
                 }
                 
                 if NetworkConected.internetConect {
-                    editSaving()
+                    if self.imageIsVerified == false {
+                        guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "ForgetAddPictureVC") as? ForgetAddPictureVC else {return}
+                        popupVC.modalPresentationStyle = .overCurrentContext
+                        popupVC.modalTransitionStyle = .crossDissolve
+                        let pVC = popupVC.popoverPresentationController
+                        pVC?.permittedArrowDirections = .any
+                        pVC?.delegate = self
+                        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                        popupVC.onForgetAddPictureCallBackResponse = self.onForgetAddPictureCallBack
+                        self.present(popupVC, animated: true, completion: nil)
+                    }
+                    else {
+                        editSaving()
+                    }
                 }
             }
         }
@@ -1112,7 +1015,7 @@ extension EditMyProfileVC {
         initSaveBarButton(istap: true)
         self.additionalPhotoBtn.isUserInteractionEnabled = false
         let startDate = Date()
-        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: true, AndUserImage: self.profileImg.image ?? UIImage(), imageIsVerified: self.imageIsVerified,WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
+        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.imageIsVerified, AndUserImage: self.profileImg.image ?? UIImage(), imageIsVerified: self.imageIsVerified,WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -1126,14 +1029,41 @@ extension EditMyProfileVC {
             let executionTimeWithSuccessFeed2 = Date().timeIntervalSince(startDate)
             print("executionTimeWithSuccess-edit \(executionTimeWithSuccessFeed2) second")
             
-            guard let _ = data else {return}
+            guard let data = data else {return}
             
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updateImageMore"), object: nil, userInfo: nil)
             }
             
             DispatchQueue.main.async {
-                self.updateImagesUser()
+                if self.imageIsVerified == true || self.profileImages.count != 0 {
+                    self.updateImagesUser()
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self.additionalPhotoBtn.isUserInteractionEnabled = true
+                        
+                        if Defaults.isWhiteLable {
+                            Router().toInbox()
+                        }else {
+                            if Defaults.needUpdate == 1 {
+                                return
+                            } else {
+                                if Defaults.isFirstLogin == false {//toprofile
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.onPopup()
+                                    }
+                                }
+                                else if Defaults.isFirstLogin == true {//tofeed if socail media login
+                                    Router().toFeed()
+                                }
+                                else {//to login
+                                    Router().toOptionsSignUpVC(IsLogout: true)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

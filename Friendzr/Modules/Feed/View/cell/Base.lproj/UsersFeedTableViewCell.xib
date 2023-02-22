@@ -38,6 +38,7 @@
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="j3q-OK-73z">
                         <rect key="frame" x="20" y="30" width="60" height="60"/>
+                        <color key="backgroundColor" name="BGColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="P9S-ye-uXB"/>
                             <constraint firstAttribute="width" secondItem="j3q-OK-73z" secondAttribute="height" multiplier="1:1" id="Xr9-xk-XjL"/>
@@ -256,7 +257,7 @@
         <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="BGColor">
-            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl1">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

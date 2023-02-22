@@ -28,6 +28,7 @@
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="Vca-hl-6gq">
                         <rect key="frame" x="20" y="37" width="55" height="55"/>
+                        <color key="backgroundColor" name="BGColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="5lz-L1-sxC"/>
                             <constraint firstAttribute="width" secondItem="Vca-hl-6gq" secondAttribute="height" id="KEf-m2-TEn"/>
@@ -146,7 +147,7 @@
         <image name="mute_ic" width="20" height="20"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="BGColor">
-            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl1">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

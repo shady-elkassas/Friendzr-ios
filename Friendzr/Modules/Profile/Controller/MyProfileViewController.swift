@@ -208,7 +208,8 @@ class MyProfileViewController: UIViewController {
         
         cell.imagesSlider.pageIndicator = UIPageControl.withSlideshowColors()
 
-        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
+        
+        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: placeholderString)!]
         
         if model?.imageIsVerified == true {
             for item in model?.userImages ?? [] {
@@ -278,6 +279,7 @@ extension MyProfileViewController: UITableViewDataSource {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value
                     Defaults.isFirstLogin = false
+                    vc.imageIsVerified = self.viewmodel.userModel.value?.imageIsVerified ?? false
                     self.navigationController?.pushViewController(vc, animated: true)                    
                 }
             }

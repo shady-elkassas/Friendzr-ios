@@ -290,7 +290,7 @@ class FriendProfileViewController: UIViewController {
         cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
         cell.imagesSlider.delegate = self
         
-        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
+        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: placeholderString)!]
         
         if model?.imageIsVerified == true {
             for item in model?.userImages ?? [] {

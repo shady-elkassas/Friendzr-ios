@@ -67,10 +67,10 @@
                                 <rect key="frame" x="207" y="92" width="0.0" height="0.0"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="90X-R9-2q9" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" name="BGColor"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="BGColor"/>
                                 <constraints>
                                     <constraint firstItem="90X-R9-2q9" firstAttribute="leading" secondItem="m29-v9-K82" secondAttribute="leading" id="1vJ-YH-UX7"/>
                                     <constraint firstAttribute="bottom" secondItem="90X-R9-2q9" secondAttribute="bottom" id="2xN-li-5Oi"/>
@@ -1201,7 +1201,7 @@
         <image name="showPassword_ic" width="15" height="11"/>
         <image name="unShowPassword_ic" width="16" height="16"/>
         <namedColor name="BGColor">
-            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

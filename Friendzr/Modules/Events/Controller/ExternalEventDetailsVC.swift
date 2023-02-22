@@ -317,7 +317,12 @@ class ExternalEventDetailsVC: UIViewController {
         cell.imagesSlider.delegate = self
         
         //        imagesSlider.setImageInputs(localSource)
-        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        
+        if model?.image != "" {
+            cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: placeholderString)!])
+        }else {
+            cell.imagesSlider.setImageInputs(placeholderLocalSource)
+        }
     }
 }
 

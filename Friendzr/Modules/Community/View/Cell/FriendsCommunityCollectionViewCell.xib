@@ -32,6 +32,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Face-Reading_img" translatesAutoresizingMaskIntoConstraints="NO" id="6R1-XU-4Nb">
                                 <rect key="frame" x="20" y="3" width="138" height="138"/>
+                                <color key="backgroundColor" name="BGColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6R1-XU-4Nb" secondAttribute="height" multiplier="1:1" id="egT-Bm-1kl"/>
                                 </constraints>
@@ -180,16 +181,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJn-mX-Esn">
-                                <rect key="frame" x="171.5" y="151" width="186.5" height="22"/>
+                                <rect key="frame" x="171.5" y="151" width="186.5" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See Next" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDP-fj-7I5">
-                                        <rect key="frame" x="68.5" y="4.5" width="49.5" height="13.5"/>
+                                        <rect key="frame" x="68.5" y="8.5" width="49.5" height="13.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="11"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next_skip_ic" translatesAutoresizingMaskIntoConstraints="NO" id="jzu-Dj-F0k">
-                                        <rect key="frame" x="161.5" y="1" width="20" height="20"/>
+                                        <rect key="frame" x="161.5" y="5" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="7GK-Y5-PMG"/>
                                             <constraint firstAttribute="width" constant="20" id="yZo-L3-d97"/>
@@ -200,13 +201,13 @@
                                 <constraints>
                                     <constraint firstItem="pDP-fj-7I5" firstAttribute="centerX" secondItem="aJn-mX-Esn" secondAttribute="centerX" id="8sd-oo-xC3"/>
                                     <constraint firstAttribute="trailing" secondItem="jzu-Dj-F0k" secondAttribute="trailing" constant="5" id="R31-Mu-x1L"/>
-                                    <constraint firstAttribute="height" constant="22" id="YjE-bk-1Rq"/>
+                                    <constraint firstAttribute="height" constant="30" id="YjE-bk-1Rq"/>
                                     <constraint firstItem="pDP-fj-7I5" firstAttribute="centerY" secondItem="aJn-mX-Esn" secondAttribute="centerY" id="ec7-dc-ATt"/>
                                     <constraint firstItem="jzu-Dj-F0k" firstAttribute="centerY" secondItem="aJn-mX-Esn" secondAttribute="centerY" id="gKx-lS-83Q"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IvE-Ul-tl9">
-                                <rect key="frame" x="171.5" y="151" width="186.5" height="22"/>
+                                <rect key="frame" x="171.5" y="151" width="186.5" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="9"/>
                                 <inset key="titleEdgeInsets" minX="-12" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -219,7 +220,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mark Arold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-ev-B0P">
-                                <rect key="frame" x="20" y="153.5" width="138" height="17.5"/>
+                                <rect key="frame" x="20" y="157.5" width="138" height="17.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -315,6 +316,9 @@
         <image name="Face-Reading_img" width="911" height="911"/>
         <image name="imageIsVerified_ic" width="32" height="32"/>
         <image name="next_skip_ic" width="512" height="512"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

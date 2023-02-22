@@ -31,7 +31,7 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m4O-bj-OSR" customClass="ImageSlideshow" customModule="ImageSlideshow">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="BGColor"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Veu-v7-ih4" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="111.5" width="320" height="74.5"/>
@@ -116,6 +116,9 @@
     </objects>
     <resources>
         <image name="placeHolderApp" width="2583" height="2479"/>
+        <namedColor name="BGColor">
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

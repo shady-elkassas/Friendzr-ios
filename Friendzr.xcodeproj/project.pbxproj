@@ -153,7 +153,6 @@
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
 		4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888C26C8FF6500B51E51 /* RequestVC.swift */; };
 		4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889326C8FF9300B51E51 /* MoreVC.swift */; };
-		436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */; };
 		436288A526C9334900B51E51 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288A326C9334900B51E51 /* ChatListTableViewCell.swift */; };
 		436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436288A426C9334900B51E51 /* ChatListTableViewCell.xib */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
@@ -324,7 +323,6 @@
 		43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */; };
 		43D008C527942B9200370E2C /* Register.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D008C727942B9200370E2C /* Register.storyboard */; };
 		43D008CC279431E000370E2C /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D008CE279431E000370E2C /* Feed.storyboard */; };
-		43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008D52794383900370E2C /* FeedsTableViewCell.xib */; };
 		43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008DC2794386A00370E2C /* EmptyViewTableViewCell.xib */; };
 		43D008E12794388300370E2C /* UsersFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008E32794388300370E2C /* UsersFeedTableViewCell.xib */; };
 		43D008E8279438B300370E2C /* Request.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D008EA279438B300370E2C /* Request.storyboard */; };
@@ -590,7 +588,6 @@
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		4362888C26C8FF6500B51E51 /* RequestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestVC.swift; sourceTree = "<group>"; };
 		4362889326C8FF9300B51E51 /* MoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreVC.swift; sourceTree = "<group>"; };
-		4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsTableViewCell.swift; sourceTree = "<group>"; };
 		436288A326C9334900B51E51 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		436288A426C9334900B51E51 /* ChatListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatListTableViewCell.xib; sourceTree = "<group>"; };
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -751,6 +748,7 @@
 		43C0E19027FDB97500555023 /* ExternalEventWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalEventWebView.swift; sourceTree = "<group>"; };
 		43C342F22871BDC500577F19 /* Friendzrlogomark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Friendzrlogomark.gif; sourceTree = "<group>"; };
 		43C551C02994F627007EF092 /* Extension + EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + EditProfileVC.swift"; sourceTree = "<group>"; };
+		43C551C2299513CE007EF092 /* ForgetAddPictureVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetAddPictureVC.swift; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -765,7 +763,6 @@
 		43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderCollectionViewCell.swift; sourceTree = "<group>"; };
 		43D008C627942B9200370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Register.storyboard; sourceTree = "<group>"; };
 		43D008CD279431E000370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Feed.storyboard; sourceTree = "<group>"; };
-		43D008D42794383900370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FeedsTableViewCell.xib; sourceTree = "<group>"; };
 		43D008DB2794386A00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EmptyViewTableViewCell.xib; sourceTree = "<group>"; };
 		43D008E22794388300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UsersFeedTableViewCell.xib; sourceTree = "<group>"; };
 		43D008E9279438B300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Request.storyboard; sourceTree = "<group>"; };
@@ -1486,8 +1483,6 @@
 		4362889E26C9185800B51E51 /* cell */ = {
 			isa = PBXGroup;
 			children = (
-				4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */,
-				43D008D52794383900370E2C /* FeedsTableViewCell.xib */,
 				4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */,
 				43D008DC2794386A00370E2C /* EmptyViewTableViewCell.xib */,
 				4337B478278714630077B794 /* UsersFeedTableViewCell.swift */,
@@ -1562,6 +1557,7 @@
 				43C0E18127FB28CD00555023 /* Celebrity.swift */,
 				431EC58E2987DDAA00845508 /* CustomPhotoPickerViewController.swift */,
 				431EC592298A810300845508 /* AdditionalImagesVC.swift */,
+				43C551C2299513CE007EF092 /* ForgetAddPictureVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2206,7 +2202,6 @@
 				43ACFED027B3B6A5001CD340 /* EventStatisticsTableViewCell.xib in Resources */,
 				4367E46527BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib in Resources */,
 				4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */,
-				43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */,
 				43967D9227944D33005B1F5D /* EventTimeCalenderView.xib in Resources */,
 				43ABA6142876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
@@ -2428,6 +2423,7 @@
 				43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
 				43D31F30294F22580036C858 /* MapVC + UISearchBarDelegate.swift in Sources */,
+				43C551C3299513CE007EF092 /* ForgetAddPictureVC.swift in Sources */,
 				43D1A4AD28803B8800830D8D /* TutorialScreensFiveVC.swift in Sources */,
 				4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
@@ -2569,7 +2565,6 @@
 				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
 				4392277B284CC20700F351C7 /* CategoriesViewController.swift in Sources */,
 				4367E46427BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift in Sources */,
-				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				43A350E528BDF718002ED5BB /* CommunityModel.swift in Sources */,
 				436DD06C27E489A500A4A7F7 /* CustomOverlay.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
@@ -2836,14 +2831,6 @@
 			name = Feed.storyboard;
 			sourceTree = "<group>";
 		};
-		43D008D52794383900370E2C /* FeedsTableViewCell.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				43D008D42794383900370E2C /* Base */,
-			);
-			name = FeedsTableViewCell.xib;
-			sourceTree = "<group>";
-		};
 		43D008DC2794386A00370E2C /* EmptyViewTableViewCell.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3091,7 +3078,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.29;
+				MARKETING_VERSION = 1.2.33;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3131,7 +3118,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.29;
+				MARKETING_VERSION = 1.2.33;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

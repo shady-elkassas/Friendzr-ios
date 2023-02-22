@@ -137,7 +137,6 @@ class Router {
         let id = "MainTBC"
         guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else {return}
         nextVC.selectedIndex = 0
-        
         go(withVC: nextVC)
     }
     

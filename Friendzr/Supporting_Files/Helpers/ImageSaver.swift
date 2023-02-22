@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 import SwiftUI
+import ImageSlideshow
 
+let placeholderString = "https://www.friendzsocialmedia.com/Images/Userprofile/person_default_a353371c-fcc2-43c3-ab55-d02229fba815.png"
+let placeholderLocalSource = [BundleImageSource(imageString: "placeHolderApp")]
+let userPlaceHolderImage = [BundleImageSource(imageString: "userPlaceHolderImage")]
 
 class ImageSaver: NSObject {
     func writeToPhotoAlbum(image: UIImage) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -38,6 +38,7 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Face-Reading_img" translatesAutoresizingMaskIntoConstraints="NO" id="bfu-b9-I0G">
                                 <rect key="frame" x="20" y="27.333333333333329" width="158.66666666666666" height="158.66666666666669"/>
+                                <color key="backgroundColor" name="BGColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bfu-b9-I0G" secondAttribute="height" multiplier="1:1" id="vEo-zO-oeh"/>
                                 </constraints>
@@ -213,6 +214,9 @@
     <resources>
         <image name="Face-Reading_img" width="911" height="911"/>
         <image name="next_skip_ic" width="512" height="512"/>
+        <namedColor name="BGColor">
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

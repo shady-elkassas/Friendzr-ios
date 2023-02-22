@@ -102,12 +102,14 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
 //MARK: - UITableViewDataSource
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sliderEventList?.count ?? 0
+//        return sliderEventList?.count ?? 0
+        return viewmodel.events.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
-        let model = sliderEventList?[indexPath.row]
+        guard let cell = eventsByLocationTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
+        let model = viewmodel.events.value?[indexPath.row]
+        
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"

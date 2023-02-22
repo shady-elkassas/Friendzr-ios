@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,6 +29,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPlaceHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="4EO-57-41W">
                                 <rect key="frame" x="26" y="5" width="75" height="75"/>
+                                <color key="backgroundColor" name="BGColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="RA1-LR-fHM"/>
                                     <constraint firstAttribute="width" constant="75" id="qOx-9w-PgR"/>
@@ -90,7 +92,10 @@
     </objects>
     <resources>
         <image name="imageIsVerified_ic" width="32" height="32"/>
-        <image name="userPlaceHolderImage" width="400" height="400"/>
+        <image name="userPlaceHolderImage" width="512" height="512"/>
+        <namedColor name="BGColor">
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

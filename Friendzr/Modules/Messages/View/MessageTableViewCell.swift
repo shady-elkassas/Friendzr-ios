@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import MapKit
 import ImageSlideshow
 import SDWebImage
+import GoogleMaps
 
 
 protocol MessageTableViewCellDelegate: class {
@@ -102,20 +102,22 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
     }
 }
 
-class ShareLocationTableViewCell: UITableViewCell {
+class ShareLocationTableViewCell: UITableViewCell, GMSMapViewDelegate {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var profilePic: UIImageView?
     @IBOutlet weak var messageDateLbl: UILabel!
     @IBOutlet weak var profileBtn: UIButton!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var locNameLbl: UILabel!
+    
     
     var HandleUserProfileBtn: (() -> ())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        mapView.setCornerforTop()
     }
     
     override func layoutSubviews() {
@@ -130,5 +132,25 @@ class ShareLocationTableViewCell: UITableViewCell {
     
     @IBAction func profileBtn(_ sender: Any) {
         HandleUserProfileBtn?()
+    }
+}
+
+extension ShareLocationTableViewCell {
+    func setupGoogleMap(lat:Double,lng:Double) {
+        self.mapView.delegate = self
+        self.mapView.isMyLocationEnabled = true
+        self.mapView.isBuildingsEnabled = true
+        self.mapView.isIndoorEnabled = true
+        
+        let camera = GMSCameraPosition.camera(withLatitude: lat, longitude: lng, zoom: 17.0)
+        self.mapView.animate(to: camera)
+        self.setupMarker(for: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+    }
+
+    func setupMarker(for position:CLLocationCoordinate2D)  {
+        self.mapView.clear()
+        let marker = GMSMarker(position: position)
+        marker.icon = UIImage.init(named: "arrow_Select")
+        marker.map = mapView
     }
 }

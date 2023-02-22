@@ -301,7 +301,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     func setupSliderShow(_ cell: EventImageTableViewCell, _ model: EventObj?) {
-//        cell.imagesSlider.slideshowInterval = 5.0
+        //        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
@@ -310,7 +310,11 @@ class EventDetailsViewController: UIViewController {
         cell.imagesSlider.delegate = self
         
         //        imagesSlider.setImageInputs(localSource)
-        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        if model?.image != "" {
+            cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: placeholderString)!])
+        }else {
+            cell.imagesSlider.setImageInputs(placeholderLocalSource)
+        }
     }
     
     //change title for any btns

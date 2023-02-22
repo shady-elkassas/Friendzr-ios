@@ -68,6 +68,20 @@ class MessageFile {
     }
 }
 
+class MessageLocation {
+    var lat:Double = 0.0
+    var lng:Double = 0.0
+    var locationName:String = ""
+    
+    
+    init(lat:Double,lng:Double,locationName:String) {
+        self.lat = lat
+        self.lng = lng
+        self.locationName = locationName
+    }
+    
+}
+
 class SenderMessage {
     var senderId:String = ""
     var photoURL:String = ""
@@ -83,29 +97,30 @@ class SenderMessage {
 }
 
 class ChatMessage {
-    var messageId:String = ""
     var sender:SenderMessage
+    var messageId:String = ""
     var messageType:Int = 0
+    var date:Date = Date()
+    var messageDate:String = ""
+    var messageTime:String = ""
     var messageText:MessageText
     var messageImage:MessageImage
     var messageFile:MessageFile
     var messageLink:LinkPreviewEvent
-//    var senderType:String = ""
-    var date:Date = Date()
-    var messageDate:String = ""
-    var messageTime:String = ""
+    var messageLoc:MessageLocation
     
-    init(sender:SenderMessage,messageId:String,messageType:Int,messageText:MessageText,messageImage:MessageImage,messageFile:MessageFile,messageLink:LinkPreviewEvent,date:Date,messageDate:String,messageTime:String) {
+    init(sender:SenderMessage,messageId:String,messageType:Int,date:Date,messageDate:String,messageTime:String,messageText:MessageText? = MessageText(text: ""),messageImage:MessageImage? = MessageImage(image: "placeHolderApp") ,messageFile:MessageFile? = MessageFile(file: ""),messageLink:LinkPreviewEvent? = LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""),messageLoc:MessageLocation? = MessageLocation(lat: 0.0, lng: 0.0, locationName: "")) {
         self.sender = sender
         self.messageId = messageId
         self.messageType = messageType
-        self.messageText = messageText
-        self.messageImage = messageImage
-        self.messageFile = messageFile
-        self.messageLink = messageLink
         self.date = date
         self.messageDate = messageDate
         self.messageTime = messageTime
+        self.messageText = messageText ?? MessageText(text: "")
+        self.messageImage = messageImage ?? MessageImage(image: "placeHolderApp")
+        self.messageFile = messageFile ??  MessageFile(file: "")
+        self.messageLink = messageLink ?? LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: "")
+        self.messageLoc = messageLoc ?? MessageLocation(lat: 0.0, lng: 0.0, locationName: "")
     }
 }
 

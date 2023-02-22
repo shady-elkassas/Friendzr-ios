@@ -99,7 +99,8 @@ class EventsAroundMeObj: Mappable {
     var event_TypeColor:String = ""
     var eventMarkerImage:String? = ""
     var eventTypeName:String = ""
-
+    var eventId:String? = ""
+    
     required init?(map: Map) {
     }
     // Mappable
@@ -114,5 +115,6 @@ class EventsAroundMeObj: Mappable {
         event_TypeColor  <- map["event_TypeColor"]
         eventMarkerImage  <- map["eventMarkerImage"]
         eventTypeName  <- map["eventTypeName"]
+        eventId  <- map["eventId"]
     }
 }

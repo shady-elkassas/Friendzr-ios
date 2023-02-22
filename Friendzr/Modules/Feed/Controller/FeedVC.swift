@@ -179,10 +179,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
         
         setupViews()
-        
-        Defaults.availableVC = "FeedVC"
-        print("availableVC >> \(Defaults.availableVC)")
-        
+
         CancelRequest.currentTask = false
         
         hideShimmerViews()
@@ -245,6 +242,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        
+        Defaults.availableVC = "FeedVC"
+        print("availableVC >> \(Defaults.availableVC)")
         
         print("Reachability Summary")
         print("Status:", Network.reachability.status)
@@ -345,7 +345,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 if Defaults.availableVC == "FeedVC" {
                     DispatchQueue.main.async {
                         self?.hideView.isHidden = true
-                        
                     }
                     
                     DispatchQueue.main.async {
@@ -943,6 +942,8 @@ extension FeedVC:UITableViewDataSource {
             let model = viewmodel.feeds.value?.data?[indexPath.row]
             cell.model = model
             
+            statuskey(model, cell)
+
             if indexPath.row == 0 {
                 cell.upView.isHidden = false
             }else {
@@ -1026,7 +1027,6 @@ extension FeedVC:UITableViewDataSource {
                 }
             }
             
-            statuskey(model, cell)
             
             return cell
         }

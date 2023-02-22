@@ -15,7 +15,7 @@ import GoogleMobileAds
 import ListPlaceholder
 import Network
 import SDWebImage
-
+import AMShimmer
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -77,15 +77,15 @@ extension MapVC: HorizontalPaginationManagerDelegate {
 
 //MARK: - Create location
 class EventsLocation {
-    var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var typelocation:String = ""
-    var markerIcon:String = ""
-    var eventsCount:Int = 0
-    var markerId:String = ""
-    var isEvent:Bool = false
-    var peopleCount:Int = 0
-    var eventType:String = ""
-    var eventList:[EventObj]? = nil
+    var location:CLLocationCoordinate2D
+    var typelocation:String
+    var markerIcon:String
+    var eventsCount:Int
+    var markerId:String
+    var isEvent:Bool
+    var peopleCount:Int
+    var eventType:String
+    var eventList:[EventObj]?
     
     init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int,eventType:String,eventList:[EventObj]?) {
         self.location = location
@@ -97,6 +97,10 @@ class EventsLocation {
         self.peopleCount = peopleCount
         self.eventType = eventType
         self.eventList = eventList
+    }
+    
+    deinit {
+        print("EventsLocation is not here now")
     }
 }
 
@@ -147,6 +151,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var filterDialogueLbl: UILabel!
     @IBOutlet weak var nearByEventsDialogueLbl: UILabel!
     
+    @IBOutlet weak var eventsByLocationSuperView: UIView!
+    @IBOutlet weak var dismissEventsByLocationSuperView: UIButton!
+    @IBOutlet weak var eventsByLocationTableView: UITableView!
+    @IBOutlet weak var eventsByLocationSubView: UIView!
+    @IBOutlet weak var shimmerEventsByLocationView: UIView!
+    
     
     
     @IBOutlet weak var todayBtn: UIButton!
@@ -182,8 +192,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var catsviewmodel:AllCategoriesViewModel = AllCategoriesViewModel()
     let catsCellId = "TagCollectionViewCell"
     
-    var transparentView = UIView()
-    var eventsTableView = UITableView()
+//    var transparentView = UIView()
+//    var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
     var nearbyEventCellId = "NearbyEventsCollectionViewCell"
     
@@ -194,7 +204,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var isViewUp:Bool = false
     var bannerView2: GADBannerView!
     
-    var sliderEventList:[EventObj]? = nil
+//    var sliderEventList:[EventObj]? = []
     
     var catIDs:[String] = [String]()
     var catSelectedNames:[String] = [String]()
@@ -578,7 +588,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 iconMarker = "eventMarker_ic"
             }
             
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.eventTypeName, eventList: item.eventData))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.count ?? 0, markerId: (item.count ?? 0) == 1 ? item.eventId ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.eventTypeName, eventList: []))
         }
         
         DispatchQueue.main.async {
@@ -815,20 +825,23 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         searchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         //setup search tableView
-        tableDataSource = GMSAutocompleteTableDataSource()
-        tableDataSource.delegate = self
-        tableView = UITableView(frame: CGRect(x: 0, y:(self.screenSize.height) - (self.screenSize.height - 110), width: self.view.frame.size.width, height: self.view.frame.size.height))
-        tableView.delegate = tableDataSource
-        tableView.dataSource = tableDataSource
-        tableView.isHidden = true
-        view.addSubview(tableView)
+//        tableDataSource = GMSAutocompleteTableDataSource()
+//        tableDataSource.delegate = self
+//        tableView = UITableView(frame: CGRect(x: 0, y:(self.screenSize.height) - (self.screenSize.height - 110), width: self.view.frame.size.width, height: self.view.frame.size.height))
+//        tableView.delegate = tableDataSource
+//        tableView.dataSource = tableDataSource
+//        tableView.isHidden = true
+//        view.addSubview(tableView)
         
         //setup events tableView
-        eventsTableView.register(UINib(nibName: eventCellID, bundle: nil), forCellReuseIdentifier: eventCellID)
-        eventsTableView.isScrollEnabled = true
-        eventsTableView.separatorStyle = .none
-        eventsTableView.delegate = self
-        eventsTableView.dataSource = self
+        eventsByLocationSubView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        shimmerEventsByLocationView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        eventsByLocationTableView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        eventsByLocationTableView.register(UINib(nibName: eventCellID, bundle: nil), forCellReuseIdentifier: eventCellID)
+        eventsByLocationTableView.isScrollEnabled = true
+//        eventsByLocationTableView.separatorStyle = .none
+//        eventsByLocationTableView.delegate = self
+//        eventsByLocationTableView.dataSource = self
         
         collectionView.register(UINib(nibName: nearbyEventCellId, bundle: nil), forCellWithReuseIdentifier: nearbyEventCellId)
         catsCollectionView.register(UINib(nibName: catsCellId, bundle: nil), forCellWithReuseIdentifier: catsCellId)
@@ -913,12 +926,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             let lat = Double(Defaults.LocationLat) ?? 0.0
             let lng = Double(Defaults.LocationLng) ?? 0.0
             
-            mapView.camera = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom1)
-            CATransaction.begin()
-            CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
-            let city = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom2)
-            self.mapView.animate(to: city)
-            CATransaction.commit()
+            animationZooming(lat, lng, zoom1, zoom2)
             
             LocationZooming.locationLat = lat
             LocationZooming.locationLng = lng
@@ -962,36 +970,42 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //create up & down view events in location taped
-    func CreateSlideUpMenu() {
-        let widow = UIApplication.shared.keyWindow
-        
-        transparentView.backgroundColor = .black.withAlphaComponent(0.8)
-        transparentView.frame = self.view.frame
-        widow?.addSubview(transparentView)
-        
-        eventsTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height/2.05)
-        eventsTableView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
-        
-        widow?.addSubview(eventsTableView)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-        transparentView.addGestureRecognizer(tap)
-        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
-            self.transparentView.alpha = 0.5
-            self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height - self.screenSize.height/2.05, width: self.screenSize.width, height: self.screenSize.height/2.05)
-        }
-    }
+//    func CreateSlideUpMenu(_ pos: CLLocationCoordinate2D?) {
+//        let widowz = UIApplication.shared.keyWindow
+//        transparentView.backgroundColor = .black.withAlphaComponent(0.8)
+//        transparentView.frame = self.view.frame
+//        widowz?.addSubview(transparentView)
+//
+//        eventsTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height/2.05)
+//        eventsTableView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
+//
+//        widowz?.addSubview(eventsTableView)
+//
+//        DispatchQueue.main.async {
+//            self.getEventsByMarkerLocation(pos)
+//        }
+//
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+//        transparentView.addGestureRecognizer(tap)
+//
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
+//            self.transparentView.alpha = 0.5
+//            self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height - self.screenSize.height/2.05, width: self.screenSize.width, height: self.screenSize.height/2.05)
+//        }
+//    }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        // handling code
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
-            self.transparentView.alpha = 0.0
-            self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
-            
-            self.sliderEventList?.removeAll()
-        }
-    }
+//    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+//        // handling code
+////        DispatchQueue.main.async {
+////            self.sliderEventList?.removeAll()
+////            self.eventsTableView.reloadData()
+////        }
+//
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
+//            self.transparentView.alpha = 0.0
+//            self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
+//        }
+//    }
     
     //MARK: - Actions
     @IBAction func applyBtn(_ sender: Any) {
@@ -1263,6 +1277,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             setupFilterDateViews(didselect: "")
         }
     }
+    
+    @IBAction func dismissEventsByLocationSuperView(_ sender: Any) {
+        viewmodel.events.value?.removeAll()
+        self.eventsByLocationSuperView.isHidden = true
+        
+    }
 }
 
 //MARK: - GMSMap View Delegate
@@ -1292,16 +1312,20 @@ extension MapVC : GMSMapViewDelegate {
     }
     
     func getEventsByMarkerLocation(_ pos: CLLocationCoordinate2D?) {
-        viewmodel.getEventsByLoction(lat: (pos?.latitude ?? 0.0), lng: (pos?.longitude ?? 0.0))
+        self.shimmerEventsByLocationView.isHidden = false
+        AMShimmer.start(for: self.shimmerEventsByLocationView)
+        
+        viewmodel.getEventsByLoction(lat: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0, CatIds: catIDs, dateCriteria: dateTypeSelected, startDate: startDate, endDate: endDate)
         viewmodel.events.bind { [weak self] value in
-            
             DispatchQueue.main.async {
-                self?.eventsTableView.delegate = self
-                self?.eventsTableView.dataSource = self
-                self?.eventsTableView.reloadData()
-                
-                self?.sliderEventList = value
+                    self?.eventsByLocationTableView.delegate = self
+                    self?.eventsByLocationTableView.dataSource = self
+                    self?.eventsByLocationTableView.reloadData()
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                self?.shimmerEventsByLocationView.isHidden = true
+            })
         }
     }
     
@@ -1333,21 +1357,32 @@ extension MapVC : GMSMapViewDelegate {
                         }
                     }
                     else {
-                        for itm in self.locations {
-                            if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
-                                sliderEventList = itm.eventList
-                            }
-                        }
+//                        for itm in self.locations {
+//                            if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
+//                                sliderEventList = itm.eventList
+//                            }
+//                        }
+                        
+//                        DispatchQueue.main.async {
+//                            self.eventsTableView.delegate = self
+//                            self.eventsTableView.dataSource = self
+//                            self.eventsTableView.reloadData()
+//                        }
+                        
+//                        DispatchQueue.main.async {
+//                            self.getEventsByMarkerLocation(pos)
+//                        }
                         
                         DispatchQueue.main.async {
-                            self.eventsTableView.delegate = self
-                            self.eventsTableView.dataSource = self
-                            self.eventsTableView.reloadData()
+//                            self.CreateSlideUpMenu(pos)
+                            self.eventsByLocationSuperView.isHidden = false
+                            self.shimmerEventsByLocationView.isHidden = false
+                            self.viewmodel.events.value?.removeAll()
+                            
+                            DispatchQueue.main.async {
+                                self.getEventsByMarkerLocation(pos)
+                            }
                         }
-                        
-//                        self.getEventsByMarkerLocation(pos)
-                        
-                        self.CreateSlideUpMenu()
                     }
                 }
                 else {
@@ -1400,12 +1435,13 @@ extension MapVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if NetworkConected.internetConect {
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
-                self.transparentView.alpha = 0.0
-                self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
-            }
+//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
+//                self.eventsByLocationSuperView.alpha = 0.0
+//                self.eventsByLocationTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
+//            }
             
-            let model = sliderEventList?[indexPath.row]
+//            let model = sliderEventList?[indexPath.row]
+            let model = viewmodel.events.value?[indexPath.row]
             if Defaults.token != "" {
                 if model?.eventTypeName == "External" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
@@ -1537,12 +1573,12 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
                 let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
                 if index == indexPath.row {
                     if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
-                        animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
+                        animationZoomingMap(zoomIN: 22, zoomOUT: 12, lat: locitm.latitude, lng: locitm.longitude)
                     }
-                    else {
-                        self.mapView.clear()
-                        self.setupMarkers(model: self.locationsModel)
-                    }
+//                    else {
+//                        self.mapView.clear()
+//                        self.setupMarkers(model: self.locationsModel)
+//                    }
                 }
             }
         }
@@ -1589,19 +1625,17 @@ extension MapVC {
 
     }
     
-    func delay(seconds: Double, closure: @escaping () -> ()) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            closure()
-        }
+    func animationZooming(_ lat: Double, _ lng: Double, _ zoom1: Float, _ zoom2: Float) {
+        mapView.camera = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom1)
+        CATransaction.begin()
+        CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
+        let city = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom2)
+        self.mapView.animate(to: city)
+        CATransaction.commit()
     }
+    
     func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
-        let point = mapView.projection.point(for: CLLocationCoordinate2D(latitude: lat, longitude: lng))
-        let camera = mapView.projection.coordinate(for: point)
-        let position = GMSCameraUpdate.setTarget(camera)
-        
-        delay(seconds: 0.7) { () -> () in
-            self.mapView.animate(with: position)
-        }
+        animationZooming(lat, lng, zoomOUT, zoomIN)
         
         LocationZooming.locationLat = lat
         LocationZooming.locationLng = lng

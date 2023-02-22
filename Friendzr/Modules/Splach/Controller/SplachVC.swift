@@ -278,10 +278,10 @@ extension SplachVC {
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            //check  location permissions
-            //            self.checkLocationPermission()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//            //check  location permissions
+//            //            self.checkLocationPermission()
+//        }
     }
     
     

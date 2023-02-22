@@ -18,7 +18,6 @@ import FirebaseAuth
 import ImageSlideshow
 import SDWebImage
 
-let userPlaceHolderImage = [BundleImageSource(imageString: "userPlaceHolderImage")]
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
@@ -188,7 +187,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         imagesSlider.delegate = self
 
         if Defaults.Image != "" {
-            imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+            imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: placeholderString)!])
         }else {
             imagesSlider.setImageInputs(userPlaceHolderImage)
         }

@@ -540,7 +540,7 @@ extension RequestVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             cell.controlBtn.isHidden = true
             if RequestesType.type == 1 {
-                cell.titleLbl.text = "You don’t have any new connection requests. \nSee who else is online over on your Feed"
+                cell.titleLbl.text = "You haven’t sent any requests yet. \nHead to Feed to see who is online, \nand get connecting!"
             }else {
                 cell.titleLbl.text = "You don’t have any pending connection requests. \nHead to your Feed and start up a new chat"
             }

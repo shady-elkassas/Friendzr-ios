@@ -36,7 +36,7 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlI-up-JSS" customClass="ImageSlideshow" customModule="ImageSlideshow">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="244"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="BGColor"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04O-Eo-7yU">
                                 <rect key="frame" x="279.5" y="0.0" width="40.5" height="244"/>
@@ -172,8 +172,11 @@
     <resources>
         <image name="next-page_ic" width="40.5" height="40.5"/>
         <image name="previous-page_ic" width="40.5" height="40.5"/>
+        <namedColor name="BGColor">
+            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="primaryColor">
-            <color red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

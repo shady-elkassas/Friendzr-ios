@@ -26,8 +26,9 @@ class EventsAroundMeViewModel {
         var url = URLs.baseURLFirst + "Public/EventsAroundMe"
         
         if Defaults.token != "" {
-            url = URLs.baseURLFirst + "Events/EventsAroundUser"
+            url = URLs.baseURLFirst + "Events/EventsDataAroundUser"
         }
+        
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         var params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng]
         
@@ -135,11 +136,33 @@ class EventsAroundMeViewModel {
         }
     }
     
-    func getEventsByLoction(lat:Double,lng:Double) {
+    func getEventsByLoction(lat:Double,lng:Double,CatIds catIDs: [String],dateCriteria:String,startDate:String,endDate:String) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Events/locationEvente"
+        let url = URLs.baseURLFirst + "Events/EventsByLocation"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":lat,"lang":lng]
+        var params:[String:Any] = ["lat":lat,"lang":lng]
+        
+        if catIDs.count != 0 {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":lat,"lang":lng,"categories": catIDs,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":lat,"lang":lng,"categories": catIDs,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }else {
+                params = ["lat":lat,"lang":lng,"categories": catIDs]
+            }
+        }
+        else {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":lat,"lang":lng,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":lat,"lang":lng,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }
+        }
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsListByLocationModel>().map(JSON: data!) else {

@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.startMonitoringSignificantLocationChanges()
         
         // Uncomment following code to enable fake visits
-        locationManager.distanceFilter = 500 // meter
+        locationManager.distanceFilter = 0.1 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
         //        locationManager.startUpdatingLocation()  // 2
         //        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
@@ -1099,6 +1099,17 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
+//        else if action == "inbox_chat" {
+//            Router().toInbox()
+//        }
+//        else if action == "Friend_Requests" {
+//            Router().toResquests()
+//        }
+//        else if action == "complete_profile" {
+//            if Defaults.token != "" {
+//                Router().toEditProfileVC(needUpdate: true)
+//            }
+//        }
         else {
             print("fail")
             if body?.contains("events by date") == true {
