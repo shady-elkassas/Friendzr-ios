@@ -143,21 +143,21 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     }
     
     
-    func recordScreenView() {
-        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
-        
-        let screenName = Defaults.availableVC
-        let screenClass = classForCoder.description()
-        
-        // [START set_current_screen]
-        Analytics.logEvent(AnalyticsEventScreenView,
-                           parameters: [AnalyticsParameterScreenName: screenName,
-                                       AnalyticsParameterScreenClass: screenClass])
-        // [END set_current_screen]
-        
-        print("screenName = \(screenName)")
-        print("screenClass = \(screenClass)")
-    }
+//    func recordScreenView() {
+//        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
+//
+//        let screenName = Defaults.availableVC
+//        let screenClass = classForCoder.description()
+//
+//        // [START set_current_screen]
+//        Analytics.logEvent(AnalyticsEventScreenView,
+//                           parameters: [AnalyticsParameterScreenName: screenName,
+//                                       AnalyticsParameterScreenClass: screenClass])
+//        // [END set_current_screen]
+//
+//        print("screenName = \(screenName)")
+//        print("screenClass = \(screenClass)")
+//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         CancelRequest.currentTask = true

@@ -73,7 +73,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     
     //MARK: - Properties
     let cellID1 = "FriendsCommunityCollectionViewCell"
-//    let cellID1 = "NewFriendsCommunityCollectionViewCell"
     let cellID2 = "RecommendedEventCollectionViewCell"
     let cellID3 = "RecentlyConnectedCollectionViewCell"
     let catsCellId = "TagCollectionViewCell"
@@ -318,7 +317,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                 self?.eventCollectionView.delegate = self
                 self?.eventCollectionView.dataSource = self
                 self?.eventCollectionView.reloadData()
-                
+
                 DispatchQueue.main.async {
                     self?.hideView2.isHidden = true
                     self?.emptyView2.isHidden = true
@@ -434,6 +433,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     //MARK: - Actions
     
     @IBAction func tryAgainBtn(_ sender: Any) {
+        self.isBtnSelected = false
         updateUserInterface()
     }
     
@@ -483,11 +483,15 @@ extension CommunityVC:UICollectionViewDataSource {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             
-            cell.HandleSkipBtn = {
-                self.isBtnSelected = true
-                Defaults.bannerAdsCount1 += 1
-                self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-            }
+//            cell.HandleSkipBtn = {
+//                cell.skipBtn.flash()
+//
+//                self.isBtnSelected = true
+//                Defaults.bannerAdsCount1 += 1
+//                self.getRecommendedPeopleBy(userID: model?.userId ?? "")
+//            }
+            
+            cell.skipBtnView.delegate = self
             
             cell.HandleSendRequestBtn = {
                 self.isBtnSelected = true
@@ -524,6 +528,8 @@ extension CommunityVC:UICollectionViewDataSource {
                 self.getRecommendedEventBy(eventID: model?.eventId ?? "")
             }
                         
+//            cell.skipBtnView.delegate = self
+            
             cell.HandleExpandBtn = {
                 if model?.eventtype == "External" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
@@ -722,5 +728,14 @@ extension CommunityVC:GADBannerViewDelegate {
     
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("bannerViewDidDismissScreen")
+    }
+}
+
+
+extension CommunityVC : ViewDidclicked {
+    func viewTapped() {
+        self.isBtnSelected = true
+        let model = recommendedPeopleViewModel.recommendedPeople.value
+        self.getRecommendedPeopleBy(userID: model?.userId ?? "")
     }
 }

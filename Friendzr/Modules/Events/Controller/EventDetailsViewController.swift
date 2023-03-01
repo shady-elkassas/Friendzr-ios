@@ -778,7 +778,7 @@ extension EventDetailsViewController {
             guard let _ = data else {return}
             DispatchQueue.main.async {
                 if self.selectedVC {
-                    Router().toHome()
+                    Router().toInbox()
                 }else {
                     self.onPopup()
                 }

@@ -18,6 +18,9 @@ class InterestsModel: Mappable {
     
     required init?(map: Map) {
     }
+    
+    init() {
+    }
     // Mappable
     func mapping(map: Map) {
         data    <- map["model"]

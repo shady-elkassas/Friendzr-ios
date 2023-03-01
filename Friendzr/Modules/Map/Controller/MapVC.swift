@@ -187,7 +187,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
-    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+//    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var locationsModel:EventsAroundMeDataModel = EventsAroundMeDataModel()
     var catsviewmodel:AllCategoriesViewModel = AllCategoriesViewModel()
     let catsCellId = "TagCollectionViewCell"

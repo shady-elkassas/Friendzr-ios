@@ -20,8 +20,8 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var attendeesLbl: UILabel!
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var openEventBtn: UIButton!
-    
     @IBOutlet weak var skipBtnView: UIView!
+    
     var HandleExpandBtn: (()->())?
     var HandleSkipBtn: (()->())?
 

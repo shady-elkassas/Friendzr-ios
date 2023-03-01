@@ -19,8 +19,6 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sendRequestBtn: UIButton!
     @IBOutlet weak var milesLbl: UILabel!
     @IBOutlet weak var imageBtn: UIButton!
-    @IBOutlet weak var skipBtnView: UIView!
-    @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var cancelRequestBtn: UIButton!
     @IBOutlet weak var tagsView: TagListView!
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
@@ -28,7 +26,9 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var seemoreBtn: UIButton!
     @IBOutlet weak var viewProfileFromTagsBtn: UIButton!
     @IBOutlet weak var imageIsVerifiedImg: UIImageView!
-    
+    @IBOutlet weak var imageWidthLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var skipBtnView: CustomClickableView!
+
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
     var HandleCancelRequestBtn: (()->())?
@@ -38,7 +38,6 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     var model:RecommendedPeopleObj! {
         didSet {
             nameTitleLbl.text = model?.name
-            
             let kmNum:Double = (model?.distanceFromYou ?? 0) * 1.60934 //convert miles to kms
             milesLbl.text = "\(kmNum.rounded(toPlaces: 1)) km from you"
             interestMatchLbl.text = "\(Int(model?.interestMatchPercent ?? 0.0)) % interest match"
@@ -66,7 +65,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
                     tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter())
                 }
             }
-        }
+        }        
     }
     
     override func awakeFromNib() {

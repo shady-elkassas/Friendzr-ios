@@ -312,9 +312,9 @@ extension NotificationsVC: UITableViewDelegate {
         btnsSelect = true
         if NetworkConected.internetConect {
             if viewmodel.notifications.value?.data?.count != 0 {
-                
+
                 let model = viewmodel.notifications.value?.data?[indexPath.row]
-                
+
                 if model?.action == "Friend_Request" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
@@ -356,22 +356,29 @@ extension NotificationsVC: UITableViewDelegate {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
                 else if model?.action == "Joined_ChatGroup" {
-                    Router().toHome()
+                    Router().toInbox()
                 }
                 else if model?.action == "Kickedout_ChatGroup" {
-                    Router().toHome()
+                    Router().toInbox()
                 }
-                else {
-//                    if model?.body ==
-//                    if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
-//                       let tabBarController = rootViewController as? UITabBarController,
-//                       let navController = tabBarController.selectedViewController as? UINavigationController {
-//                        vc.checkoutName = "eventFilter"
-//                        Defaults.availableVC = ""
-//                        Defaults.isDeeplinkClicked = false
-//                        navController.pushViewController(vc, animated: true)
-//                    }
+                else if model?.action == "Inbox_chat" {
+                    Router().toInbox()
                 }
+                else if model?.action == "Friend_Requests" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Request, AndContollerID: "RequestVC") as? RequestVC else { return}
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                else if model?.action == "Private_mode" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Request, AndContollerID: "SettingsVC") as? SettingsVC else { return}
+                    vc.checkoutName = "privateMode"
+                    Defaults.isDeeplinkClicked = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                else if model?.action == "Edit_profile" {
+                    self.view.makeToast("Your account is already completed.")
+                }
+//                else {
+//                }
             }
         }
     }

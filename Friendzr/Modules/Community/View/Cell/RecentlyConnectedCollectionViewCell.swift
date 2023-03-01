@@ -23,7 +23,7 @@ class RecentlyConnectedCollectionViewCell: UICollectionViewCell {
             userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             userNameLbl.text = model?.name
             connectedDateLbl.text = "Connected: \(model?.date ?? "")"
-            if model.imageIsVerified {
+            if model.imageIsVerified  {
                 imageIsVerifiedImg.isHidden = true
             }else {
                 imageIsVerifiedImg.isHidden = true

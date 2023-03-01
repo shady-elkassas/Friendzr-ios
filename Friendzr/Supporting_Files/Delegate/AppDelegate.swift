@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.startMonitoringSignificantLocationChanges()
         
         // Uncomment following code to enable fake visits
-        locationManager.distanceFilter = 0.1 // meter
+        locationManager.distanceFilter = 500 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
         //        locationManager.startUpdatingLocation()  // 2
         //        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
@@ -1046,10 +1046,10 @@ extension AppDelegate {
             }
         }
         else if action == "Joined_ChatGroup" && !Defaults.isWhiteLable && NetworkConected.internetConect {
-            Router().toHome()
+            Router().toInbox()
         }
         else if action == "Kickedout_ChatGroup" && !Defaults.isWhiteLable && NetworkConected.internetConect  {
-            Router().toHome()
+            Router().toInbox()
         }
         else if action == "event_Updated" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
@@ -1099,19 +1099,37 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-//        else if action == "inbox_chat" {
-//            Router().toInbox()
-//        }
-//        else if action == "Friend_Requests" {
-//            Router().toResquests()
-//        }
-//        else if action == "complete_profile" {
-//            if Defaults.token != "" {
-//                Router().toEditProfileVC(needUpdate: true)
-//            }
-//        }
+        else if action == "Private_mode" {
+            if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""{
+                if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = "privateMode"
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        else if action == "Inbox_chat" {
+            if NetworkConected.internetConect && Defaults.token != ""{
+                Router().toInbox()
+            }
+        }
+        else if action == "Friend_Requests" {
+            if !Defaults.isWhiteLable && NetworkConected.internetConect && Defaults.token != ""{
+                if let vc = UIViewController.viewController(withStoryboard: .Request, AndContollerID: "RequestVC") as? RequestVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        else if action == "Edit_profile" {
+            if Defaults.token != "" && NetworkConected.internetConect && Defaults.needUpdate == 1 {
+                Router().toEditProfileVC(needUpdate: true)
+            }
+        }
         else {
-            print("fail")
             if body?.contains("events by date") == true {
                 if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                    let tabBarController = rootViewController as? UITabBarController,

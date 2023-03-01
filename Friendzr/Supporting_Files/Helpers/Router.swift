@@ -54,12 +54,6 @@ class Router {
         go(withVC: nextVC)
     }
     
-    func toHome()  {
-        let id = "MainTBC"
-        guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UIViewController else { return}
-        go(withVC: nextVC)
-    }
-    
     func toSplach()  {
         let id = "SplachNC"
         let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)

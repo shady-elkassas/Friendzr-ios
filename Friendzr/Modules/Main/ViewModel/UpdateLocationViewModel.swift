@@ -44,23 +44,8 @@ class UpdateLocationViewModel {
     }
     
     func initProfileCash(user:ProfileObj) {
-        Defaults.userName = user.userName
-        Defaults.Email = user.email
-        Defaults.Image = user.userImage
-        Defaults.displayedUserName = user.displayedUserName
-        Defaults.bio = user.bio
-        Defaults.gender = user.gender
-        Defaults.birthdate = user.birthdate
-        Defaults.facebook = user.facebook
-        Defaults.instagram = user.instagram
-        Defaults.snapchat = user.snapchat
-        Defaults.tiktok = user.tiktok
-        Defaults.key = user.key
         Defaults.LocationLng = user.lang
         Defaults.LocationLat = user.lat
-        Defaults.OtherGenderName = user.otherGenderName
-        Defaults.age = user.age
-        Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
@@ -68,10 +53,5 @@ class UpdateLocationViewModel {
         Defaults.imageIsVerified = user.imageIsVerified
         
         UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
-        
-        Defaults.interestIds.removeAll()
-        for itm in user.listoftagsmodel ?? [] {
-            Defaults.interestIds.append(itm.tagID)
-        }
     }
 }

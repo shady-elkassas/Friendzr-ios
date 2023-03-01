@@ -192,8 +192,6 @@
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
 		4372CCAF281C653F002F9B00 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCAE281C653F002F9B00 /* AdSupport.framework */; };
 		4372CCB1281C6555002F9B00 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */; };
-		437703BC28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */; };
-		437703BD28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
@@ -308,10 +306,13 @@
 		43C0E19127FDB97500555023 /* ExternalEventWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E19027FDB97500555023 /* ExternalEventWebView.swift */; };
 		43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 43C342F22871BDC500577F19 /* Friendzrlogomark.gif */; };
 		43C551C12994F627007EF092 /* Extension + EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C551C02994F627007EF092 /* Extension + EditProfileVC.swift */; };
+		43C551C3299513CE007EF092 /* ForgetAddPictureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C551C2299513CE007EF092 /* ForgetAddPictureVC.swift */; };
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
 		43C682A7291381CB003ADFAC /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
+		43C7EF1E29AF40F80072E342 /* CustomClickableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7EF1D29AF40F80072E342 /* CustomClickableView.swift */; };
+		43C7EF2029AF46A60072E342 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7EF1F29AF46A60072E342 /* UIButtonExtension.swift */; };
 		43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */; };
 		43C97DE8279D7DA100D87CBE /* FaceRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */; };
 		43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE927A04CF300D87CBE /* MainTBC.swift */; };
@@ -628,8 +629,6 @@
 		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
 		4372CCAE281C653F002F9B00 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
-		437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFriendsCommunityCollectionViewCell.swift; sourceTree = "<group>"; };
-		437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewFriendsCommunityCollectionViewCell.xib; sourceTree = "<group>"; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
@@ -752,6 +751,8 @@
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		43C7EF1D29AF40F80072E342 /* CustomClickableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomClickableView.swift; sourceTree = "<group>"; };
+		43C7EF1F29AF46A60072E342 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewModel.swift; sourceTree = "<group>"; };
 		43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionModel.swift; sourceTree = "<group>"; };
 		43C97DE927A04CF300D87CBE /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
@@ -1298,8 +1299,6 @@
 				434DAC8228B635D500A25DB0 /* RecommendedEventCollectionViewCell.xib */,
 				43A350DE28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift */,
 				43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */,
-				437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */,
-				437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1686,6 +1685,7 @@
 				4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */,
 				4327C66927AE932C0011963D /* ExtensionUIDevice.swift */,
 				4303F1EE27F1CC5000221E01 /* AttributedLabel.swift */,
+				43C7EF1F29AF46A60072E342 /* UIButtonExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1973,6 +1973,7 @@
 				43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */,
 				4351F526295D7DD900F2B379 /* KeyChain.swift */,
 				433862CE2977D82C00432EA1 /* ImageSaver.swift */,
+				43C7EF1D29AF40F80072E342 /* CustomClickableView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2222,7 +2223,6 @@
 				43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */,
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
-				437703BD28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib in Resources */,
 				439914822923B68D004291DA /* afdevkey.plist in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */,
@@ -2353,7 +2353,6 @@
 			files = (
 				43ACFEBB27B3B065001CD340 /* EventDetailsViewController.swift in Sources */,
 				433862CF2977D82C00432EA1 /* ImageSaver.swift in Sources */,
-				437703BC28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift in Sources */,
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
 				43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */,
 				43BA37992700A121003F28FA /* Reachability.swift in Sources */,
@@ -2492,6 +2491,7 @@
 				43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */,
 				43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */,
 				43D527EC2834FF260002FC64 /* MessagesManager.swift in Sources */,
+				43C7EF2029AF46A60072E342 /* UIButtonExtension.swift in Sources */,
 				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
 				4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
@@ -2617,6 +2617,7 @@
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
 				434DAC8328B635D500A25DB0 /* RecommendedEventCollectionViewCell.swift in Sources */,
+				43C7EF1E29AF40F80072E342 /* CustomClickableView.swift in Sources */,
 				43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */,
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
@@ -3078,7 +3079,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.33;
+				MARKETING_VERSION = 1.2.35;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3118,7 +3119,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.33;
+				MARKETING_VERSION = 1.2.35;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

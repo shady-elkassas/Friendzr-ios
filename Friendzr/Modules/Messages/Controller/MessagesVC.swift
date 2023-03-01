@@ -36,7 +36,6 @@ class MessagesVC: UIViewController {
     
     
     let currentSender = SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName, isWhitelabel: Defaults.isWhiteLable)
-    let senderNotificationMessage = SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel)
 
     var bottomInset: CGFloat {
         return view.safeAreaInsets.bottom + 50
@@ -1141,7 +1140,7 @@ extension MessagesVC {
         DispatchQueue.main.async {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                Router().toHome()
+                Router().toInbox()
             })
         }
     }
@@ -1528,7 +1527,7 @@ extension MessagesVC {
                     return
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
+                    Router().toInbox()
                 }
             }
             
@@ -1570,7 +1569,7 @@ extension MessagesVC {
                 print(message)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
+                    Router().toInbox()
                 }
             }
             
@@ -1611,7 +1610,7 @@ extension MessagesVC {
                 guard let _ = message else {return}
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
+                    Router().toInbox()
                 }
             }
             // handling code
@@ -1633,16 +1632,16 @@ extension MessagesVC {
 extension MessagesVC {
     func extractedNotificationMessage() {
         if NotificationMessage.messageType == 1 {
-            self.insertMessage(ChatMessage(sender: senderNotificationMessage, messageId: NotificationMessage.messageId, messageType: NotificationMessage.messageType, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageText: MessageText(text: NotificationMessage.messageText)))
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: NotificationMessage.messageType, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageText: MessageText(text: NotificationMessage.messageText)))
         }
         else if NotificationMessage.messageType == 2 {
-            self.insertMessage(ChatMessage(sender: senderNotificationMessage, messageId: NotificationMessage.messageId, messageType: 2, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageImage: MessageImage(image: NotificationMessage.messsageImageURL)))
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: 2, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageImage: MessageImage(image: NotificationMessage.messsageImageURL)))
         }
         else if NotificationMessage.messageType == 3 {
-            self.insertMessage(ChatMessage(sender: senderNotificationMessage, messageId: NotificationMessage.messageId, messageType: 3, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageFile: MessageFile(file: NotificationMessage.messsageImageURL)))
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: 3, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageFile: MessageFile(file: NotificationMessage.messsageImageURL)))
         }
         else if NotificationMessage.messageType == 4 {
-            self.insertMessage(ChatMessage(sender: senderNotificationMessage, messageId: NotificationMessage.messageId, messageType: 4, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID)))
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: 4, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID)))
         }
     }
     

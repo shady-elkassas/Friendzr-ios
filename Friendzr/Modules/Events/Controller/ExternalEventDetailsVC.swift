@@ -765,7 +765,7 @@ extension ExternalEventDetailsVC {
             
             DispatchQueue.main.async {
                 if self.selectedVC {
-                    Router().toHome()
+                    Router().toInbox()
                 }else {
                     self.onPopup()
                 }

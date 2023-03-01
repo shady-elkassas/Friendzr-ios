@@ -236,11 +236,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.allowLocView.isHidden = false
             }
             
-            DispatchQueue.main.async {
-                if Defaults.token != "" {
-                    self.updateMyLocation()
-                }
-            }
+//            DispatchQueue.main.async {
+//                if Defaults.token != "" {
+//                    self.updateMyLocation()
+//                }
+//            }
         }
         
         Defaults.availableVC = "FeedVC"
@@ -464,7 +464,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             guard let data = data else {return}
             Defaults.LocationLat = data.lat
             Defaults.LocationLng = data.lang
-            Defaults.Image = data.userImage
+//            Defaults.Image = data.userImage
             Defaults.frindRequestNumber = data.frindRequestNumber
             
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)

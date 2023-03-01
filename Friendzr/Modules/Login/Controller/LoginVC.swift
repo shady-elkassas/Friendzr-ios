@@ -87,13 +87,15 @@ class LoginVC: UIViewController {
         recordScreenView()
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
         
-        if Defaults.isDeeplinkDirectionalLogin {
-//            initBackToFeedButton()
-            Defaults.isDeeplinkDirectionalLogin = false
-        }
-        else{
+//        if Defaults.isDeeplinkDirectionalLogin {
+////            initBackToFeedButton()
+//            Defaults.isDeeplinkDirectionalLogin = false
+//        }
+//        else{
 //            initBackButton()
-        }
+//        }
+        
+        initBackButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

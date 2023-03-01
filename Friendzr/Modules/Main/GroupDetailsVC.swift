@@ -390,7 +390,7 @@ extension GroupDetailsVC {
                 return
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                Router().toHome()
+                Router().toInbox()
             }
         }
     }
@@ -413,7 +413,7 @@ extension GroupDetailsVC {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                Router().toHome()
+                Router().toInbox()
             }
         }
     }

@@ -291,7 +291,7 @@ class AddGroupVC: UIViewController {
                 
                 guard let _ = data else {return}
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                    Router().toHome()
+                    Router().toInbox()
                 }
             }
         }
