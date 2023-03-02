@@ -60,7 +60,7 @@ class NotificationsVC: UIViewController {
         CancelRequest.currentTask = false
         
         Defaults.notificationcount = 0
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
@@ -73,7 +73,7 @@ class NotificationsVC: UIViewController {
         CancelRequest.currentTask = true
         
         Defaults.notificationcount = 0
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
     }

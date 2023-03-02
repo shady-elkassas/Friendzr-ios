@@ -20,29 +20,29 @@ class MainTBC: UITabBarController {
 
         if Defaults.frindRequestNumber > 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }else {
             Defaults.frindRequestNumber = 0
             self.tabBar.items![3].badgeValue = nil
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }
         
         if Defaults.notificationcount > 0 {
             self.tabBar.items![4].badgeValue = "\(Defaults.notificationcount)"
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }else {
             Defaults.notificationcount = 0
             self.tabBar.items![4].badgeValue = nil
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }
         
         if Defaults.message_Count > 0 {
             self.tabBar.items![0].badgeValue = "\(Defaults.message_Count)"
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }else {
             Defaults.message_Count = 0
             self.tabBar.items![0].badgeValue = nil
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
         }
     }
     
@@ -56,7 +56,7 @@ class MainTBC: UITabBarController {
 
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
     }
     
     @objc func updatebadgeMore() {
@@ -67,7 +67,7 @@ class MainTBC: UITabBarController {
             self.tabBar.items![4].badgeValue = nil
         }
         
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
     }
     
     @objc func updatebadgeInbox() {
@@ -78,7 +78,7 @@ class MainTBC: UITabBarController {
             self.tabBar.items![0].badgeValue = nil
         }
         
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
     }
 }
 

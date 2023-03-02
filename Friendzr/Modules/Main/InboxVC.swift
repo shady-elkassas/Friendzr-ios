@@ -1045,7 +1045,7 @@ extension InboxVC {
             CancelRequest.currentTask = false
             
             Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
-            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
             self.navigationController?.pushViewController(vc, animated: true)
         }

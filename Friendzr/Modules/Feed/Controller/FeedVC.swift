@@ -236,11 +236,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.allowLocView.isHidden = false
             }
             
-//            DispatchQueue.main.async {
-//                if Defaults.token != "" {
-//                    self.updateMyLocation()
-//                }
-//            }
+            DispatchQueue.main.async {
+                if Defaults.token != "" {
+                    self.updateMyLocation()
+                }
+            }
         }
         
         Defaults.availableVC = "FeedVC"

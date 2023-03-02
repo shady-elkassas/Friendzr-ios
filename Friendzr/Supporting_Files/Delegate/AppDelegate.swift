@@ -169,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if (deepLinkFromAppClip()) {
 //            NSLog("[AFSDK] Deep linking originated from app clip")
 //        }
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
 
         return true
     }
@@ -783,7 +783,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 guard let _ = data else {return}
                 Defaults.LocationLat = "\(location.latitude)"
                 Defaults.LocationLng = "\(location.longitude)"
-                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
             }
         }else {
             Defaults.LocationLat = "\(location.latitude)"
@@ -1149,12 +1149,14 @@ extension AppDelegate {
 
         if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
         }
         else if action == "Accept_Friend_Request" {
             if Defaults.frindRequestNumber != 0 {
                 Defaults.frindRequestNumber -= 1
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -1162,6 +1164,7 @@ extension AppDelegate {
         else if action == "Friend_request_cancelled" {
             if Defaults.frindRequestNumber != 0 {
                 Defaults.frindRequestNumber -= 1
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -1246,7 +1249,7 @@ extension AppDelegate {
             if Defaults.availableVC != "MessagesVC" || Defaults.ConversationID != actionId {
                 
                 Defaults.message_Count += 1
-                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {

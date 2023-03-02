@@ -52,6 +52,6 @@ class UpdateLocationViewModel {
         Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.imageIsVerified = user.imageIsVerified
         
-        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
     }
 }

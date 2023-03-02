@@ -338,11 +338,11 @@ extension MoreVC : UITableViewDataSource {
         if indexPath.row == 2 {
             if Defaults.notificationcount == 0 {
                 cell.badgeView.isHidden = true
-                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
             }
             else {
                 cell.badgeLbl.text = "\(Defaults.notificationcount)"
-                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
                 cell.badgeView.isHidden = false
             }
         }
@@ -382,7 +382,7 @@ extension MoreVC : UITableViewDelegate {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 Defaults.notificationcount = 0
-                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount + Defaults.frindRequestNumber
                 self.tableView.reloadData()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
