@@ -195,7 +195,7 @@ class EventDetailsViewController: UIViewController {
                         if value.eventTypeName == "adminExternal" {
                             self?.title = "External Event"
                         }else {
-                            self?.title = value.eventTypeName + " Event"
+                            self?.title = value.eventtype + " Event"
                         }
                     }
                     
@@ -447,7 +447,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             if model?.eventTypeName == "adminExternal" {
                 if model?.descriptionEvent != "" {
-                    if (model?.descriptionEvent?.count ?? 0) > 180 {
+                    if (model?.descriptionEvent?.count ?? 0) > 140 {
                         DispatchQueue.main.async {
                             cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
                         }
@@ -556,7 +556,7 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
 //        }
 //        else
         if indexPath.row == 3 {
-            if model?.eventTypeName == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 180 {
+            if model?.eventTypeName == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 140 {
                 guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
                 popupVC.modalPresentationStyle = .overCurrentContext
                 popupVC.modalTransitionStyle = .crossDissolve

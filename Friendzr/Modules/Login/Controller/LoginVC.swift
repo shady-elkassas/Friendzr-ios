@@ -137,6 +137,7 @@ class LoginVC: UIViewController {
     }
     
     func loginUser() {
+        print("\(emailTxt.text!),\(passwordTxt.text!)")
         loginVM.LoginUser(withEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
             self.hideLoading()
             if let error = error {

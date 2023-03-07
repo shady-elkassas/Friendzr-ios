@@ -72,6 +72,8 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     
     
     //MARK: - Properties
+    lazy var sendRequestMessageView = Bundle.main.loadNibNamed("SendMessageWithSendRequestView", owner: self, options: nil)?.first as? SendMessageWithSendRequestView
+
     let cellID1 = "FriendsCommunityCollectionViewCell"
     let cellID2 = "RecommendedEventCollectionViewCell"
     let cellID3 = "RecentlyConnectedCollectionViewCell"
@@ -430,6 +432,40 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     }
     
     
+    func sendFriendRequestWithMessage(_ model: RecommendedPeopleObj?, _ requestdate:String, _ cell: FriendsCommunityCollectionViewCell) {
+        self.sendRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        self.sendRequestMessageView?.HandleSendBtn = {
+            print("Send")
+            self.sendRequest(cell, model, requestdate,self.sendRequestMessageView?.messageTxtView.text ?? "")
+        }
+        
+        self.view.addSubview((self.sendRequestMessageView)!)
+    }
+    
+    func sendRequest(_ cell:FriendsCommunityCollectionViewCell, _ model:RecommendedPeopleObj?, _ actionDate:String,_ message:String) {
+        self.isBtnSelected = true
+        Defaults.bannerAdsCount1 += 1
+        self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true, requestdate: actionDate,message: message) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            DispatchQueue.main.async {
+                self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request".localizedString)
+            }
+            
+            DispatchQueue.main.async {
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "")
+            }
+        }
+    }
+    
     //MARK: - Actions
     
     @IBAction func tryAgainBtn(_ sender: Any) {
@@ -467,6 +503,8 @@ extension CommunityVC:UICollectionViewDataSource {
         }
     }
     
+
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == friendsCommunityCollectionView {
             guard let cell = friendsCommunityCollectionView.dequeueReusableCell(withReuseIdentifier: cellID1, for: indexPath) as? FriendsCommunityCollectionViewCell else {return UICollectionViewCell()}
@@ -494,26 +532,7 @@ extension CommunityVC:UICollectionViewDataSource {
             cell.skipBtnView.delegate = self
             
             cell.HandleSendRequestBtn = {
-                self.isBtnSelected = true
-                Defaults.bannerAdsCount1 += 1
-                self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true, requestdate: actionDate) { error, message in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = message else {return}
-                    DispatchQueue.main.async {
-                        self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request".localizedString)
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-                    }
-                }
+                self.sendFriendRequestWithMessage(model, actionDate, cell)
             }
             return cell
         }

@@ -305,7 +305,7 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.reloadData()
         
-        settingsViewHeight.constant = CGFloat(8 * 50)
+        settingsViewHeight.constant = CGFloat(7 * 50)
         Defaults.myAppearanceTypes = model?.myAppearanceTypes ?? []
         Defaults.ghostMode = model?.ghostmode ?? false
         Defaults.pushnotification = model?.pushnotification ?? false
@@ -562,7 +562,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 7
     }
     
     
@@ -840,31 +840,31 @@ extension SettingsVC: UITableViewDataSource {
             //
             //            return cell
             
-        case 2://Personal Space
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            
-            if model?.personalSpace == true {
-                cell.switchBtn.isOn = true
-            }else {
-                cell.switchBtn.isOn = false
-            }
-            
-            cell.titleLbl.text = "Personal Space".localizedString
-            cell.settingIcon.image = UIImage(named: "personal-space_ic")
-            
-            if checkoutName == "personalSpace" {
-                self.handlePersonalSpaceSwitchBtn()
-                self.checkoutName = ""
-            }
-            
-            cell.HandleSwitchBtn = {
-                self.handlePersonalSpaceSwitchBtn()
-            }
-            
-            cell.ghostModeTypeLbl.isHidden = true
-            return cell
-            
-        case 3://manual distance
+//        case 2://Personal Space
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
+//
+//            if model?.personalSpace == true {
+//                cell.switchBtn.isOn = true
+//            }else {
+//                cell.switchBtn.isOn = false
+//            }
+//
+//            cell.titleLbl.text = "Personal Space".localizedString
+//            cell.settingIcon.image = UIImage(named: "personal-space_ic")
+//
+//            if checkoutName == "personalSpace" {
+//                self.handlePersonalSpaceSwitchBtn()
+//                self.checkoutName = ""
+//            }
+//
+//            cell.HandleSwitchBtn = {
+//                self.handlePersonalSpaceSwitchBtn()
+//            }
+//
+//            cell.ghostModeTypeLbl.isHidden = true
+//            return cell
+//
+        case 2://manual distance
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Distance Filter".localizedString
             cell.settingIcon.image = UIImage(named: "manaualDistanceControl_ic")
@@ -891,7 +891,7 @@ extension SettingsVC: UITableViewDataSource {
             
             return cell
             
-        case 4://filtring age
+        case 3://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             
             if model?.filteringaccordingtoage == true {
@@ -918,12 +918,12 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.ghostModeTypeLbl.isHidden = true
             return cell
-        case 5://change password
+        case 4://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password".localizedString
             cell.iconImg.image = UIImage(named: "changePassword_ic")
             return cell
-        case 6://block list
+        case 5://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Block List".localizedString
             cell.iconImg.image = UIImage(named: "blocked_ic")
@@ -934,7 +934,7 @@ extension SettingsVC: UITableViewDataSource {
             //            cell.iconImg.image = UIImage(named: "blocked_ic")
             //            cell.langLbl.text = Language.currentLanguage()
             //            return cell
-        case 7://delete account
+        case 6://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account".localizedString
             cell.iconImg.image = UIImage(named: "delete_ic")
@@ -953,26 +953,26 @@ extension SettingsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == 3 {
+        if indexPath.row == 2 {
             if isDistanceFilterAvailable {
                 self.createDistanceSlider()
             }else {
                 return
             }
         }
-        else if indexPath.row == 4 {
+        else if indexPath.row == 3 {
             if isAgeFilterAvailable {
                 self.createAgeSlider()
             }else {
                 return
             }
         }
-        else if indexPath.row == 5 { //change password
+        else if indexPath.row == 4 { //change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        else if indexPath.row == 6 { //block list
+        else if indexPath.row == 5 { //block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -981,7 +981,7 @@ extension SettingsVC: UITableViewDelegate {
         //            self.changeLanguage()
         //        }
         
-        else if indexPath.row == 7 { //delete account
+        else if indexPath.row == 6 { //delete account
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

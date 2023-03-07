@@ -32,18 +32,25 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
-    let cellID = "RequestsTableViewCell"
+    let cellID = "RequestFriendTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
     
+    lazy var showRequestMessageView = Bundle.main.loadNibNamed("ShowMessageFromRequestsView", owner: self, options: nil)?.first as? ShowMessageFromRequestsView
+
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
     
     var cellSelected:Bool = false
     
-    var currentPage : Int = 0
-    var isLoadingList : Bool = false
+//    var currentPage : Int = 1
+    var currentPageSend : Int = 1
+    var currentPageReceved : Int = 1
     
+//    var isLoadingList : Bool = false
+    var isLoadingListSend : Bool = false
+    var isLoadingListReceved : Bool = false
+
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -76,7 +83,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateResquests), name: Notification.Name("updateResquests"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateRequests), name: Notification.Name("updateRequests"), object: nil)
         
         segmentControl.selectedSegmentIndex = 0
         RequestesType.type = 2
@@ -95,9 +102,17 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         setupNavBar()
         
         if Defaults.token != "" {
-            DispatchQueue.main.async {
-                self.updateUserInterface()
-            }
+            NotificationCenter.default.post(name: Notification.Name("handleUpdateMyLocation"), object: nil, userInfo: nil)
+            
+            self.updateUserInterfacerecevedRequests()
+
+//            DispatchQueue.main.async {
+//                if RequestesType.type == 1 {
+//                    self.updateUserInterfaceSendRequests()
+//                }else {
+//                    self.updateUserInterfacerecevedRequests()
+//                }
+//            }
         }else {
             Router().toOptionsSignUpVC(IsLogout: false)
         }
@@ -110,21 +125,32 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- APIs
     
-    @objc func updateResquests() {
-        getAllUserRequests(pageNumber: 1)
+    @objc func updateRequests() {
+        DispatchQueue.main.async {
+            if RequestesType.type == 1 {
+                self.getAllUserSendRequests(pageNumber: 1)
+            }else {
+                self.getAllUserRecevedRequests(pageNumber: 1)
+            }
+        }
     }
     
     func loadMoreItemsForList(){
-        currentPage += 1
-        getAllUserRequests(pageNumber: currentPage)
+        DispatchQueue.main.async {
+            if RequestesType.type == 1 {
+                self.currentPageSend += 1
+                self.getAllUserSendRequests(pageNumber: self.currentPageSend)
+            }else {
+                self.currentPageReceved += 1
+                self.getAllUserRecevedRequests(pageNumber: self.currentPageReceved)
+            }
+        }
     }
-    
-    var xrecieved :[UserFeedObj] = [UserFeedObj]()
-    
-    func getAllUserRequests(pageNumber:Int) {
+        
+    func getAllUserSendRequests(pageNumber:Int) {
         hideView.hideLoader()
-        viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
-        viewmodel.requests.bind { [weak self] value in
+        viewmodel.getAllRequestsSend(requestesType: RequestesType.type, pageNumber: pageNumber)
+        viewmodel.requestsSend.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
                     self?.hideView.hideLoader()
@@ -135,22 +161,43 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.isLoadingList = false
+                    self?.isLoadingListSend = false
                     self?.tableView.tableFooterView = nil
                 }
-                
-                
-                self?.xrecieved.removeAll()
-                for itm in value.data ?? [] {
-                    if itm.key == 2 {
-                        self?.xrecieved.append(itm)
-                    }
-                }
-                
-                if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = self?.xrecieved.count ?? 0
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [weak self]error in
+            DispatchQueue.main.async {
+                if error == "Internal Server Error" {
+                    self?.HandleInternetConnection()
                 }else {
-                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
+                    DispatchQueue.main.async {
+                        self?.view.makeToast(error)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    func getAllUserRecevedRequests(pageNumber:Int) {
+        hideView.hideLoader()
+        viewmodel.getAllRequestsReceved(requestesType: RequestesType.type, pageNumber: pageNumber)
+        viewmodel.requestsReceved.bind { [weak self] value in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
+                }
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.isLoadingListReceved = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -175,30 +222,55 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    func loadAllUserRequests(pageNumber:Int) {
+    func loadSendRequests(pageNumber:Int) {
         hideView.isHidden = false
         hideView.showLoader()
-        viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
-        viewmodel.requests.bind { [weak self] value in
+        viewmodel.getAllRequestsSend(requestesType: 1, pageNumber: pageNumber)
+        viewmodel.requestsSend.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 self?.tableView.delegate = self
                 self?.tableView.dataSource = self
                 self?.tableView.reloadData()
-                
-                
-                self?.xrecieved.removeAll()
-                for itm in value.data ?? [] {
-                    if itm.key == 2 {
-                        self?.xrecieved.append(itm)
-                    }
+                                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
-                if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = self?.xrecieved.count ?? 0
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.isLoadingListSend = false
+                    self?.tableView.tableFooterView = nil
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [weak self]error in
+            DispatchQueue.main.async {
+                if error == "Internal Server Error" {
+                    self?.HandleInternetConnection()
                 }else {
-                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
+                    DispatchQueue.main.async {
+                        self?.view.makeToast(error)
+                    }
+                    
                 }
+            }
+        }
+    }
+    
+    func loadRecevedRequests(pageNumber:Int) {
+        hideView.isHidden = false
+        hideView.showLoader()
+        viewmodel.getAllRequestsReceved(requestesType: RequestesType.type, pageNumber: pageNumber)
+        viewmodel.requestsReceved.bind { [weak self] value in
+            DispatchQueue.main.async {
+                
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
+
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self?.hideView.hideLoader()
@@ -206,7 +278,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.isLoadingList = false
+                    self?.isLoadingListReceved = false
                     self?.tableView.tableFooterView = nil
                 }
                 
@@ -233,7 +305,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
-    func setupCellBtns(_ cell: RequestsTableViewCell, _ model: UserFeedObj?) {
+    func setupCellBtns(_ cell: RequestFriendTableViewCell, _ model: UserFeedObj?) {
         if RequestesType.type == 1 { // sent
             cell.acceptBtn.isHidden = true
             if model?.key == 1 {
@@ -260,7 +332,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    func acceptRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
+    func acceptRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestFriendTableViewCell) {
         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, isNotFriend: true,requestdate: requestdate) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
@@ -281,14 +353,13 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
-
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("handleUpdateMyLocation"), object: nil, userInfo: nil)
             }
         }
     }
     
-    func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
+    func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestFriendTableViewCell) {
         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true,requestdate: requestdate ) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
@@ -309,6 +380,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
             }
         }
     }
@@ -333,7 +405,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    func updateUserInterface() {
+    func updateUserInterfaceSendRequests() {
         appDelegate.networkReachability()
         switch Network.reachability.status {
         case .unreachable:
@@ -348,14 +420,14 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.emptyView.isHidden = true
                 self.hideView.isHidden = false
                 NetworkConected.internetConect = true
-                self.loadAllUserRequests(pageNumber: 1)
+                self.loadSendRequests(pageNumber: 1)
             }
         case .wifi:
             DispatchQueue.main.async {
                 self.emptyView.isHidden = true
                 self.hideView.isHidden = false
                 NetworkConected.internetConect = true
-                self.loadAllUserRequests(pageNumber: 1)
+                self.loadSendRequests(pageNumber: 1)
             }
         }
         
@@ -366,6 +438,40 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    func updateUserInterfacerecevedRequests() {
+        appDelegate.networkReachability()
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                self.hideView.isHidden = true
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadRecevedRequests(pageNumber: 1)
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadRecevedRequests(pageNumber: 1)
+                
+            }
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "feednodata_img")
@@ -404,10 +510,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        currentPage = 0
         DispatchQueue.main.async {
-            self.updateUserInterface()
+            if RequestesType.type == 1 {
+                self.currentPageSend = 1
+                self.updateUserInterfaceSendRequests()
+            }else {
+                self.currentPageReceved = 1
+                self.updateUserInterfacerecevedRequests()
+            }
         }
+        
         self.refreshControl.endRefreshing()
     }
     
@@ -425,7 +537,14 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
-        updateUserInterface()
+        DispatchQueue.main.async {
+            if RequestesType.type == 1 {
+                self.updateUserInterfaceSendRequests()
+            }else {
+                self.updateUserInterfacerecevedRequests()
+            }
+        }
+        
     }
     
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
@@ -433,14 +552,15 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         {
         case 0:
             RequestesType.type = 2
+            currentPageReceved = 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.updateUserInterface()
+                self.updateUserInterfacerecevedRequests()
             }
         case 1:
             RequestesType.type = 1
-            
+            currentPageSend = 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.updateUserInterface()
+                self.updateUserInterfaceSendRequests()
             }
         default:
             break;
@@ -452,11 +572,20 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
 //MARK: - Extensions Table View Data Source
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewmodel.requests.value?.data?.count != 0 {
-            return viewmodel.requests.value?.data?.count ?? 0
+        if RequestesType.type == 1 {
+            if viewmodel.requestsSend.value?.data?.count != 0 {
+                return viewmodel.requestsSend.value?.data?.count ?? 0
+            }else {
+                return 1
+            }
         }else {
-            return 1
+            if viewmodel.requestsReceved.value?.data?.count != 0 {
+                return viewmodel.requestsReceved.value?.data?.count ?? 0
+            }else {
+                return 1
+            }
         }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -464,91 +593,272 @@ extension RequestVC:UITableViewDataSource {
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
         
-        if viewmodel.requests.value?.data?.count != 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestsTableViewCell else {return UITableViewCell()}
-            cell.setNeedsLayout()
-            cell.setNeedsDisplay()
-            
-            let model = viewmodel.requests.value?.data?[indexPath.row]
-            
-            setupCellBtns(cell, model)
-            
-            cell.friendRequestNameLbl.text = model?.userName
-            cell.friendRequestDateLbl.text = model?.regestdata
-            
-            cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
-            cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
-            
-            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
-            
-            
-            if model?.imageIsVerified == true {
-                cell.imageIsVerifiedImg.isHidden = true
-            }else {
-                cell.imageIsVerifiedImg.isHidden = true
-            }
-            
-            if indexPath.row == (viewmodel.requests.value?.data?.count ?? 0) - 1 {
-                cell.bottomView.isHidden = true
-            }else {
-                cell.bottomView.isHidden = false
-            }
-            
-            cell.HandleAcceptBtn = {
-                self.cellSelected = true
-                if NetworkConected.internetConect {
-                    self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
-                }
-            }
-            
-            cell.HandleDeleteBtn = {
-                self.cellSelected = true
-                if NetworkConected.internetConect {
-                    self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+        if RequestesType.type == 1 {
+            if viewmodel.requestsSend.value?.data?.count != 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestFriendTableViewCell else {return UITableViewCell()}
+                cell.setNeedsLayout()
+                cell.setNeedsDisplay()
+                
+                let model = viewmodel.requestsSend.value?.data?[indexPath.row]
+                
+                setupCellBtns(cell, model)
+                
+                cell.friendRequestNameLbl.text = model?.userName
+                cell.friendRequestDateLbl.text = model?.regestdata
+                
+                cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
+                cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
+                
+                cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+                
+                if model?.message != "" {
+                    cell.messageRequestLbl.text = model?.message ?? ""
+                    cell.messageRequestBoxView.isHidden = false
+                    cell.messageRequestBoxViewHeight.constant = 50
                     
+                    if (model?.message?.count ?? 0) > 80 {
+                        DispatchQueue.main.async {
+                            cell.messageRequestLbl.addTrailing(with: "...", moreText: "Expand", moreTextFont:  UIFont(name: "Montserrat-Regular", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                        }
+                    }
+                } else {
+                    cell.messageRequestBoxView.isHidden = true
+                    cell.messageRequestBoxViewHeight.constant = 0
                 }
-            }
-            
-            cell.HandleMessageBtn = {
-                self.cellSelected = true
-                if NetworkConected.internetConect {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
-                    vc.isEvent = false
-                    vc.eventChatID = ""
-                    vc.chatuserID = model?.userId ?? ""
-                    vc.leaveGroup = 1
-                    vc.isFriend = true
-                    vc.leavevent = 0
-                    vc.titleChatImage = model?.image ?? ""
-                    vc.titleChatName = model?.userName ?? ""
-                    vc.isChatGroupAdmin = false
-                    vc.isChatGroup = false
-                    vc.groupId = ""
-                    vc.isEventAdmin = false
-                    CancelRequest.currentTask = false
-                    self.navigationController?.pushViewController(vc, animated: true)
+                
+                
+                
+                if model?.imageIsVerified == true {
+                    cell.imageIsVerifiedImg.isHidden = true
                 }else {
-                    return
+                    cell.imageIsVerifiedImg.isHidden = true
                 }
+                
+                if indexPath.row == (viewmodel.requestsSend.value?.data?.count ?? 0) - 1 {
+                    cell.bottomView.isHidden = true
+                }else {
+                    cell.bottomView.isHidden = false
+                }
+                
+                cell.HandleAcceptBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
+                    }
+                }
+                
+                cell.HandleDeleteBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+                        
+                    }
+                }
+                
+                cell.HandleMessageBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+                        vc.isEvent = false
+                        vc.eventChatID = ""
+                        vc.chatuserID = model?.userId ?? ""
+                        vc.leaveGroup = 1
+                        vc.isFriend = true
+                        vc.leavevent = 0
+                        vc.titleChatImage = model?.image ?? ""
+                        vc.titleChatName = model?.userName ?? ""
+                        vc.isChatGroupAdmin = false
+                        vc.isChatGroup = false
+                        vc.groupId = ""
+                        vc.isEventAdmin = false
+                        CancelRequest.currentTask = false
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        return
+                    }
+                }
+                
+                cell.HandleShowMessageBtn = {
+                    self.showRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.showRequestMessageView?.messageTxtView.text = model?.message
+                    
+                    if RequestesType.type == 1 { // sent
+                        self.showRequestMessageView?.acceptRequestBtn.isHidden = true
+                        self.showRequestMessageView?.deleteRequest.isHidden = false
+                    }
+                    else { // received
+                        self.showRequestMessageView?.acceptRequestBtn.isHidden = false
+                        self.showRequestMessageView?.deleteRequest.isHidden = false
+                    }
+                    
+                    self.showRequestMessageView?.HandleAcceptBtn = {
+                        self.cellSelected = true
+                        if NetworkConected.internetConect {
+                            self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
+                        }
+                    }
+                    self.showRequestMessageView?.HandleDeleteRequestBtn = {
+                        self.cellSelected = true
+                        if NetworkConected.internetConect {
+                            self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+                            
+                        }
+                    }
+                    
+                    self.view.addSubview((self.showRequestMessageView)!)
+                }
+                
+                return cell
+                
             }
-            
-            return cell
-            
-        }
-        else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
-            cell.controlBtn.isHidden = true
-            if RequestesType.type == 1 {
-                cell.titleLbl.text = "You haven’t sent any requests yet. \nHead to Feed to see who is online, \nand get connecting!"
-            }else {
-                cell.titleLbl.text = "You don’t have any pending connection requests. \nHead to your Feed and start up a new chat"
+            else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                cell.controlBtn.isHidden = true
+                if RequestesType.type == 1 {
+                    cell.titleLbl.text = "You haven’t sent any requests yet. \nHead to Feed to see who is online, \nand get connecting!"
+                }else {
+                    cell.titleLbl.text = "You don’t have any pending connection requests. \nHead to your Feed and start up a new chat"
+                }
+                
+                cell.emptyImg.image = UIImage(named: "requestesnodata_img")
+                
+                return cell
+                
             }
-            
-            cell.emptyImg.image = UIImage(named: "requestesnodata_img")
-            
-            return cell
-            
+        }else {
+            if viewmodel.requestsReceved.value?.data?.count != 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestFriendTableViewCell else {return UITableViewCell()}
+                cell.setNeedsLayout()
+                cell.setNeedsDisplay()
+                
+                let model = viewmodel.requestsReceved.value?.data?[indexPath.row]
+                
+                setupCellBtns(cell, model)
+                
+                cell.friendRequestNameLbl.text = model?.userName
+                cell.friendRequestDateLbl.text = model?.regestdata
+                
+                cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
+                cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
+                
+                cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
+                
+                if model?.message != "" {
+                    cell.messageRequestLbl.text = model?.message ?? ""
+                    cell.messageRequestBoxView.isHidden = false
+                    cell.messageRequestBoxViewHeight.constant = 50
+                    
+                    if (model?.message?.count ?? 0) > 80 {
+                        DispatchQueue.main.async {
+                            cell.messageRequestLbl.addTrailing(with: "...", moreText: "Expand", moreTextFont:  UIFont(name: "Montserrat-Regular", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                        }
+                    }
+                } else {
+                    cell.messageRequestBoxView.isHidden = true
+                    cell.messageRequestBoxViewHeight.constant = 0
+                }
+                
+                
+                
+                if model?.imageIsVerified == true {
+                    cell.imageIsVerifiedImg.isHidden = true
+                }else {
+                    cell.imageIsVerifiedImg.isHidden = true
+                }
+                
+                if indexPath.row == (viewmodel.requestsReceved.value?.data?.count ?? 0) - 1 {
+                    cell.bottomView.isHidden = true
+                }else {
+                    cell.bottomView.isHidden = false
+                }
+                
+                cell.HandleAcceptBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
+                    }
+                }
+                
+                cell.HandleDeleteBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+                        
+                    }
+                }
+                
+                cell.HandleMessageBtn = {
+                    self.cellSelected = true
+                    if NetworkConected.internetConect {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+                        vc.isEvent = false
+                        vc.eventChatID = ""
+                        vc.chatuserID = model?.userId ?? ""
+                        vc.leaveGroup = 1
+                        vc.isFriend = true
+                        vc.leavevent = 0
+                        vc.titleChatImage = model?.image ?? ""
+                        vc.titleChatName = model?.userName ?? ""
+                        vc.isChatGroupAdmin = false
+                        vc.isChatGroup = false
+                        vc.groupId = ""
+                        vc.isEventAdmin = false
+                        CancelRequest.currentTask = false
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        return
+                    }
+                }
+                
+                cell.HandleShowMessageBtn = {
+                    self.showRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.showRequestMessageView?.messageTxtView.text = model?.message
+                    
+                    if RequestesType.type == 1 { // sent
+                        self.showRequestMessageView?.acceptRequestBtn.isHidden = true
+                        self.showRequestMessageView?.deleteRequest.isHidden = false
+                    }
+                    else { // received
+                        self.showRequestMessageView?.acceptRequestBtn.isHidden = false
+                        self.showRequestMessageView?.deleteRequest.isHidden = false
+                    }
+                    
+                    self.showRequestMessageView?.HandleAcceptBtn = {
+                        self.cellSelected = true
+                        if NetworkConected.internetConect {
+                            self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
+                        }
+                    }
+                    self.showRequestMessageView?.HandleDeleteRequestBtn = {
+                        self.cellSelected = true
+                        if NetworkConected.internetConect {
+                            self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+                            
+                        }
+                    }
+                    
+                    self.view.addSubview((self.showRequestMessageView)!)
+                }
+                
+                return cell
+                
+            }
+            else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                cell.controlBtn.isHidden = true
+                if RequestesType.type == 1 {
+                    cell.titleLbl.text = "You haven’t sent any requests yet. \nHead to Feed to see who is online, \nand get connecting!"
+                }else {
+                    cell.titleLbl.text = "You don’t have any pending connection requests. \nHead to your Feed and start up a new chat"
+                }
+                
+                cell.emptyImg.image = UIImage(named: "requestesnodata_img")
+                
+                return cell
+                
+            }
         }
     }
 }
@@ -556,42 +866,67 @@ extension RequestVC:UITableViewDataSource {
 //MARK: - Extensions Table View Delegate
 extension RequestVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if viewmodel.requests.value?.data?.count == 0 {
-            return UITableView.automaticDimension
-        }else {
-            return 75
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-        if NetworkConected.internetConect {
-            if viewmodel.requests.value?.data?.count != 0 {
-                let model = viewmodel.requests.value?.data?[indexPath.row]
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                vc.userID = model?.userId ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
+        if RequestesType.type == 1 {
+            if NetworkConected.internetConect {
+                if viewmodel.requestsSend.value?.data?.count != 0 {
+                    let model = viewmodel.requestsSend.value?.data?[indexPath.row]
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model?.userId ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }else {
+            if NetworkConected.internetConect {
+                if viewmodel.requestsReceved.value?.data?.count != 0 {
+                    let model = viewmodel.requestsReceved.value?.data?[indexPath.row]
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model?.userId ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
     }
     
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-            self.isLoadingList = true
-            
-            if currentPage < viewmodel.requests.value?.totalPages ?? 0 {
-                self.tableView.tableFooterView = self.createFooterView()
-                
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                    print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+        if RequestesType.type == 1 {
+            if scrollView == tableView,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingListSend {
+                self.isLoadingListSend = true
+                if currentPageSend < viewmodel.requestsSend.value?.totalPages ?? 0 {
+                    self.tableView.tableFooterView = self.createFooterView()
+                    
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                        print("self.currentPage >> \(self.currentPageSend)")
+                        self.loadMoreItemsForList()
+                    }
                 }
-            }else {
-                self.tableView.tableFooterView = nil
-                DispatchQueue.main.async {
-                    //                    self.view.makeToast("No more data".localizedString)
+                else {
+                    self.tableView.tableFooterView = nil
+                    
+                    return
                 }
-                return
+            }
+        }else {
+            if scrollView == tableView,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingListReceved {
+                self.isLoadingListReceved = true
+                if currentPageReceved < viewmodel.requestsReceved.value?.totalPages ?? 0 {
+                    self.tableView.tableFooterView = self.createFooterView()
+                    
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                        print("self.currentPage >> \(self.currentPageReceved)")
+                        self.loadMoreItemsForList()
+                    }
+                }
+                else {
+                    self.tableView.tableFooterView = nil
+                    
+                    return
+                }
             }
         }
     }

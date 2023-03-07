@@ -363,7 +363,7 @@ extension EventsVC: UITableViewDelegate {
         
         if NetworkConected.internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
-                if model?.eventTypeName == "External" {
+                if model?.eventtype == "External" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                     vc.eventId = model?.id ?? ""
                     

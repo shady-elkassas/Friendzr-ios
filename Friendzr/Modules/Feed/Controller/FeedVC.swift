@@ -70,6 +70,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     lazy var showSortView = Bundle.main.loadNibNamed("SortFeedView", owner: self, options: nil)?.first as? SortFeedView
     
+    lazy var sendRequestMessageView = Bundle.main.loadNibNamed("SendMessageWithSendRequestView", owner: self, options: nil)?.first as? SendMessageWithSendRequestView
+
     func createLocationManager() {
         locationManager.delegate = self
         locationManager.distanceFilter = 0
@@ -254,20 +256,19 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func updateFeeds() {
-        
         if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
-                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: self.currentPage)
                 }else {
                     if self.sortByInterestMatch {
-                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: self.currentPage)
                     }else {
-                        self.getAllFeeds(pageNumber: 1)
+                        self.getAllFeeds(pageNumber: self.currentPage)
                     }
                 }
             }
-            
+
             self.allowLocView.isHidden = true
             self.whenFirstOpenFeed()
         }
@@ -959,9 +960,12 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleSendRequestBtn = { //send request
                 self.btnsSelected = true
                 if NetworkConected.internetConect {
-                    self.sendUserReuest(model, "\(actionDate) \(actionTime)", cell)
+//                    self.sendUserReuest(model, "\(actionDate) \(actionTime)", cell)
+                    self.sendFriendRequestWithMessage(model,  "\(actionDate) \(actionTime)", cell)
                 }
             }
+            
+            
             
             cell.HandleAccseptBtn = { //respond request
                 self.btnsSelected = true
@@ -2028,10 +2032,22 @@ extension FeedVC {
             break
         }
     }
-    func sendUserReuest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
+    
+    func sendFriendRequestWithMessage(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
+        self.sendRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+        self.sendRequestMessageView?.HandleSendBtn = {
+            print("Send")
+            self.sendUserReuest(model, requestdate, cell, self.sendRequestMessageView?.messageTxtView.text ?? "")
+        }
+        
+        self.view.addSubview((self.sendRequestMessageView)!)
+    }
+    
+    func sendUserReuest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell, _ message:String) {
         self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
         cell.sendRequestBtn.isUserInteractionEnabled = false
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true,requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true,requestdate: requestdate,message: message) { error, message in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -2048,7 +2064,7 @@ extension FeedVC {
                 cell.sendRequestBtn.isUserInteractionEnabled = true
                 cell.cancelRequestBtn.isHidden = false
                 
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
             }
         }
     }
@@ -2070,7 +2086,7 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -2093,7 +2109,7 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -2122,7 +2138,7 @@ extension FeedVC {
                 }
                 
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }

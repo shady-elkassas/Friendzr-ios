@@ -116,7 +116,7 @@ class EventObj: NSObject,Mappable {
     var eventColor:String? = ""
     var leveevent:Int? = 0
     var encryptedID:String = ""
-//    var eventtype:String = ""
+    var eventtype:String = ""
     var eventtypeid:String = ""
     var showAttendees:Bool = false
     var checkout_details:String = ""
@@ -160,7 +160,7 @@ class EventObj: NSObject,Mappable {
         timetext <- map["timetext"]
         leveevent <- map["leveevent"]
         encryptedID <- map["encryptedID"]
-//        eventtype <- map["eventtype"]
+        eventtype <- map["eventtype"]
         showAttendees <- map["showAttendees"]
         checkout_details <- map["checkout_details"]
         eventHasExpired <- map["eventHasExpired"]

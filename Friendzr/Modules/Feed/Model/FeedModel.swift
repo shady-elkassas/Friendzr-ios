@@ -28,10 +28,10 @@ class FeedModel: Mappable {
 
 class FeedDataModel: Mappable {
     
-    var pageSize: Int?
-    var totalRecords: Int?
-    var totalPages: Int?
-    var pageNumber: Int?
+    var pageSize: Int? = 0
+    var totalRecords: Int? = 0
+    var totalPages: Int? = 0
+    var pageNumber: Int? = 0
     var data: [UserFeedObj]? = []
     
     required init?(map: Map) {
@@ -63,6 +63,7 @@ class UserFeedObj: NSObject,Mappable {
     var regestdata:String? = ""
     var interestMatchPercent:Int? = 0
     var imageIsVerified:Bool = false
+    var message:String? = ""
     
     required init?(map: Map) {
     }
@@ -84,5 +85,6 @@ class UserFeedObj: NSObject,Mappable {
         regestdata    <- map["regestdata"]
         interestMatchPercent    <- map["interestMatchPercent"]
         imageIsVerified    <- map["imageIsVerified"]
+        message    <- map["message"]
     }
 }

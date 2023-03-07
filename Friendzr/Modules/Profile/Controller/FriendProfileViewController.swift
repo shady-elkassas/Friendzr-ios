@@ -39,6 +39,8 @@ class FriendProfileViewController: UIViewController {
     }()
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    lazy var sendRequestMessageView = Bundle.main.loadNibNamed("SendMessageWithSendRequestView", owner: self, options: nil)?.first as? SendMessageWithSendRequestView
+    
     var viewmodel:FriendViewModel = FriendViewModel()
     var userID:String = ""
     var userName:String = ""
@@ -380,7 +382,8 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.HandleSendRequestBtn = {
                 self.btnSelect = true
                 if NetworkConected.internetConect == true {
-                    self.sendFriendRequest(cell, "\(actionDate) \(actionTime)")
+                    self.sendFriendRequestWithMessage(cell, "\(actionDate) \(actionTime)")
+//                    self.sendFriendRequest(cell, "\(actionDate) \(actionTime)")
                 }
             }
             
@@ -700,9 +703,21 @@ extension FriendProfileViewController {
         }
     }
     
-    func sendFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+    func sendFriendRequestWithMessage( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.sendRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+        self.sendRequestMessageView?.HandleSendBtn = {
+            print("Send")
+            self.sendFriendRequest(cell, requestdate, self.sendRequestMessageView?.messageTxtView.text ?? "")
+        }
+        
+        self.view.addSubview((self.sendRequestMessageView)!)
+    }
+    
+    
+    func sendFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String, _ message:String) {
         self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1, isNotFriend: isNotFriend,requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1, isNotFriend: isNotFriend,requestdate: requestdate, message: message) { error, message in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -714,7 +729,7 @@ extension FriendProfileViewController {
             guard let _ = message else {return}
             
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
             }
             
             DispatchQueue.main.async {
@@ -744,7 +759,7 @@ extension FriendProfileViewController {
             guard let _ = message else {return}
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -822,7 +837,7 @@ extension FriendProfileViewController {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -878,7 +893,7 @@ extension FriendProfileViewController {
             Defaults.frindRequestNumber -= 1
             
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }

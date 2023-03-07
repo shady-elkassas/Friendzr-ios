@@ -175,6 +175,9 @@
 		4368509A274500DD00A62287 /* structAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43685099274500DD00A62287 /* structAPI.swift */; };
 		4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4368509D27453E3800A62287 /* TagCollectionViewCell.swift */; };
 		436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4368509E27453E3800A62287 /* TagCollectionViewCell.xib */; };
+		43699DA229B4CDDD00AB73C8 /* ExpandableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43699DA129B4CDDD00AB73C8 /* ExpandableLabel.swift */; };
+		43699DA429B5FD8700AB73C8 /* ShowMessageFromRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43699DA329B5FD8700AB73C8 /* ShowMessageFromRequestsView.swift */; };
+		43699DA629B5FD9400AB73C8 /* ShowMessageFromRequestsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43699DA529B5FD9400AB73C8 /* ShowMessageFromRequestsView.xib */; };
 		4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */; };
 		4369F45C2797553D00D5E064 /* ShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F45A2797553D00D5E064 /* ShareTableViewCell.swift */; };
 		4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */; };
@@ -263,6 +266,10 @@
 		43A350E128BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */; };
 		43A350E328BDF710002ED5BB /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A350E228BDF710002ED5BB /* CommunityViewModel.swift */; };
 		43A350E528BDF718002ED5BB /* CommunityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A350E428BDF718002ED5BB /* CommunityModel.swift */; };
+		43AB2FC129B49375006196CC /* SendMessageWithSendRequestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AB2FC029B49375006196CC /* SendMessageWithSendRequestView.xib */; };
+		43AB2FC329B49385006196CC /* SendMessageWithSendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB2FC229B49385006196CC /* SendMessageWithSendRequestView.swift */; };
+		43AB2FC629B4AD04006196CC /* RequestFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AB2FC429B4AD04006196CC /* RequestFriendTableViewCell.swift */; };
+		43AB2FC729B4AD04006196CC /* RequestFriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AB2FC529B4AD04006196CC /* RequestFriendTableViewCell.xib */; };
 		43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */; };
 		43ABA61128758A20004716E4 /* DIN2014-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */; };
 		43ABA61228758A20004716E4 /* DIN2014-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */; };
@@ -611,6 +618,9 @@
 		43685099274500DD00A62287 /* structAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structAPI.swift; sourceTree = "<group>"; };
 		4368509D27453E3800A62287 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		4368509E27453E3800A62287 /* TagCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagCollectionViewCell.xib; sourceTree = "<group>"; };
+		43699DA129B4CDDD00AB73C8 /* ExpandableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableLabel.swift; sourceTree = "<group>"; };
+		43699DA329B5FD8700AB73C8 /* ShowMessageFromRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMessageFromRequestsView.swift; sourceTree = "<group>"; };
+		43699DA529B5FD9400AB73C8 /* ShowMessageFromRequestsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowMessageFromRequestsView.xib; sourceTree = "<group>"; };
 		4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUsersForMyGroupVC.swift; sourceTree = "<group>"; };
 		4369F45A2797553D00D5E064 /* ShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTableViewCell.swift; sourceTree = "<group>"; };
 		4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareTableViewCell.xib; sourceTree = "<group>"; };
@@ -704,6 +714,10 @@
 		43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecentlyConnectedCollectionViewCell.xib; sourceTree = "<group>"; };
 		43A350E228BDF710002ED5BB /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
 		43A350E428BDF718002ED5BB /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
+		43AB2FC029B49375006196CC /* SendMessageWithSendRequestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendMessageWithSendRequestView.xib; sourceTree = "<group>"; };
+		43AB2FC229B49385006196CC /* SendMessageWithSendRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageWithSendRequestView.swift; sourceTree = "<group>"; };
+		43AB2FC429B4AD04006196CC /* RequestFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendTableViewCell.swift; sourceTree = "<group>"; };
+		43AB2FC529B4AD04006196CC /* RequestFriendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestFriendTableViewCell.xib; sourceTree = "<group>"; };
 		43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Regular.ttf"; sourceTree = "<group>"; };
 		43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Bold.ttf"; sourceTree = "<group>"; };
 		43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -974,6 +988,8 @@
 				43A332622781AE37001ADB84 /* AddNewTagView.swift */,
 				43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */,
 				43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */,
+				43AB2FC029B49375006196CC /* SendMessageWithSendRequestView.xib */,
+				43AB2FC229B49385006196CC /* SendMessageWithSendRequestView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1401,6 +1417,8 @@
 			children = (
 				4362889926C90CD700B51E51 /* cell */,
 				43D008EA279438B300370E2C /* Request.storyboard */,
+				43699DA329B5FD8700AB73C8 /* ShowMessageFromRequestsView.swift */,
+				43699DA529B5FD9400AB73C8 /* ShowMessageFromRequestsView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1475,6 +1493,8 @@
 			children = (
 				4337B47427870F000077B794 /* RequestsTableViewCell.swift */,
 				43D008F827943A4200370E2C /* RequestsTableViewCell.xib */,
+				43AB2FC429B4AD04006196CC /* RequestFriendTableViewCell.swift */,
+				43AB2FC529B4AD04006196CC /* RequestFriendTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1974,6 +1994,7 @@
 				4351F526295D7DD900F2B379 /* KeyChain.swift */,
 				433862CE2977D82C00432EA1 /* ImageSaver.swift */,
 				43C7EF1D29AF40F80072E342 /* CustomClickableView.swift */,
+				43699DA129B4CDDD00AB73C8 /* ExpandableLabel.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2167,6 +2188,7 @@
 				43D009192794412900370E2C /* BlockedTableViewCell.xib in Resources */,
 				43D009202794413E00370E2C /* SettingsTableViewCell.xib in Resources */,
 				43AF3532284E123800B65773 /* SortFeedView.xib in Resources */,
+				43AB2FC729B4AD04006196CC /* RequestFriendTableViewCell.xib in Resources */,
 				43FC58D5286B05B8001ADE2C /* PreferToTableViewCell.xib in Resources */,
 				43D008FD27943A6700370E2C /* Map.storyboard in Resources */,
 				43D1A4CA2884252900830D8D /* Tutorial2.mov in Resources */,
@@ -2192,6 +2214,7 @@
 				4382AC9526C27FF2005C1857 /* Montserrat-Bold.ttf in Resources */,
 				43ACFEC827B3B464001CD340 /* EventDateAndTimeTableViewCell.xib in Resources */,
 				43D00935279441BD00370E2C /* Profile.storyboard in Resources */,
+				43AB2FC129B49375006196CC /* SendMessageWithSendRequestView.xib in Resources */,
 				43316D2128A2785C0031BDC9 /* Tutorial3.mov in Resources */,
 				43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */,
 				43F974292832652200F736F3 /* Messages.storyboard in Resources */,
@@ -2236,6 +2259,7 @@
 				43D1A4CC2884252900830D8D /* Tutorial4.mov in Resources */,
 				439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
+				43699DA629B5FD9400AB73C8 /* ShowMessageFromRequestsView.xib in Resources */,
 				43967D8B27944D18005B1F5D /* EventCalendarView.xib in Resources */,
 				43148539278C3E110048EC01 /* SelectedFriendTableViewCell.xib in Resources */,
 				43967DBD27944E79005B1F5D /* ConfirmReportButtonTableViewCell.xib in Resources */,
@@ -2436,8 +2460,10 @@
 				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
 				4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */,
 				437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */,
+				43699DA429B5FD8700AB73C8 /* ShowMessageFromRequestsView.swift in Sources */,
 				432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */,
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
+				43AB2FC629B4AD04006196CC /* RequestFriendTableViewCell.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
 				43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */,
@@ -2590,6 +2616,7 @@
 				439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */,
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
+				43699DA229B4CDDD00AB73C8 /* ExpandableLabel.swift in Sources */,
 				4389DC9127BE3B8E00B62CDC /* PreferToModel.swift in Sources */,
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,
 				43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */,
@@ -2619,6 +2646,7 @@
 				434DAC8328B635D500A25DB0 /* RecommendedEventCollectionViewCell.swift in Sources */,
 				43C7EF1E29AF40F80072E342 /* CustomClickableView.swift in Sources */,
 				43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */,
+				43AB2FC329B49385006196CC /* SendMessageWithSendRequestView.swift in Sources */,
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
@@ -3079,7 +3107,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.36;
+				MARKETING_VERSION = 1.2.38;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3119,7 +3147,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.36;
+				MARKETING_VERSION = 1.2.38;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -1225,7 +1225,7 @@ extension AppDelegate {
         }
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "FeedVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
