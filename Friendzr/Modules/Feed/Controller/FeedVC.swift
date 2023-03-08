@@ -1071,8 +1071,9 @@ extension FeedVC:UITableViewDelegate {
         if Defaults.token != "" {
             if NetworkConected.internetConect {
                 if viewmodel.feeds.value?.data?.count != 0 {
+                    let model = viewmodel.feeds.value?.data?[indexPath.row]
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                    vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
+                    vc.userID = model?.userId ?? ""
                     vc.isFeedVC = true
                     vc.onFeedTransactionCallBackResponse = self.onFeedTransactionCallBack
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -2063,8 +2064,6 @@ extension FeedVC {
                 cell.sendRequestBtn.setTitle("Send Request", for: .normal)
                 cell.sendRequestBtn.isUserInteractionEnabled = true
                 cell.cancelRequestBtn.isHidden = false
-                
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
             }
         }
     }
@@ -2086,7 +2085,6 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -2109,7 +2107,6 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -2138,7 +2135,6 @@ extension FeedVC {
                 }
                 
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }

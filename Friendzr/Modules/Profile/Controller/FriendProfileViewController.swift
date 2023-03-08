@@ -710,7 +710,7 @@ extension FriendProfileViewController {
             print("Send")
             self.sendFriendRequest(cell, requestdate, self.sendRequestMessageView?.messageTxtView.text ?? "")
         }
-        
+
         self.view.addSubview((self.sendRequestMessageView)!)
     }
     
@@ -727,10 +727,6 @@ extension FriendProfileViewController {
             }
             
             guard let _ = message else {return}
-            
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
-            }
             
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
@@ -759,7 +755,6 @@ extension FriendProfileViewController {
             guard let _ = message else {return}
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -837,7 +832,6 @@ extension FriendProfileViewController {
             
             DispatchQueue.main.async {
                 Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
@@ -893,7 +887,6 @@ extension FriendProfileViewController {
             Defaults.frindRequestNumber -= 1
             
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("updateRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
