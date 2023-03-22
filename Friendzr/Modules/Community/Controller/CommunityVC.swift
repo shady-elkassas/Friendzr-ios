@@ -175,11 +175,15 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         CancelRequest.currentTask = true
         
         currentPage = 1
-        let contentOffset = CGPoint(x: 0, y: 0)
-        self.recentlyConnectedCollectionView.setContentOffset(contentOffset, animated: false)
-        Defaults.isCommunityVC = false
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        DispatchQueue.main.async {
+            let contentOffset = CGPoint(x: 0, y: 0)
+            self.recentlyConnectedCollectionView.setContentOffset(contentOffset, animated: false)
+        }
+        
+        Defaults.isCommunityVC = false
+        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     
@@ -243,10 +247,10 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     }
     
     @objc func reloadRecommendedPeople() {
-        self.getRecommendedPeopleBy(userID: CommunitySingletone.userID)
+        self.getRecommendedPeopleBy(userID: CommunitySingletone.userID, previous: false)
     }
     @objc func reloadRecommendedEvent() {
-        self.getRecommendedEventBy(eventID: CommunitySingletone.eventID)
+        self.getRecommendedEventBy(eventID: CommunitySingletone.eventID, previous: false)
     }
     
     @objc func updateInitRequestsBarButton() {
@@ -254,7 +258,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     }
     
     //MARK: - APIs
-    func getRecommendedPeopleBy(userID:String) {
+    func getRecommendedPeopleBy(userID:String,previous:Bool) {
         let startDate = Date()
 
         if !isBtnSelected {
@@ -265,7 +269,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
             AMShimmer.start(for: hideView1)
         }
         
-        recommendedPeopleViewModel.getRecommendedPeople(userId: userID)
+        recommendedPeopleViewModel.getRecommendedPeople(userId: userID, previous: previous)
         recommendedPeopleViewModel.recommendedPeople.bind { [weak self] value in
             let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
             print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1) second")
@@ -302,7 +306,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
     }
     
-    func getRecommendedEventBy(eventID:String) {
+    func getRecommendedEventBy(eventID:String,previous:Bool) {
         self.hideView2.isHidden = false
         AMShimmer.start(for: hideView2)
         
@@ -313,7 +317,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
             self.hideView2.isHidden = true
         }
         
-        recommendedEventViewModel.getRecommendedEvent(eventId: eventID)
+        recommendedEventViewModel.getRecommendedEvent(eventId: eventID, previous: previous)
         recommendedEventViewModel.recommendedEvent.bind { [weak self] value in
             DispatchQueue.main.async {
                 self?.eventCollectionView.delegate = self
@@ -404,11 +408,11 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     }
     
     func showRecommendedPeople() {
-        self.getRecommendedPeopleBy(userID: "")
+        self.getRecommendedPeopleBy(userID: "", previous: false)
     }
     
     func showRecommendedEvent() {
-        self.getRecommendedEventBy(eventID: "")
+        self.getRecommendedEventBy(eventID: "", previous: false)
     }
     
     func showRecentlyConnected() {
@@ -461,7 +465,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
             }
             
             DispatchQueue.main.async {
-                self.getRecommendedPeopleBy(userID: model?.userId ?? "")
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
             }
         }
     }
@@ -521,16 +525,22 @@ extension CommunityVC:UICollectionViewDataSource {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             
-//            cell.HandleSkipBtn = {
-//                cell.skipBtn.flash()
-//
-//                self.isBtnSelected = true
+            cell.HandleSkipBtn = {
+                self.isBtnSelected = true
 //                Defaults.bannerAdsCount1 += 1
-//                self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-//            }
-            
-            cell.skipBtnView.delegate = self
-            
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+            }
+
+            cell.HandleNextBtn = {
+                self.isBtnSelected = true
+//                Defaults.bannerAdsCount1 += 1
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+            }
+            cell.HandlePreviuosBtn = {
+                self.isBtnSelected = true
+//                Defaults.bannerAdsCount1 += 1
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: true)
+            }
             cell.HandleSendRequestBtn = {
                 self.sendFriendRequestWithMessage(model, actionDate, cell)
             }
@@ -544,10 +554,18 @@ extension CommunityVC:UICollectionViewDataSource {
             
             cell.HandleSkipBtn = {
                 self.isBtnSelected = true
-                self.getRecommendedEventBy(eventID: model?.eventId ?? "")
+                self.getRecommendedEventBy(eventID: model?.eventId ?? "", previous: false)
             }
-                        
-//            cell.skipBtnView.delegate = self
+            
+            cell.HandlePreviuosBtn = {
+                self.isBtnSelected = true
+                self.getRecommendedEventBy(eventID: model?.eventId ?? "", previous: true)
+            }
+            
+            cell.HandleNextBtn = {
+                self.isBtnSelected = true
+                self.getRecommendedEventBy(eventID: model?.eventId ?? "", previous: false)
+            }
             
             cell.HandleExpandBtn = {
                 if model?.eventtype == "External" {
@@ -751,10 +769,10 @@ extension CommunityVC:GADBannerViewDelegate {
 }
 
 
-extension CommunityVC : ViewDidclicked {
-    func viewTapped() {
-        self.isBtnSelected = true
-        let model = recommendedPeopleViewModel.recommendedPeople.value
-        self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-    }
-}
+//extension CommunityVC : ViewDidclicked {
+//    func viewTapped() {
+//        self.isBtnSelected = true
+//        let model = recommendedPeopleViewModel.recommendedPeople.value
+//        self.getRecommendedPeopleBy(userID: model?.userId ?? "")
+//    }
+//}

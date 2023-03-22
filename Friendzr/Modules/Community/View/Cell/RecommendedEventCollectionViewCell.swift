@@ -22,8 +22,17 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var openEventBtn: UIButton!
     @IBOutlet weak var skipBtnView: UIView!
     
+    @IBOutlet weak var previuosView: UIView!
+    @IBOutlet weak var nextView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var previuosBtn: UIButton!
+    
+    
     var HandleExpandBtn: (()->())?
     var HandleSkipBtn: (()->())?
+
+    var HandleNextBtn: (()->())?
+    var HandlePreviuosBtn: (()->())?
 
     var model:RecommendedEventObj! {
         didSet {
@@ -50,6 +59,10 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
         containerView.cornerRadiusView(radius: 8)
         skipBtn.cornerRadiusView(radius: 6)
         skipBtnView.cornerRadiusView(radius: 6)
+        
+        previuosView.cornerRadiusView(radius: 6)
+        nextView.cornerRadiusView(radius: 6)
+
     }
     @IBAction func expandBtn(_ sender: Any) {
         HandleExpandBtn?()
@@ -63,4 +76,11 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
         HandleExpandBtn?()
     }
     
+    @IBAction func previuosBtn(_ sender: Any) {
+        HandlePreviuosBtn?()
+    }
+    
+    @IBAction func nextBtn(_ sender: Any) {
+        HandleNextBtn?()
+    }
 }

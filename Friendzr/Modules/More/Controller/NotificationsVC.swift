@@ -369,7 +369,7 @@ extension NotificationsVC: UITableViewDelegate {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
                 else if model?.action == "Private_mode" {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Request, AndContollerID: "SettingsVC") as? SettingsVC else { return}
+                    guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else { return}
                     vc.checkoutName = "privateMode"
                     Defaults.isDeeplinkClicked = false
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -377,7 +377,7 @@ extension NotificationsVC: UITableViewDelegate {
                 else if model?.action == "Edit_profile" {
                     self.view.makeToast("Your account is already completed.")
                 }
-//                else {
+                //else {
 //                }
             }
         }

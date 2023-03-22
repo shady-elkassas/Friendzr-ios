@@ -232,7 +232,7 @@ extension MapVC {
             self.checkoutName = ""
         }
         else if self.checkoutName == "createEvent" {
-            self.checkLocationPermissionBtns()
+            self.checkLocationPermission()
             self.appendNewLocation = true
             self.view.makeToast("Please pick event's location".localizedString)
             self.goAddEventBtn.isHidden = false

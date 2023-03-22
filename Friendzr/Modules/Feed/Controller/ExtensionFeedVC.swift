@@ -111,10 +111,14 @@ extension FeedVC {
                 switchCompassBarButton.isUserInteractionEnabled = false
                 switchGhostModeBarButton.isUserInteractionEnabled = false
                 switchSortedByInterestsButton.isUserInteractionEnabled = false
+                self.emptyView.isHidden = true
+                self.allowLocView.isHidden = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
+                self.emptyView.isHidden = true
+                self.allowLocView.isHidden = true
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
                 switchSortedByInterestsButton.isUserInteractionEnabled = true
@@ -127,6 +131,8 @@ extension FeedVC {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
             hideView.isHidden = true
+            self.emptyView.isHidden = true
+            self.allowLocView.isHidden = false
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
             switchSortedByInterestsButton.isUserInteractionEnabled = false

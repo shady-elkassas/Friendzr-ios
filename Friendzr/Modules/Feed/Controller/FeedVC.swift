@@ -960,12 +960,11 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleSendRequestBtn = { //send request
                 self.btnsSelected = true
                 if NetworkConected.internetConect {
-//                    self.sendUserReuest(model, "\(actionDate) \(actionTime)", cell)
-                    self.sendFriendRequestWithMessage(model,  "\(actionDate) \(actionTime)", cell)
+                    DispatchQueue.main.async {
+                        self.sendFriendRequestWithMessage(model,  "\(actionDate) \(actionTime)", cell)
+                    }
                 }
             }
-            
-            
             
             cell.HandleAccseptBtn = { //respond request
                 self.btnsSelected = true
@@ -1386,6 +1385,8 @@ extension FeedVC {
     @objc func handleCompassSwitchBtn() {
         print("\(switchCompassBarButton.isOn)")
         btnsSelected = true
+        checkLocationPermissionBtns()
+        
         if NetworkConected.internetConect {
             // Azimuth
             if Defaults.allowMyLocationSettings == true {
@@ -1678,6 +1679,9 @@ extension FeedVC {
     }
     
     func handlePrivateModeSwitchBtn() {
+        
+        checkLocationPermissionBtns()
+        
         if NetworkConected.internetConect {
             if Defaults.ghostMode == false {
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -1877,6 +1881,8 @@ extension FeedVC {
     
     @objc func handleSortedByInterestsSwitchBtn() {
         print("handleSortedByInterestsSwitchBtn")
+        checkLocationPermissionBtns()
+        
         if Defaults.token != "" {
             currentPage = 1
             
@@ -2036,12 +2042,10 @@ extension FeedVC {
     
     func sendFriendRequestWithMessage(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
         self.sendRequestMessageView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-
         self.sendRequestMessageView?.HandleSendBtn = {
             print("Send")
             self.sendUserReuest(model, requestdate, cell, self.sendRequestMessageView?.messageTxtView.text ?? "")
         }
-        
         self.view.addSubview((self.sendRequestMessageView)!)
     }
     

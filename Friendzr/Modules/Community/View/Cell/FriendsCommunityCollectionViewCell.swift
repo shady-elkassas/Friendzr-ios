@@ -27,7 +27,12 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewProfileFromTagsBtn: UIButton!
     @IBOutlet weak var imageIsVerifiedImg: UIImageView!
     @IBOutlet weak var imageWidthLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var skipBtnView: CustomClickableView!
+    @IBOutlet weak var skipBtnView: UIView!
+
+    @IBOutlet weak var previuosView: UIView!
+    @IBOutlet weak var nextView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var previuosBtn: UIButton!
 
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
@@ -35,6 +40,9 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     var HandleSkipBtn: (()->())?
     var HandleSeeMoreBtn: (()->())?
     
+    var HandleNextBtn: (()->())?
+    var HandlePreviuosBtn: (()->())?
+
     var model:RecommendedPeopleObj! {
         didSet {
             nameTitleLbl.text = model?.name
@@ -85,6 +93,9 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
         skipBtnView.cornerRadiusView(radius: 6)
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
         
+        previuosView.cornerRadiusView(radius: 6)
+        nextView.cornerRadiusView(radius: 6)
+
         tagsView.delegate = self
         tagsView.textFont = UIFont(name: "Montserrat-SemiBold", size: 9)!
     }
@@ -115,6 +126,14 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     
     @IBAction func viewProfileFromTagsBtn(_ sender: Any) {
         HandleViewProfileBtn?()
+    }
+    
+    @IBAction func previuosBtn(_ sender: Any) {
+        HandlePreviuosBtn?()
+    }
+    
+    @IBAction func nextBtn(_ sender: Any) {
+        HandleNextBtn?()
     }
     
 }

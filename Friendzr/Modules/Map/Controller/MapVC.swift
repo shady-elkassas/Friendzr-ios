@@ -1105,7 +1105,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @IBAction func addEventBtn(_ sender: Any) {
         if Defaults.token != "" {
-            checkLocationPermissionBtns()
+            checkLocationPermission()
             if NetworkConected.internetConect {
                 if Defaults.allowMyLocationSettings == true {
                     self.appendNewLocation = true
@@ -1154,7 +1154,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
         if NetworkConected.internetConect {
-            checkLocationPermissionBtns()
+            checkLocationPermission()
             if Defaults.allowMyLocationSettings {
                 MapAppType.type = !MapAppType.type
                 
@@ -1171,7 +1171,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @IBAction func currentLocationBtn(_ sender: Any) {
         if NetworkConected.internetConect {
-            self.checkLocationPermissionBtns()
+            self.checkLocationPermission()
             
             if Defaults.allowMyLocationSettings {
                 setupGoogleMap(zoom1: 14, zoom2: 18)

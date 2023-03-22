@@ -18,9 +18,9 @@ class RecommendedPeopleViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getRecommendedPeople(userId:String) {
+    func getRecommendedPeople(userId:String,previous:Bool) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "FrindRequest/RecommendedPeople?userId=\(userId)"
+        let url = URLs.baseURLFirst + "FrindRequest/RecommendedPeople?userId=\(userId)&previous=\(previous)"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
         RequestManager().request(fromUrl: url, byMethod: "GET", withParameters: nil, andHeaders: headers) { (data,error) in
@@ -58,9 +58,9 @@ class RecommendedEventViewModel {
     var error:DynamicType<String> = DynamicType()
     
     
-    func getRecommendedEvent(eventId:String) {
+    func getRecommendedEvent(eventId:String,previous:Bool) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Events/RecommendedEvent?eventId=\(eventId)"
+        let url = URLs.baseURLFirst + "Events/RecommendedEvent?eventId=\(eventId)&previous=\(previous)"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
         RequestManager().request(fromUrl: url, byMethod: "GET", withParameters: nil, andHeaders: headers) { (data,error) in

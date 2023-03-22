@@ -43,12 +43,14 @@ class UsersFeedTableViewCell: UITableViewCell {
             friendRequestNameLbl.text = model?.userName
             friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             
-            if model.imageIsVerified {
-                imageIsVerifiedImg.isHidden = true
-            }else {
-                imageIsVerifiedImg.isHidden = true
-            }
+//            if model.imageIsVerified {
+//                imageIsVerifiedImg.isHidden = true
+//            }else {
+//                imageIsVerifiedImg.isHidden = true
+//            }
             
+            imageIsVerifiedImg.isHidden = true
+
             friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "userPlaceHolderImage"))
             
