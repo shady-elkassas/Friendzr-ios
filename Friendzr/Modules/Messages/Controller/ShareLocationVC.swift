@@ -125,22 +125,6 @@ class ShareLocationVC: UIViewController {
         }
     }
     
-    func createSettingsAlertController(title: String, message: String) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
-            self.onPopup()
-        })
-        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(settingsAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-    }
-    
     func setupSearchbar() {
         searchbar.delegate = self
         searchbar.backgroundColor = UIColor.clear
@@ -221,7 +205,7 @@ extension ShareLocationVC : CLLocationManagerDelegate {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
                 //                openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 locationManager.showsBackgroundLocationIndicator = false
@@ -231,7 +215,7 @@ extension ShareLocationVC : CLLocationManagerDelegate {
         } else {
             print("Location services are not enabled")
             //            openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
         }
     }
 }

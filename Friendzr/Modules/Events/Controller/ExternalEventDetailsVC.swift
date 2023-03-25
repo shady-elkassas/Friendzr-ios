@@ -361,7 +361,6 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: btnsCellId, for: indexPath) as? EventButtonsTableViewCell else {return UITableViewCell()}
             
             cell.parentvc = self
-            cell.bottomLbl.isHidden = false
             
             statusEvent(model, cell)
             
@@ -678,6 +677,7 @@ extension ExternalEventDetailsVC {
             cell.joinBtn.isHidden = true
             cell.leaveBtn.isHidden = true
             self.isEventAdmin = true
+            cell.bottomLbl.isHidden = true
         }
         else if model?.key == 2 { // not join
             cell.editBtn.isHidden = true
@@ -685,6 +685,7 @@ extension ExternalEventDetailsVC {
             cell.joinBtn.isHidden = false
             cell.leaveBtn.isHidden = true
             self.isEventAdmin = false
+            cell.bottomLbl.isHidden = false
         }
         else { // join
             cell.editBtn.isHidden = true
@@ -692,6 +693,7 @@ extension ExternalEventDetailsVC {
             cell.joinBtn.isHidden = true
             cell.leaveBtn.isHidden = false
             self.isEventAdmin = false
+            cell.bottomLbl.isHidden = true
         }
     }
     func handleEventChat(_ model:Event?,_ JoinDate:String,_ Jointime:String) {

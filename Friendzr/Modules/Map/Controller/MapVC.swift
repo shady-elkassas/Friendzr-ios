@@ -947,27 +947,26 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //create alert when user not access location
-    func createSettingsAlertController(title: String, message: String) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel) { (UIAlertAction) in
-            self.upDownBtn.isUserInteractionEnabled = false
-            self.isViewUp = false
-            self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            Defaults.allowMyLocationSettings = false
-            self.removeGestureSwipeSubView()
-            NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
-        }
-        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
-        }
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(settingsAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-    }
+//    func createSettingsAlertController(title: String, message: String) {
+//
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel) { (UIAlertAction) in
+//            self.upDownBtn.isUserInteractionEnabled = false
+//            self.isViewUp = false
+//            self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+//            Defaults.allowMyLocationSettings = false
+//            self.removeGestureSwipeSubView()
+//            NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+//        }
+//        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
+//            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
+//        }
+//
+//        alertController.addAction(cancelAction)
+//        alertController.addAction(settingsAction)
+//        self.present(alertController, animated: true, completion: nil)
+//    }
     
     //create up & down view events in location taped
 //    func CreateSlideUpMenu(_ pos: CLLocationCoordinate2D?) {
@@ -1176,7 +1175,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             if Defaults.allowMyLocationSettings {
                 setupGoogleMap(zoom1: 14, zoom2: 18)
             }else {
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
             }
         }else {
             HandleInternetConnection()
@@ -1222,7 +1221,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 subView.isHidden = false
                 isViewUp = false
                 arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
             }
             
         }

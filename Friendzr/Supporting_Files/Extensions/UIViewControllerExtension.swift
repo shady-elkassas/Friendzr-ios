@@ -357,4 +357,40 @@ extension UIViewController {
         let date = dateFormatter.date(from:isoDate)!
         return date
     }
+    
+    
+    
+    
+    //create alert when user not access location
+    func createSettingsAlertController(title: String, message: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
+        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
+            if CLLocationManager.locationServicesEnabled() {
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
+            }else {
+                UIApplication.shared.open(URL(string: "App-prefs:LOCATION_SERVICES")!)
+            }
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(settingsAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
+//    func createSettingsAlertControllerLoctionService(title: String, message: String) {
+//
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
+//        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
+//            UIApplication.shared.open(URL(string: "App-prefs:LOCATION_SERVICES")!)
+//        }
+//        alertController.addAction(cancelAction)
+//        alertController.addAction(settingsAction)
+//        self.present(alertController, animated: true, completion: nil)
+//
+//    }
 }

@@ -30,6 +30,8 @@ extension FeedVC {
                 //open setting app when location services are disabled
                 //                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 Defaults.allowMyLocationSettings = false
+                self.emptyView.isHidden = true
+                self.allowLocView.isHidden = false
                 hideView.isHidden = true
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                 switchCompassBarButton.isUserInteractionEnabled = false
@@ -39,6 +41,8 @@ extension FeedVC {
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
+                self.emptyView.isHidden = true
+                self.allowLocView.isHidden = true
                 
                 if !Defaults.isFirstOpenFeed {
                     showCompassExplainedView.isHidden = false
@@ -76,27 +80,13 @@ extension FeedVC {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
             hideView.isHidden = true
+            self.allowLocView.isHidden = false
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
             switchSortedByInterestsButton.isUserInteractionEnabled = false
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            //            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
         }
-    }
-    
-    //create alert when user not access location
-    func createSettingsAlertController(title: String, message: String) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
-        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(settingsAction)
-        self.present(alertController, animated: true, completion: nil)
-        
     }
     
     func checkLocationPermissionBtns() {
@@ -105,7 +95,7 @@ extension FeedVC {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                 Defaults.allowMyLocationSettings = false
                 hideView.isHidden = true
                 switchCompassBarButton.isUserInteractionEnabled = false
@@ -136,7 +126,7 @@ extension FeedVC {
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
             switchSortedByInterestsButton.isUserInteractionEnabled = false
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
         }
     }
 }

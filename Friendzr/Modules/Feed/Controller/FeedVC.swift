@@ -165,9 +165,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             currentPage = 1
             
             DispatchQueue.main.async {
-                if CLLocationManager.locationServicesEnabled() {
-                    self.checkLocationPermission()
-                }
+                self.checkLocationPermission()
             }
             
             self.deeplinkDirectionalFiltering()
@@ -917,7 +915,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             switchGhostModeBarButton.isUserInteractionEnabled = false
             switchSortedByInterestsButton.isUserInteractionEnabled = false
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
+            UIApplication.shared.open(URL(string: "App-prefs:LOCATION_SERVICES")!)
             print("\(CLLocationManager.authorizationStatus())")
         }
     }
@@ -1458,7 +1456,7 @@ extension FeedVC {
             else {
                 self.isCompassOpen = false
                 switchCompassBarButton.isOn = false
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                 
                 if Defaults.isSubscribe == false {
                     DispatchQueue.main.async {
@@ -1537,7 +1535,7 @@ extension FeedVC {
                 else {
                     self.isCompassOpen = false
                     switchCompassBarButton.isOn = false
-                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                     initCompassSwitchBarButton()
                     if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
@@ -1579,7 +1577,7 @@ extension FeedVC {
                 else {
                     self.isCompassOpen = false
                     switchCompassBarButton.isOn = false
-                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                     initCompassSwitchBarButton()
                     if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {

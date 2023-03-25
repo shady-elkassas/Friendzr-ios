@@ -145,7 +145,7 @@ extension MapVC {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                 self.upDownBtn.isUserInteractionEnabled = false
                 self.isViewUp = false
                 self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
@@ -182,6 +182,8 @@ extension MapVC {
             Defaults.allowMyLocationSettings = false
             self.removeGestureSwipeSubView()
             self.zoomingStatisticsView.isHidden = true
+            
+            self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
         }
         
     }
@@ -191,7 +193,7 @@ extension MapVC {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                 Defaults.allowMyLocationSettings = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
@@ -204,7 +206,7 @@ extension MapVC {
         else {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            self.createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
         }
     }
     
@@ -536,7 +538,7 @@ extension MapVC {
                     self.hideCollectionView.isHidden = true
                     arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                     
-                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    createSettingsAlertController(title: "", message: "Friendzr needs to access your location to show you Friendzrs and events in your area. Grant permission from your phone’s location settings.".localizedString)
                 }
             }else {
                 HandleInternetConnection()
