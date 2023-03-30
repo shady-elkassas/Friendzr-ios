@@ -285,11 +285,86 @@ class MessagesVC: UIViewController {
     func onLocationShareCallBack(_ lat: Double, _ lng: Double,_ locationTitle:String) -> () {
         print("lat: \(lat), lng: \(lng) ,title: \(locationTitle)")
         
-        self.insertMessage(ChatMessage(sender: self.currentSender, messageId: "", messageType: 6, date: Date(), messageDate: "", messageTime: "",messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle)))
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+        let messageTime2 = formatterTime2.string(from: Date())
+
+        guard let text = inputTextField.text, !text.isEmpty else { return }
+        let url:URL? = URL(string: "https://www.apple.com/eg/")
+
+        self.insertMessage(ChatMessage(sender: self.currentSender, messageId: "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: "\(lat)", lng: "\(lng)", locationName: locationTitle)))
         
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.tableView.scroll(to: .bottom, animated: true)
+        if isEvent {
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 5, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: "",latitude: "\(lat)",longitude: "\(lng)") { error, data in
+                
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.tableView.scroll(to: .bottom, animated: true)
+                }
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                }
+            }
+        }
+        else {
+            if isChatGroup {
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 5, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "",latitude: "\(lat)",longitude: "\(lng)") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.tableView.scroll(to: .bottom, animated: true)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
+                }
+            }
+            else {
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 5, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "",latitude: "\(lat)",longitude: "\(lng)") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard data != nil else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.tableView.scroll(to: .bottom, animated: true)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
+                }
+            }
         }
     }
     
@@ -504,7 +579,7 @@ extension MessagesVC {
         actionSheet.addAction(cameraBtn)
         actionSheet.addAction(libraryBtn)
         //        actionSheet.addAction(fileBtn)
-        //        actionSheet.addAction(locationBtn)
+        actionSheet.addAction(locationBtn)
         actionSheet.addAction(cancelBtn)
         
         present(actionSheet, animated: true, completion: nil)
@@ -746,12 +821,14 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             //            cell.delegate?.messageTableViewCellUpdate()
             return cell
         }
-        
-        else {
+        else if model.messageType == 5 {
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "ShareLocationTableViewCell" : "UserShareLocationTableViewCell") as! ShareLocationTableViewCell
-            cell.setupGoogleMap(lat: model.messageLoc.lat, lng: model.messageLoc.lng)
+            cell.setupGoogleMap(lat: model.messageLoc.lat.toDouble() ?? 0.0, lng: model.messageLoc.lng.toDouble() ?? 0.0)
             cell.locNameLbl.text = model.messageLoc.locationName
             return cell
+        }
+        else {
+            return UITableViewCell()
         }
     }
 }
@@ -804,6 +881,8 @@ extension MessagesVC {
                     }
                 case 4://link
                     self.messageList.insert(ChatMessage(sender: self.currentSender, messageId: itm.id ?? "", messageType: 4, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventTypeName ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? "")), at: 0)
+                case 5://location
+                    self.messageList.insert(ChatMessage(sender: self.currentSender, messageId: itm.id ?? "", messageType: 5, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.Latitude ?? "", lng: itm.Longitude ?? "", locationName: "Current Location")), at: 0)
                 default:
                     break
                 }
@@ -821,6 +900,8 @@ extension MessagesVC {
                     }
                 case 4://link
                     self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? "", isWhitelabel: itm.isWhitelabel), messageId: itm.id ?? "", messageType: 4, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventTypeName ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? "")), at: 0)
+                case 5://location
+                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? "", isWhitelabel: itm.isWhitelabel), messageId: itm.id ?? "", messageType: 1, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.Latitude ?? "", lng: itm.Longitude ?? "", locationName: "Current Location")), at: 0)
                 default:
                     break
                 }
@@ -1642,6 +1723,9 @@ extension MessagesVC {
         }
         else if NotificationMessage.messageType == 4 {
             self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: 4, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID)))
+        }
+        else if NotificationMessage.messageType == 5 {
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: NotificationMessage.messageType, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageLoc: MessageLocation(lat: NotificationMessage.locationLat, lng: NotificationMessage.locationLng, locationName: NotificationMessage.locationName)))
         }
     }
     

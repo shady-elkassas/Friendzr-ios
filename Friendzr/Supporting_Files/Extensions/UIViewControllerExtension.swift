@@ -153,6 +153,22 @@ extension UIViewController {
     }
     
     
+    func initFavoriteBarButton() {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(UIImage(named: "FavoritePage_ic"), for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 12)
+        button.addTarget(self, action: #selector(goToMyFavEvents), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func goToMyFavEvents() {
+        guard let vc = UIViewController.viewController(withStoryboard: .Favorite, AndContollerID: "FavoriteVC") as? FavoriteVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func SetImageTitleNavigationBar(imageItem : String? = "logoooo") {
         let image = UIImage(named: imageItem!)
         let imageView = UIImageView(frame: CGRect(x: 20, y: 0, width: 0, height: 40))

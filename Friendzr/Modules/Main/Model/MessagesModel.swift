@@ -72,6 +72,9 @@ class MessageObj: NSObject,Mappable {
     var eventData:EventObj? = nil
     var linkable:Bool = false
     var isWhitelabel:Bool = false
+    var Latitude:String? = ""
+    var Longitude:String? = ""
+
     
     override init() {
         super.init()
@@ -97,6 +100,8 @@ class MessageObj: NSObject,Mappable {
         eventData   <- map["eventData"]
         linkable   <- map["linkable"]
         isWhitelabel   <- map["isWhitelabel"]
+        Latitude   <- map["Latitude"]
+        Longitude   <- map["Longitude"]
     }
 }
 

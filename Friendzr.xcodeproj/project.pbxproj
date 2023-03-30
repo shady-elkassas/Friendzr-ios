@@ -379,6 +379,10 @@
 		43DAFA3227D6472B00D16462 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43DAFA2B27D6472B00D16462 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		43DC080A2863076F00B7A6DD /* CatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DC08092863076F00B7A6DD /* CatsVC.swift */; };
 		43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF596727B942FB000D9F69 /* ShareEventVC.swift */; };
+		43E4491829D1074900DBAF51 /* Favorite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43E4491729D1074900DBAF51 /* Favorite.storyboard */; };
+		43E4491B29D1075D00DBAF51 /* FavoriteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4491A29D1075D00DBAF51 /* FavoriteVC.swift */; };
+		43E4491D29D1076700DBAF51 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4491C29D1076700DBAF51 /* FavoriteViewModel.swift */; };
+		43E4491F29D1077000DBAF51 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E4491E29D1077000DBAF51 /* FavoriteModel.swift */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
 		43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */; };
 		43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */; };
@@ -830,6 +834,10 @@
 		43DAFA2F27D6472B00D16462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43DC08092863076F00B7A6DD /* CatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatsVC.swift; sourceTree = "<group>"; };
 		43DF596727B942FB000D9F69 /* ShareEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventVC.swift; sourceTree = "<group>"; };
+		43E4491729D1074900DBAF51 /* Favorite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Favorite.storyboard; sourceTree = "<group>"; };
+		43E4491A29D1075D00DBAF51 /* FavoriteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteVC.swift; sourceTree = "<group>"; };
+		43E4491C29D1076700DBAF51 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		43E4491E29D1077000DBAF51 /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
 		43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyFaceRegistrationAlertView.xib; sourceTree = "<group>"; };
 		43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFaceRegistrationAlertView.swift; sourceTree = "<group>"; };
@@ -1616,6 +1624,7 @@
 		4371D40F27329535003B8AFD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				43E4491229D1065600DBAF51 /* Favorite Event */,
 				434600D728B61D8E00FC932D /* Community */,
 				43F974202832643C00F736F3 /* Messages */,
 				4382ACAB26C28EAC005C1857 /* Main */,
@@ -1937,6 +1946,49 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
+		43E4491229D1065600DBAF51 /* Favorite Event */ = {
+			isa = PBXGroup;
+			children = (
+				43E4491629D1073900DBAF51 /* Model */,
+				43E4491529D1072D00DBAF51 /* ViewModel */,
+				43E4491429D1072200DBAF51 /* Controller */,
+				43E4491329D1071C00DBAF51 /* View */,
+			);
+			path = "Favorite Event";
+			sourceTree = "<group>";
+		};
+		43E4491329D1071C00DBAF51 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				43E4491729D1074900DBAF51 /* Favorite.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		43E4491429D1072200DBAF51 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				43E4491A29D1075D00DBAF51 /* FavoriteVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		43E4491529D1072D00DBAF51 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				43E4491C29D1076700DBAF51 /* FavoriteViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		43E4491629D1073900DBAF51 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				43E4491E29D1077000DBAF51 /* FavoriteModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		43F974202832643C00F736F3 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
@@ -2165,6 +2217,7 @@
 				432098D427956E5F005B83A8 /* More.storyboard in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
 				43D1A4A228802B6500830D8D /* TutorialScreens.storyboard in Resources */,
+				43E4491829D1074900DBAF51 /* Favorite.storyboard in Resources */,
 				43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
@@ -2405,6 +2458,7 @@
 				4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
 				43D1A4A728803A2500830D8D /* TutorialScreensTwoVC.swift in Sources */,
+				43E4491D29D1076700DBAF51 /* FavoriteViewModel.swift in Sources */,
 				43271A46288EB644003116A4 /* ShareLocationVC.swift in Sources */,
 				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
@@ -2475,6 +2529,7 @@
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
 				4336D12B26DB897D0093C7A6 /* EmailViewModel.swift in Sources */,
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
+				43E4491B29D1075D00DBAF51 /* FavoriteVC.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
 				43ABA6162876C598004716E4 /* MapAlertView.swift in Sources */,
@@ -2564,6 +2619,7 @@
 				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
 				4367E47327BA4D0B00FE1880 /* MyProfileViewController.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
+				43E4491F29D1077000DBAF51 /* FavoriteModel.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
 				4360CD0427F07A39009A51C7 /* ExternalEventDetailsVC.swift in Sources */,
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,

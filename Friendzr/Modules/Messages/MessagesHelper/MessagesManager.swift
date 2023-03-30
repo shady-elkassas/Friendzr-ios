@@ -69,12 +69,12 @@ class MessageFile {
 }
 
 class MessageLocation {
-    var lat:Double = 0.0
-    var lng:Double = 0.0
+    var lat:String = ""
+    var lng:String = ""
     var locationName:String = ""
     
     
-    init(lat:Double,lng:Double,locationName:String) {
+    init(lat:String,lng:String,locationName:String) {
         self.lat = lat
         self.lng = lng
         self.locationName = locationName
@@ -109,7 +109,7 @@ class ChatMessage {
     var messageLink:LinkPreviewEvent
     var messageLoc:MessageLocation
     
-    init(sender:SenderMessage,messageId:String,messageType:Int,date:Date,messageDate:String,messageTime:String,messageText:MessageText? = MessageText(text: ""),messageImage:MessageImage? = MessageImage(image: "placeHolderApp") ,messageFile:MessageFile? = MessageFile(file: ""),messageLink:LinkPreviewEvent? = LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""),messageLoc:MessageLocation? = MessageLocation(lat: 0.0, lng: 0.0, locationName: "")) {
+    init(sender:SenderMessage,messageId:String,messageType:Int,date:Date,messageDate:String,messageTime:String,messageText:MessageText? = MessageText(text: ""),messageImage:MessageImage? = MessageImage(image: "placeHolderApp") ,messageFile:MessageFile? = MessageFile(file: ""),messageLink:LinkPreviewEvent? = LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""),messageLoc:MessageLocation? = MessageLocation(lat: "0.0", lng: "0.0", locationName: "")) {
         self.sender = sender
         self.messageId = messageId
         self.messageType = messageType
@@ -120,7 +120,7 @@ class ChatMessage {
         self.messageImage = messageImage ?? MessageImage(image: "placeHolderApp")
         self.messageFile = messageFile ??  MessageFile(file: "")
         self.messageLink = messageLink ?? LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: "")
-        self.messageLoc = messageLoc ?? MessageLocation(lat: 0.0, lng: 0.0, locationName: "")
+        self.messageLoc = messageLoc ?? MessageLocation(lat: "0.0", lng: "0.0", locationName: "")
     }
 }
 
@@ -152,4 +152,9 @@ class NotificationMessage {
     static var photoURL:String = ""
     static var displayName:String = ""
     static var isWhitelabel:Bool = false
+    
+    static var locationLat:String = ""
+    static var locationLng:String = ""
+    static var locationName:String = ""
+
 }

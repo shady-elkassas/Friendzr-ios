@@ -38,6 +38,7 @@ class RecommendedPeopleObj: Mappable {
     var distanceFromYou: Double? = 0.0
     var matchedInterests: [String]? = []
     var imageIsVerified:Bool? = false
+    var key:Int? = 0
     
     required init?(map: Map) {
     }
@@ -54,6 +55,7 @@ class RecommendedPeopleObj: Mappable {
         distanceFromYou  <- map["distanceFromYou"]
         matchedInterests  <- map["matchedInterests"]
         imageIsVerified    <- map["imageIsVerified"]
+        key    <- map["key"]
     }
 }
 

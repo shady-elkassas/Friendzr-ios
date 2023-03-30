@@ -492,6 +492,70 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         self.showMoreTagsView.isHidden = true
     }
     
+    
+    func statuskey(_ model: RecommendedPeopleObj?,_ cell: FriendsCommunityCollectionViewCell) {
+        //status key
+        switch model?.key {
+        case 0:
+            //Status = normal case
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = false
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 1:
+            //Status = I have added a friend request
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = false
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 2:
+            //Status = Send me a request to add a friend
+            cell.subStackView.isHidden = false
+            cell.superStackView.isHidden = true
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 3:
+            //Status = We are friends
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = false
+            cell.unblockBtn.isHidden = true
+            break
+        case 4:
+            //Status = I block user
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = false
+            break
+        case 5:
+            //Status = user block me
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 6:
+            break
+        default:
+            break
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -514,9 +578,12 @@ extension CommunityVC:UICollectionViewDataSource {
             guard let cell = friendsCommunityCollectionView.dequeueReusableCell(withReuseIdentifier: cellID1, for: indexPath) as? FriendsCommunityCollectionViewCell else {return UICollectionViewCell()}
             
             let actionDate = formatterDate.string(from: Date())
+            let actionTime = formatterTime.string(from: Date())
 
             let model = recommendedPeopleViewModel.recommendedPeople.value
             cell.model = model
+            
+            statuskey(model, cell)
             
             cell.HandleViewProfileBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
@@ -527,23 +594,80 @@ extension CommunityVC:UICollectionViewDataSource {
             
             cell.HandleSkipBtn = {
                 self.isBtnSelected = true
-//                Defaults.bannerAdsCount1 += 1
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
             }
 
             cell.HandleNextBtn = {
                 self.isBtnSelected = true
-//                Defaults.bannerAdsCount1 += 1
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
             }
             cell.HandlePreviuosBtn = {
                 self.isBtnSelected = true
-//                Defaults.bannerAdsCount1 += 1
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: true)
             }
+            
             cell.HandleSendRequestBtn = {
                 self.sendFriendRequestWithMessage(model, actionDate, cell)
             }
+            
+            cell.HandleAccseptBtn = { //respond request
+                if NetworkConected.internetConect {
+                    self.accseptRequest(model, "\(actionDate) \(actionTime)")
+                }
+                
+            }
+            
+            cell.HandleRefusedBtn = { // refused request
+                if NetworkConected.internetConect {
+                    self.refusedRequest(model,"\(actionDate) \(actionTime)")
+                }
+            }
+            
+            cell.HandleMessageBtn = { //messages chat
+                if NetworkConected.internetConect {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.userId ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = true
+                    vc.leavevent = 0
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.name ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                    CancelRequest.currentTask = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            
+            cell.HandleUnblocktBtn = { //unblock account
+                if NetworkConected.internetConect {
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, isNotFriend: true, requestdate: "\(actionDate) \(actionTime)") { error, message in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = message else {return}
+                        DispatchQueue.main.async {
+                            self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+                        }
+                    }
+                }
+            }
+            
+            cell.HandleCancelRequestBtn = { // cancel request
+                if NetworkConected.internetConect {
+                    self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+                }
+            }
+
+            
             return cell
         }
         else if collectionView == eventCollectionView {
@@ -769,10 +893,77 @@ extension CommunityVC:GADBannerViewDelegate {
 }
 
 
-//extension CommunityVC : ViewDidclicked {
-//    func viewTapped() {
-//        self.isBtnSelected = true
-//        let model = recommendedPeopleViewModel.recommendedPeople.value
-//        self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-//    }
-//}
+extension CommunityVC {
+    func accseptRequest(_ model: RecommendedPeopleObj?, _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, isNotFriend: true, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+                        
+            DispatchQueue.main.async {
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+            }
+            
+            DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    func refusedRequest(_ model: RecommendedPeopleObj?, _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+            }
+            
+            DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    
+    func cancelRequest(_ model: RecommendedPeopleObj?, _ requestdate:String, _ cell: FriendsCommunityCollectionViewCell) {
+        self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
+        cell.cancelRequestBtn.isUserInteractionEnabled = false
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    cell.cancelRequestBtn.isHidden = true
+                    cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
+                    cell.sendRequestBtn.isHidden = false
+                    cell.cancelRequestBtn.isUserInteractionEnabled = true
+                }
+                
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+            }
+        }
+    }
+}

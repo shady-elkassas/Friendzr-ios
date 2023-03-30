@@ -275,7 +275,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         
         if Defaults.token != "" {
+            
             initProfileBarButton(didTap: Defaults.isFirstOpenMap)
+//            initFavoriteBarButton()
         }
         
         clearNavigationBar(size: 16)

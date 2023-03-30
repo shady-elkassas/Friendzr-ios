@@ -16,10 +16,8 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userImg: UIImageView!
     @IBOutlet weak var interestMatchLbl: UILabel!
     @IBOutlet weak var viewProfileBtn: UIButton!
-    @IBOutlet weak var sendRequestBtn: UIButton!
     @IBOutlet weak var milesLbl: UILabel!
     @IBOutlet weak var imageBtn: UIButton!
-    @IBOutlet weak var cancelRequestBtn: UIButton!
     @IBOutlet weak var tagsView: TagListView!
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
     @IBOutlet weak var seemoreLbl: UILabel!
@@ -34,9 +32,24 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var previuosBtn: UIButton!
 
+    @IBOutlet weak var sendRequestBtn: UIButton!
+    @IBOutlet weak var cancelRequestBtn: UIButton!
+    @IBOutlet weak var unblockBtn: UIButton!
+    @IBOutlet weak var messageBtn: UIButton!
+    @IBOutlet weak var accseptRequestBtn: UIButton!
+    @IBOutlet weak var superStackView: UIStackView!
+    @IBOutlet weak var refusedRequestBtn: UIButton!
+    @IBOutlet weak var subStackView: UIStackView!
+
+    
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
     var HandleCancelRequestBtn: (()->())?
+    var HandleMessageBtn: (() -> ())?
+    var HandleUnblocktBtn: (() -> ())?
+    var HandleAccseptBtn: (() -> ())?
+    var HandleRefusedBtn: (() -> ())?
+
     var HandleSkipBtn: (()->())?
     var HandleSeeMoreBtn: (()->())?
     
@@ -62,7 +75,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
             
             seemoreBtn.isHidden = true
             seemoreLbl.isHidden = true
-            
+                        
             tagsView.removeAllTags()
             if (model?.matchedInterests?.count ?? 0) == 0 {
                 noAvailableInterestLbl.isHidden = false
@@ -136,6 +149,22 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
         HandleNextBtn?()
     }
     
+    @IBAction func unblockBtn(_ sender: Any) {
+        HandleUnblocktBtn?()
+    }
+    
+    
+    @IBAction func messageBtn(_ sender: Any) {
+        HandleMessageBtn?()
+    }
+    
+    @IBAction func refusedRequestBtn(_ sender: Any) {
+        HandleRefusedBtn?()
+    }
+    
+    @IBAction func accseptRequestBtn(_ sender: Any) {
+        HandleAccseptBtn?()
+    }
 }
 
 extension FriendsCommunityCollectionViewCell : TagListViewDelegate {
