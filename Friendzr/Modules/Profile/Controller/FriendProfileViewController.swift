@@ -941,10 +941,14 @@ extension FriendProfileViewController {
             
             guard let _ = message else {return}
             
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadRecommendedPeople"), object: nil, userInfo: nil)
+            }
+            
             if Defaults.isWhiteLable {
                 Router().toInbox()
             }else {
-                self.onPopup()
+                self.getFriendProfileInformation()
             }
         }
     }
@@ -988,6 +992,10 @@ extension FriendProfileViewController {
             }
             
             guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadRecommendedPeople"), object: nil, userInfo: nil)
+            }
             
             DispatchQueue.main.async {
                 if Defaults.isWhiteLable {

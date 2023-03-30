@@ -644,7 +644,10 @@ extension CommunityVC:UICollectionViewDataSource {
             }
             
             cell.HandleUnblocktBtn = { //unblock account
+                
                 if NetworkConected.internetConect {
+                    self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblocking...".localizedString)
+                    cell.unblockBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, isNotFriend: true, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -656,6 +659,13 @@ extension CommunityVC:UICollectionViewDataSource {
                         guard let _ = message else {return}
                         DispatchQueue.main.async {
                             self.getRecommendedPeopleBy(userID: model?.userId ?? "", previous: false)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            cell.unblockBtn.isHidden = true
+                            cell.unblockBtn.setTitle("Cancel Request", for: .normal)
+                            cell.sendRequestBtn.isHidden = false
+                            cell.unblockBtn.isUserInteractionEnabled = true
                         }
                     }
                 }

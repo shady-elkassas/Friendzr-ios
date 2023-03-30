@@ -9,7 +9,7 @@ target 'Friendzr' do
   
   pod 'Alamofire', '~> 5.4'
   pod 'ObjectMapper'
-
+  
   pod 'FBSDKLoginKit', '~> 11.1.0'
   pod 'GoogleSignIn'
   
@@ -29,7 +29,7 @@ target 'Friendzr' do
   pod 'MultiSlider'
   pod 'ListPlaceholder'
   pod 'RevealingSplashView'
-
+  
   pod 'QCropper'
   pod 'AWSRekognition'
   pod 'Google-Mobile-Ads-SDK'
@@ -43,17 +43,27 @@ target 'Friendzr' do
   pod 'ImageSlideshow', '~> 1.9.0'
   pod "TLPhotoPicker"
   pod "ImageSlideshow/SDWebImage"
-
-  post_install do |installer|
-    installer.pods_project.build_configurations.each do |config|
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
-    end
-  end
   
 #  post_install do |installer|
-#    installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
-#      configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+#    installer.pods_project.build_configurations.each do |config|
+#      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
 #    end
 #  end
+  
+  #  post_install do |installer|
+  #    installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
+  #      configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+  #    end
+  #  end
+  
+  post_install do |installer|
+    installer.generated_projects.each do |project|
+      project.targets.each do |target|
+        target.build_configurations.each do |config|
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+        end
+      end
+    end
+  end
   
 end

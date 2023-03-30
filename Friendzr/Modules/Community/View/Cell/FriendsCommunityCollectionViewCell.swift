@@ -105,7 +105,9 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
         cancelRequestBtn.cornerRadiusView(radius: 6)
         skipBtnView.cornerRadiusView(radius: 6)
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-        
+        messageBtn.cornerRadiusView(radius: 6)
+        unblockBtn.cornerRadiusView(radius: 6)
+
         previuosView.cornerRadiusView(radius: 6)
         nextView.cornerRadiusView(radius: 6)
 
