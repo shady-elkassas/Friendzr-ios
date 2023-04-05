@@ -307,8 +307,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         hideView.isHidden = true
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [weak self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+
                 self?.tableView.delegate = self
                 self?.tableView.dataSource = self
                 self?.tableView.reloadData()
@@ -381,7 +381,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
         viewmodel.feeds.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                
                 DispatchQueue.main.async {
                     self?.hideView.isHidden = true
                 }
@@ -420,7 +419,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.hideView.isHidden = true
         viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
         viewmodel.feeds.bind { [weak self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 self?.tableView.delegate = self
                 self?.tableView.dataSource = self
                 self?.tableView.reloadData()

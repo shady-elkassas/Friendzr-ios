@@ -31,7 +31,7 @@ class ShareLocationVC: UIViewController {
     var locationLng:Double = 0.0
     var locationTitle:String = ""
 
-    var onLocationCallBackResponse: ((_ lat: Double, _ lng: Double,_ locationTitle:String) -> ())?
+    var onLocationCallBackResponse: ((_ lat: String, _ lng: String,_ locationTitle:String) -> ())?
     
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
@@ -146,9 +146,10 @@ class ShareLocationVC: UIViewController {
     }
     
     @IBAction func shareMyCurrentLocationBtn(_ sender: Any) {
-        onLocationCallBackResponse?(Defaults.LocationLat.toDouble() ?? 0.0,Defaults.LocationLng.toDouble() ?? 0.0,"Current Location")
+        onLocationCallBackResponse?(Defaults.LocationLat ,Defaults.LocationLng,self.locationTitle)
         self.onDismiss()
     }
+    
     @IBAction func shareLocationBtn(_ sender: Any) {
         
     }

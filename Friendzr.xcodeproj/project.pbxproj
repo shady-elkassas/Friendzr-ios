@@ -255,6 +255,8 @@
 		4399147F2923A969004291DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
 		439914822923B68D004291DA /* afdevkey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 439914812923B68D004291DA /* afdevkey.plist */; };
 		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
+		439D29FB29DD64A30095B3AE /* TypeSwitchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439D29F929DD64970095B3AE /* TypeSwitchCollectionViewCell.swift */; };
+		439D29FC29DD64A30095B3AE /* TypeSwitchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439D29FA29DD64A20095B3AE /* TypeSwitchCollectionViewCell.xib */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
@@ -707,6 +709,8 @@
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439914812923B68D004291DA /* afdevkey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = afdevkey.plist; sourceTree = "<group>"; };
 		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
+		439D29F929DD64970095B3AE /* TypeSwitchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeSwitchCollectionViewCell.swift; sourceTree = "<group>"; };
+		439D29FA29DD64A20095B3AE /* TypeSwitchCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeSwitchCollectionViewCell.xib; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -1100,6 +1104,8 @@
 				4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */,
 				43B8288027EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift */,
 				43B8288127EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib */,
+				439D29F929DD64970095B3AE /* TypeSwitchCollectionViewCell.swift */,
+				439D29FA29DD64A20095B3AE /* TypeSwitchCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2228,6 +2234,7 @@
 				43ACFED827B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib in Resources */,
 				434600DD28B61DD400FC932D /* Community.storyboard in Resources */,
 				43A350E128BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib in Resources */,
+				439D29FC29DD64A30095B3AE /* TypeSwitchCollectionViewCell.xib in Resources */,
 				43AF3530284CCA0100B65773 /* FilterCatsTableViewCell.xib in Resources */,
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				43967D9927944D69005B1F5D /* CategoriesView.xib in Resources */,
@@ -2692,6 +2699,7 @@
 				432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */,
 				4308502B2973F8B800B7BA44 /* AddImagesCollectionViewCell.swift in Sources */,
 				4389DC8F27BE3B6B00B62CDC /* PreferToViewModel.swift in Sources */,
+				439D29FB29DD64A30095B3AE /* TypeSwitchCollectionViewCell.swift in Sources */,
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
 				43EED1402973EEB300213BB0 /* AddEditProfileImagesVC.swift in Sources */,
@@ -3146,7 +3154,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -3163,7 +3171,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.40;
+				MARKETING_VERSION = 1.2.41;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3187,7 +3195,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
@@ -3203,7 +3211,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.40;
+				MARKETING_VERSION = 1.2.41;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

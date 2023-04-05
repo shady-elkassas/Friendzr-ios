@@ -370,7 +370,7 @@ extension UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.current // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from:isoDate)
         return date
     }
     

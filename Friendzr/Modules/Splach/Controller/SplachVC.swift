@@ -36,7 +36,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     var mask: CALayer? = CALayer()
     var deeplinkValue:String = ""
     var deeplinksub1:String = ""
-
+    
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.frame = CGRect(x: 0, y: 0, width: 70 , height: 70)
@@ -63,15 +63,40 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     
     
     //MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
-        let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "splashImg")!, iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: .clear)
         
+        let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "splashImg")!, iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: .clear)
         
         self.view.addSubview(revealingSplashView)
         
+        setupDeepLinkTransaction(revealingSplashView)
+        
+        
+        DispatchQueue.main.async {
+            self.updateLocation()
+        }
+        
+        initProfileBarButton(didTap: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NetworkMonitor.shared.startMonitoring()
+        
+        Defaults.availableVC = "SplachVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
+        Defaults.isFirstLaunch = true
+        CancelRequest.currentTask = false
+    }
+    
+    
+    func setupDeepLinkTransaction(_ revealingSplashView: RevealingSplashView) {
         revealingSplashView.duration = 1.5
         
         revealingSplashView.iconColor = UIColor.red
@@ -87,7 +112,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
                 if Defaults.isWhiteLable {
                     Router().toInbox()
-//                    Router().toOptionsSignUpVC(IsLogout: true)
                 }else {
                     if Defaults.needUpdate == 1 {
                         DispatchQueue.main.async {
@@ -115,85 +139,52 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                 }
             }
         }
-        
-        
-        DispatchQueue.main.async {
-            self.updateLocation()
-        }
-        
-        initProfileBarButton(didTap: true)
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        NetworkMonitor.shared.startMonitoring()
-        
-        Defaults.availableVC = "SplachVC"
-        print("availableVC >> \(Defaults.availableVC)")
-        
-        Defaults.isFirstLaunch = true
-        CancelRequest.currentTask = false
-        
-        //        recordScreenView()
-        //
-        //        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
-        
-    }
-    
-    
-//    func recordScreenView() {
-//        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
-//
-//        let screenName = Defaults.availableVC
-//        let screenClass = classForCoder.description()
-//
-//        // [START set_current_screen]
-//        Analytics.logEvent(AnalyticsEventScreenView,
-//                           parameters: [AnalyticsParameterScreenName: screenName,
-//                                       AnalyticsParameterScreenClass: screenClass])
-//        // [END set_current_screen]
-//
-//        print("screenName = \(screenName)")
-//        print("screenClass = \(screenClass)")
-//    }
     
     override func viewWillDisappear(_ animated: Bool) {
         CancelRequest.currentTask = true
     }
     
     //MARK: - APIs
+    //internet cpnnection for APIs
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    NetworkConected.internetConect = true
-                    self.getAllValidatConfig()
-                }
-            }else {
-                DispatchQueue.main.async {
-                    NetworkConected.internetConect = false
-                    self.HandleInternetConnection()
-                }
+        appDelegate.networkReachability()
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getAllValidatConfig()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getAllValidatConfig()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
+    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
+        allValidatConfigVM.userValidationConfig.bind { value in
             DispatchQueue.main.async {
                 Router().toFeed()
             }
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [weak self]error in
+        allValidatConfigVM.errorMsg.bind { error in
             DispatchQueue.main.async {
                 print(error)
             }
@@ -246,7 +237,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
             if Defaults.isWhiteLable {
                 Router().toInbox()
-//                Router().toOptionsSignUpVC(IsLogout: true)
+                //                Router().toOptionsSignUpVC(IsLogout: true)
             }else {
                 if Defaults.needUpdate == 1 {
                     DispatchQueue.main.async {
@@ -278,11 +269,6 @@ extension SplachVC {
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//            //check  location permissions
-//            //            self.checkLocationPermission()
-//        }
+        
     }
-    
-    
 }
