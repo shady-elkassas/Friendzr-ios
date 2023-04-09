@@ -24,6 +24,7 @@ enum StoryBoard: String {
     case Community
     case SoftExpertTask
     case Favorite
+    case Subscriptions
 }
 
 extension StoryBoard: Name {

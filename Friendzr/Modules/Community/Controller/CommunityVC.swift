@@ -583,7 +583,7 @@ extension CommunityVC:UICollectionViewDataSource {
             let model = recommendedPeopleViewModel.recommendedPeople.value
             cell.model = model
             
-            statuskey(model, cell)
+//            statuskey(model, cell)
             
             cell.HandleViewProfileBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}

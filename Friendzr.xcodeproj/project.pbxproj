@@ -257,6 +257,9 @@
 		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
 		439D29FB29DD64A30095B3AE /* TypeSwitchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439D29F929DD64970095B3AE /* TypeSwitchCollectionViewCell.swift */; };
 		439D29FC29DD64A30095B3AE /* TypeSwitchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439D29FA29DD64A20095B3AE /* TypeSwitchCollectionViewCell.xib */; };
+		439D2A0729DD7B400095B3AE /* Subscriptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 439D2A0629DD7B400095B3AE /* Subscriptions.storyboard */; };
+		439D2A0929DD7C300095B3AE /* SubscriptionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439D2A0829DD7C300095B3AE /* SubscriptionsVC.swift */; };
+		439D2A0B29DD80240095B3AE /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439D2A0A29DD80240095B3AE /* StoreKitManager.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
@@ -711,6 +714,10 @@
 		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
 		439D29F929DD64970095B3AE /* TypeSwitchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeSwitchCollectionViewCell.swift; sourceTree = "<group>"; };
 		439D29FA29DD64A20095B3AE /* TypeSwitchCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeSwitchCollectionViewCell.xib; sourceTree = "<group>"; };
+		439D2A0529DD7B220095B3AE /* StoreKit.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKit.storekit; sourceTree = "<group>"; };
+		439D2A0629DD7B400095B3AE /* Subscriptions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Subscriptions.storyboard; sourceTree = "<group>"; };
+		439D2A0829DD7C300095B3AE /* SubscriptionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsVC.swift; sourceTree = "<group>"; };
+		439D2A0A29DD80240095B3AE /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -1630,6 +1637,7 @@
 		4371D40F27329535003B8AFD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				439D29FD29DD74AF0095B3AE /* Subscriptions */,
 				43E4491229D1065600DBAF51 /* Favorite Event */,
 				434600D728B61D8E00FC932D /* Community */,
 				43F974202832643C00F736F3 /* Messages */,
@@ -1808,6 +1816,57 @@
 				43D1A4B02883FD0B00830D8D /* LandingPageVC.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		439D29FD29DD74AF0095B3AE /* Subscriptions */ = {
+			isa = PBXGroup;
+			children = (
+				439D2A0429DD7B0A0095B3AE /* ViewModel */,
+				439D2A0229DD7AFC0095B3AE /* Model */,
+				439D2A0129DD7AF50095B3AE /* Helper */,
+				439D2A0029DD7AE70095B3AE /* Controller */,
+				439D29FF29DD7AE00095B3AE /* View */,
+			);
+			path = Subscriptions;
+			sourceTree = "<group>";
+		};
+		439D29FF29DD7AE00095B3AE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				439D2A0629DD7B400095B3AE /* Subscriptions.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		439D2A0029DD7AE70095B3AE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				439D2A0829DD7C300095B3AE /* SubscriptionsVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		439D2A0129DD7AF50095B3AE /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				439D2A0529DD7B220095B3AE /* StoreKit.storekit */,
+				439D2A0A29DD80240095B3AE /* StoreKitManager.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		439D2A0229DD7AFC0095B3AE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		439D2A0429DD7B0A0095B3AE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		439DDE8926F7308800E09FC1 /* Model */ = {
@@ -2246,6 +2305,7 @@
 				4337B47F278718880077B794 /* InboxTableViewCell.xib in Resources */,
 				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				43D009192794412900370E2C /* BlockedTableViewCell.xib in Resources */,
+				439D2A0729DD7B400095B3AE /* Subscriptions.storyboard in Resources */,
 				43D009202794413E00370E2C /* SettingsTableViewCell.xib in Resources */,
 				43AF3532284E123800B65773 /* SortFeedView.xib in Resources */,
 				43AB2FC729B4AD04006196CC /* RequestFriendTableViewCell.xib in Resources */,
@@ -2678,8 +2738,10 @@
 				430A352026CAB02700477A94 /* EventsVC.swift in Sources */,
 				439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */,
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
+				439D2A0B29DD80240095B3AE /* StoreKitManager.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
 				43699DA229B4CDDD00AB73C8 /* ExpandableLabel.swift in Sources */,
+				439D2A0929DD7C300095B3AE /* SubscriptionsVC.swift in Sources */,
 				4389DC9127BE3B8E00B62CDC /* PreferToModel.swift in Sources */,
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,
 				43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */,
@@ -3171,7 +3233,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.41;
+				MARKETING_VERSION = 1.2.42;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3211,7 +3273,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.41;
+				MARKETING_VERSION = 1.2.42;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -1,0 +1,92 @@
+{
+  "identifier" : "A5EC6584",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1585963463",
+    "_developerTeamID" : "8S62D745ZJ",
+    "_lastSynchronizedDate" : 702380839.19255698
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21301877",
+      "localizations" : [
+
+      ],
+      "name" : "Friendzr Paid For Version",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "5.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6447246866",
+          "introductoryOffer" : null,
+          "localizations" : [
+
+          ],
+          "productID" : "com.FriendzSocialMediaLimited.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "1 Month",
+          "subscriptionGroupID" : "21301877",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "59.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6447247100",
+          "introductoryOffer" : null,
+          "localizations" : [
+
+          ],
+          "productID" : "com.FriendzSocialMediaLimited.year",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "12 Months",
+          "subscriptionGroupID" : "21301877",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6447246978",
+          "introductoryOffer" : null,
+          "localizations" : [
+
+          ],
+          "productID" : "com.FriendzSocialMediaLimited.sixmonth",
+          "recurringSubscriptionPeriod" : "P6M",
+          "referenceName" : "6 Months",
+          "subscriptionGroupID" : "21301877",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

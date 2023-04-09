@@ -29,6 +29,7 @@ import FBAudienceNetwork
 import AppTrackingTransparency
 import AppsFlyerLib
 import FirebaseDynamicLinks
+//import StoreKit
 
 
 @main
@@ -64,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupHeightApp()
         
-        
+//        initSKPayment()
         let ads = GADMobileAds.sharedInstance()
         ads.start(completionHandler: nil)
         ads.start { status in
