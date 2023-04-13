@@ -2,7 +2,7 @@
 //  ShowMessageFromRequestsView.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 06/03/2023.
+//  Created by Muhammad Sabri Saad on 06/03/2023.
 //
 
 import Foundation

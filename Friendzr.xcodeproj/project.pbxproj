@@ -298,6 +298,7 @@
 		43ACFED827B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACFED627B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib */; };
 		43ACFEDB27B3BBA1001CD340 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ACFED927B3BBA1001CD340 /* AdsTableViewCell.swift */; };
 		43ACFEDC27B3BBA1001CD340 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACFEDA27B3BBA1001CD340 /* AdsTableViewCell.xib */; };
+		43AD56D529E29921000A4C28 /* ATCApplePayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD56D429E29921000A4C28 /* ATCApplePayManager.swift */; };
 		43AF352F284CCA0100B65773 /* FilterCatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AF352D284CCA0100B65773 /* FilterCatsTableViewCell.swift */; };
 		43AF3530284CCA0100B65773 /* FilterCatsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AF352E284CCA0100B65773 /* FilterCatsTableViewCell.xib */; };
 		43AF3532284E123800B65773 /* SortFeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43AF3531284E123800B65773 /* SortFeedView.xib */; };
@@ -756,6 +757,7 @@
 		43ACFED627B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsAttendeesTableViewCell.xib; sourceTree = "<group>"; };
 		43ACFED927B3BBA1001CD340 /* AdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewCell.swift; sourceTree = "<group>"; };
 		43ACFEDA27B3BBA1001CD340 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
+		43AD56D429E29921000A4C28 /* ATCApplePayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATCApplePayManager.swift; sourceTree = "<group>"; };
 		43AF352D284CCA0100B65773 /* FilterCatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCatsTableViewCell.swift; sourceTree = "<group>"; };
 		43AF352E284CCA0100B65773 /* FilterCatsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCatsTableViewCell.xib; sourceTree = "<group>"; };
 		43AF3531284E123800B65773 /* SortFeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortFeedView.xib; sourceTree = "<group>"; };
@@ -1638,7 +1640,7 @@
 			isa = PBXGroup;
 			children = (
 				439D29FD29DD74AF0095B3AE /* Subscriptions */,
-				43E4491229D1065600DBAF51 /* Favorite Event */,
+				43E4491229D1065600DBAF51 /* Favorite */,
 				434600D728B61D8E00FC932D /* Community */,
 				43F974202832643C00F736F3 /* Messages */,
 				4382ACAB26C28EAC005C1857 /* Main */,
@@ -1842,6 +1844,7 @@
 			isa = PBXGroup;
 			children = (
 				439D2A0829DD7C300095B3AE /* SubscriptionsVC.swift */,
+				43AD56D429E29921000A4C28 /* ATCApplePayManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2011,7 +2014,7 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
-		43E4491229D1065600DBAF51 /* Favorite Event */ = {
+		43E4491229D1065600DBAF51 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
 				43E4491629D1073900DBAF51 /* Model */,
@@ -2019,7 +2022,7 @@
 				43E4491429D1072200DBAF51 /* Controller */,
 				43E4491329D1071C00DBAF51 /* View */,
 			);
-			path = "Favorite Event";
+			path = Favorite;
 			sourceTree = "<group>";
 		};
 		43E4491329D1071C00DBAF51 /* View */ = {
@@ -2679,6 +2682,7 @@
 				4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */,
 				43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */,
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
+				43AD56D529E29921000A4C28 /* ATCApplePayManager.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
 				43F974342832993C00F736F3 /* MessageTableViewCell.swift in Sources */,
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,

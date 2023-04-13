@@ -41,7 +41,8 @@ class EventDetailsViewController: UIViewController {
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
     var joinCahtEventVM:ChatViewModel = ChatViewModel()
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
-    
+    var favVM:FavoriteViewModel = FavoriteViewModel()
+
     var locationTitle = ""
     
     var visibleIndexPath:Int = 0
@@ -369,6 +370,12 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.bottomLbl.isHidden = true
             eventStatus(model, cell)
             
+            if model?.isFavorite == true {
+                cell.bookmarkedBtn.isSelected = true
+            }else {
+                cell.bookmarkedBtn.isSelected = false
+            }
+            
             cell.HandleChatBtn = {
                 self.handleEventChat(model, JoinDate, Jointime)
             }
@@ -422,6 +429,29 @@ extension EventDetailsViewController: UITableViewDataSource {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return
+                }
+            }
+            
+            cell.HandleBookmarkedBtn = {
+                if NetworkConected.internetConect == true {
+                    cell.bookmarkedBtn.isSelected.toggle()
+                    
+                    self.favVM.toggleFavorite(ByEventID: model?.id ?? "", isFavorite: cell.bookmarkedBtn.isSelected) { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {return}
+                        
+                        DispatchQueue.main.async {
+//                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+//                            self.getEventDetails()
+
+                        }
+                    }
                 }
             }
             

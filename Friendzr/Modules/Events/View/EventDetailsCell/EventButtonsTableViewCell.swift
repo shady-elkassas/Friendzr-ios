@@ -13,6 +13,7 @@ class EventButtonsTableViewCell: UITableViewCell {
     @IBOutlet weak var leaveBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var chatBtn: UIButton!
+    @IBOutlet weak var bookmarkedBtn: UIButton!
     @IBOutlet weak var bottomLbl: UILabel!
     
     let model:EventObj? = nil
@@ -22,6 +23,7 @@ class EventButtonsTableViewCell: UITableViewCell {
     var HandleEditBtn: (() -> ())?
     var HandleJoinBtn: (() -> ())?
     var HandleChatBtn: (() -> ())?
+    var HandleBookmarkedBtn: (() -> ())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,5 +49,8 @@ class EventButtonsTableViewCell: UITableViewCell {
     }
     @IBAction func leaveBtn(_ sender: Any) {
         HandleLeaveBtn?()
+    }
+    @IBAction func bookmarkedBtn(_ sender: Any) {
+        HandleBookmarkedBtn?()
     }
 }

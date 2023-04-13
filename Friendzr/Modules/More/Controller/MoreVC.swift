@@ -374,6 +374,7 @@ extension MoreVC : UITableViewDelegate {
         case 1: //Events
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventsVC") as? EventsVC else {return}
+                vc.selectVC = 0
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break

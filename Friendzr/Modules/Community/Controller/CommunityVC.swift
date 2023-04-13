@@ -10,6 +10,7 @@ import AMShimmer
 import SDWebImage
 import FirebaseAnalytics
 import GoogleMobileAds
+import PassKit
 
 //MARK: - singletone
 class CommunitySingletone {

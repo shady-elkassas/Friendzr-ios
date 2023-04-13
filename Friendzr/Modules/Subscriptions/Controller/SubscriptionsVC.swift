@@ -1,8 +1,8 @@
 //
-//  SubscriptionsVC.swift
+//  EventsVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 05/04/2023.
+//  Created by Muhammad Sabri Saad on 16/08/2021.
 //
 
 import UIKit

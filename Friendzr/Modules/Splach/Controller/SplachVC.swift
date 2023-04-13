@@ -73,8 +73,9 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         
         self.view.addSubview(revealingSplashView)
         
-        setupDeepLinkTransaction(revealingSplashView)
-        
+        DispatchQueue.main.async {
+            self.setupDeepLinkTransaction(revealingSplashView)
+        }
         
         DispatchQueue.main.async {
             self.updateLocation()
