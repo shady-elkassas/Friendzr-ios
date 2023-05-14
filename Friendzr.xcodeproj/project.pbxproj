@@ -78,6 +78,8 @@
 		4327C66A27AE932C0011963D /* ExtensionUIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4327C66927AE932C0011963D /* ExtensionUIDevice.swift */; };
 		432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940F826EE0EED0066BE87 /* FriendViewModel.swift */; };
 		432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940FA26EE0FB60066BE87 /* FriendModel.swift */; };
+		432B077D29F924620030CEF9 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B077C29F924620030CEF9 /* LocationViewModel.swift */; };
+		432B077F29F9259F0030CEF9 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B077E29F9259F0030CEF9 /* LocationModel.swift */; };
 		432C6AD726F33BD60029FB89 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD626F33BD60029FB89 /* TagView.swift */; };
 		432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD826F33BDF0029FB89 /* TagListView.swift */; };
 		432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6ADA26F33BE70029FB89 /* CloseButton.swift */; };
@@ -531,6 +533,8 @@
 		4327C66927AE932C0011963D /* ExtensionUIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIDevice.swift; sourceTree = "<group>"; };
 		432940F826EE0EED0066BE87 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		432940FA26EE0FB60066BE87 /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
+		432B077C29F924620030CEF9 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
+		432B077E29F9259F0030CEF9 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		432C6AD626F33BD60029FB89 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		432C6AD826F33BDF0029FB89 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		432C6ADA26F33BE70029FB89 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -1127,6 +1131,7 @@
 				432E4A99270AFC5E00963448 /* MessagesModel.swift */,
 				4388686C27845C4D004D36B2 /* ReportModel.swift */,
 				43C64A0B2796C40800C35FA8 /* GroupModel.swift */,
+				432B077E29F9259F0030CEF9 /* LocationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1136,6 +1141,7 @@
 			children = (
 				4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */,
 				4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */,
+				432B077C29F924620030CEF9 /* LocationViewModel.swift */,
 				4397236C2709CE9E0062D684 /* ChatViewModel.swift */,
 				43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */,
 				4388686A27845BDC004D36B2 /* ReportViewModel.swift */,
@@ -2538,6 +2544,7 @@
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
 				433CDE1D27CCBAF200A80A40 /* EventCalendarVC.swift in Sources */,
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
+				432B077F29F9259F0030CEF9 /* LocationModel.swift in Sources */,
 				43FC58D6286B05B8001ADE2C /* PreferToTableViewCell.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				434600DF28B61DE000FC932D /* CommunityVC.swift in Sources */,
@@ -2791,6 +2798,7 @@
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */,
 				4351F527295D7DD900F2B379 /* KeyChain.swift in Sources */,
+				432B077D29F924620030CEF9 /* LocationViewModel.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3220,7 +3228,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 2.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -3237,7 +3245,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.42;
+				MARKETING_VERSION = 1.2.43;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3261,7 +3269,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
@@ -3277,7 +3285,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.42;
+				MARKETING_VERSION = 1.2.43;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

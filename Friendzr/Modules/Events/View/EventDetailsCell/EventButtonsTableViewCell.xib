@@ -86,7 +86,7 @@
                         <color key="textColor" systemColor="systemRedColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOI-ms-DrO">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOI-ms-DrO">
                         <rect key="frame" x="83" y="13.5" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="DOI-ms-DrO" secondAttribute="height" id="ZOl-af-6iS"/>

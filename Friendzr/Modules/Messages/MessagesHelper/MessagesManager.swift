@@ -72,12 +72,24 @@ class MessageLocation {
     var lat:String = ""
     var lng:String = ""
     var locationName:String = ""
+    var captionTxt:String = ""
+    var isLiveLocation:Bool = false
+    var locationPeriod:String = ""
+    var locationStartTime:String = ""
+    var locationEndTime:String = ""
     
     
-    init(lat:String,lng:String,locationName:String) {
+    
+    init(lat:String,lng:String,locationName:String,captionTxt:String,isLiveLocation:Bool,locationPeriod:String,locationStartTime:String,locationEndTime:String) {
         self.lat = lat
         self.lng = lng
         self.locationName = locationName
+        
+        self.captionTxt = captionTxt
+        self.isLiveLocation = isLiveLocation
+        self.locationPeriod = locationPeriod
+        self.locationStartTime = locationStartTime
+        self.locationEndTime = locationEndTime
     }
     
 }
@@ -109,7 +121,7 @@ class ChatMessage {
     var messageLink:LinkPreviewEvent
     var messageLoc:MessageLocation
     
-    init(sender:SenderMessage,messageId:String,messageType:Int,date:Date,messageDate:String,messageTime:String,messageText:MessageText? = MessageText(text: ""),messageImage:MessageImage? = MessageImage(image: "placeHolderApp") ,messageFile:MessageFile? = MessageFile(file: ""),messageLink:LinkPreviewEvent? = LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""),messageLoc:MessageLocation? = MessageLocation(lat: "0.0", lng: "0.0", locationName: "")) {
+    init(sender:SenderMessage,messageId:String,messageType:Int,date:Date,messageDate:String,messageTime:String,messageText:MessageText? = MessageText(text: ""),messageImage:MessageImage? = MessageImage(image: "placeHolderApp") ,messageFile:MessageFile? = MessageFile(file: ""),messageLink:LinkPreviewEvent? = LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""),messageLoc:MessageLocation? = MessageLocation(lat: "0.0", lng: "0.0", locationName: "", captionTxt: "",isLiveLocation: false,locationPeriod: "15 Minutes",locationStartTime:"",locationEndTime: "")) {
         self.sender = sender
         self.messageId = messageId
         self.messageType = messageType
@@ -120,7 +132,7 @@ class ChatMessage {
         self.messageImage = messageImage ?? MessageImage(image: "placeHolderApp")
         self.messageFile = messageFile ??  MessageFile(file: "")
         self.messageLink = messageLink ?? LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: "")
-        self.messageLoc = messageLoc ?? MessageLocation(lat: "0.0", lng: "0.0", locationName: "")
+        self.messageLoc = messageLoc ?? MessageLocation(lat: "0.0", lng: "0.0", locationName: "", captionTxt: "",isLiveLocation: false,locationPeriod: "15 Minutes",locationStartTime:"",locationEndTime: "")
     }
 }
 
@@ -157,4 +169,8 @@ class NotificationMessage {
     static var locationLng:String = ""
     static var locationName:String = ""
 
+    static var isLiveLocation:String = ""
+    static var locationPeriod:String = ""
+    static var locationStartTime:String = ""
+    static var locationEndTime:String = ""
 }

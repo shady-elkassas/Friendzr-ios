@@ -645,9 +645,19 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let messsageLinkEveneventdateto = userInfo["messsageLinkEveneventdateto"] as? String ?? ""
         let messsageLinkEvencategorie = userInfo["messsageLinkEvencategorie"] as? String ?? ""
         
+        let locationLat = userInfo["latitude"] as? String ?? ""
+        let locationLng = userInfo["longitude"] as? String ?? ""
+        let locationName = userInfo["locationName"] as? String ?? ""
+
+        
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
+        let isLiveLocation = userInfo["isLiveLocation"] as? String ?? ""
+        let locationPeriod = userInfo["locationPeriod"] as? String ?? ""
+        let locationStartTime = userInfo["locationStartTime"] as? String ?? ""
+        let locationEndTime = userInfo["locationEndTime"] as? String ?? ""
+
         
         var isWhiteLabel:Bool = false
         if IsWhitelabel == "True" {
@@ -657,7 +667,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
-            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId,isWhiteLabel)
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId,isWhiteLabel,locationName,locationLat,locationLng,isLiveLocation,locationPeriod,locationStartTime,locationEndTime)
         }
         
         updateAppWhenPresentNotification(action, actionId)
@@ -720,6 +730,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
+        let locationLat = userInfo["latitude"] as? String ?? ""
+        let locationLng = userInfo["longitude"] as? String ?? ""
+        let locationName = userInfo["locationName"] as? String ?? ""
+        let isLiveLocation = userInfo["isLiveLocation"] as? String ?? ""
+        let locationPeriod = userInfo["locationPeriod"] as? String ?? ""
+        let locationStartTime = userInfo["locationStartTime"] as? String ?? ""
+        let locationEndTime = userInfo["locationEndTime"] as? String ?? ""
+
         var isWhiteLabel:Bool = false
         if IsWhitelabel == "True" {
             isWhiteLabel = true
@@ -728,7 +746,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
-            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId, isWhiteLabel)
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId, isWhiteLabel,locationName,locationLat,locationLng,isLiveLocation,locationPeriod,locationStartTime,locationEndTime)
         }
         
         updateAppWhenPresentNotification(action, actionId)
@@ -1292,7 +1310,7 @@ extension AppDelegate {
         }
     }
     
-    func notificationMessageChat(_ messageType: String?, _ action: String?, _ actionId: String?, _ body: String?, _ messageId: String, _ messagedate: String, _ messageTime: String, _ senderId: String, _ senderImage: String, _ senderDisplayName: String, _ messsageImageURL: String, _ messsageLinkEvenkey: String, _ messsageLinkEvenTitle: String, _ messsageLinkEvencategorie: String, _ messsageLinkEvenImage: String, _ messsageLinkEvenjoined: String, _ messsageLinkEventotalnumbert: String, _ messsageLinkEveneventdateto: String, _ messsageLinkEvenId: String, _ isWhitelabel:Bool ) {
+    func notificationMessageChat(_ messageType: String?, _ action: String?, _ actionId: String?, _ body: String?, _ messageId: String, _ messagedate: String, _ messageTime: String, _ senderId: String, _ senderImage: String, _ senderDisplayName: String, _ messsageImageURL: String, _ messsageLinkEvenkey: String, _ messsageLinkEvenTitle: String, _ messsageLinkEvencategorie: String, _ messsageLinkEvenImage: String, _ messsageLinkEvenjoined: String, _ messsageLinkEventotalnumbert: String, _ messsageLinkEveneventdateto: String, _ messsageLinkEvenId: String, _ isWhitelabel:Bool, _ locationName:String, _ locationLat:String, _ locationLng:String,_ isLiveLocation:String,_ locationPeriod:String,_ locationStartTime:String,_ locationEndTime:String) {
         
         if messageType == "1" {//text
             NotificationMessage.action = action ?? ""
@@ -1352,6 +1370,27 @@ extension AppDelegate {
             NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
             NotificationMessage.linkPreviewID = messsageLinkEvenId
             NotificationMessage.isWhitelabel = isWhitelabel
+        }
+        else if messageType == "5" {
+            NotificationMessage.action = action ?? ""
+            NotificationMessage.actionCode = actionId ?? ""
+            NotificationMessage.messageType = 5
+            NotificationMessage.messageId = messageId
+            NotificationMessage.messageDate = messagedate
+            NotificationMessage.messageTime = messageTime
+            NotificationMessage.senderId = senderId
+            NotificationMessage.photoURL = senderImage
+            NotificationMessage.displayName = senderDisplayName
+            NotificationMessage.isWhitelabel = isWhitelabel
+            NotificationMessage.locationLat = locationLat
+            NotificationMessage.locationLng = locationLng
+            NotificationMessage.locationName = locationName
+            
+            NotificationMessage.isLiveLocation = isLiveLocation
+            NotificationMessage.locationPeriod = locationPeriod
+            NotificationMessage.locationStartTime = locationStartTime
+            NotificationMessage.locationEndTime = locationEndTime
+
         }
     }
 }

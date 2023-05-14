@@ -345,10 +345,10 @@ class ShareEventVC: UIViewController {
         getAllMyEvents(pageNumber: currentEventsPage, search: eventsSearchBar.text ?? "")
     }
     
-    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
-        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "POP", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "POP", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage() ,eventShareid: self.eventID) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -378,10 +378,10 @@ class ShareEventVC: UIViewController {
         }
     }
     
-    func shareEventToEvent(_ cell:ShareTableViewCell,_ model:EventObj?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+    func shareEventToEvent(_ cell:ShareTableViewCell,_ model:EventObj?,_ messageDate:String,_ messageTime:String) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
-        self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+        self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), eventShareid: self.eventID) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -412,10 +412,10 @@ class ShareEventVC: UIViewController {
         }
     }
     
-    func shareEventToGroup(_ cell:ShareTableViewCell,_ model:UserChatObj?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+    func shareEventToGroup(_ cell:ShareTableViewCell,_ model:UserChatObj?,_ messageDate:String,_ messageTime:String) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
-        self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+        self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), eventShareid: self.eventID) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -731,7 +731,6 @@ extension ShareEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
-        let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         if tableView == friendsTV {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
@@ -753,7 +752,7 @@ extension ShareEventVC: UITableViewDataSource {
             }
             
             cell.HandleSendBtn = {
-                self.shareEventToUser(cell, model1, messageDate, messageTime, url)
+                self.shareEventToUser(cell, model1, messageDate, messageTime)
             }
             return cell
         }
@@ -777,7 +776,7 @@ extension ShareEventVC: UITableViewDataSource {
             }
             
             cell.HandleSendBtn = {
-                self.shareEventToGroup(cell, model2, messageDate, messageTime, url)
+                self.shareEventToGroup(cell, model2, messageDate, messageTime)
             }
             
             return cell
@@ -802,7 +801,7 @@ extension ShareEventVC: UITableViewDataSource {
             }
             
             cell.HandleSendBtn = {
-                self.shareEventToEvent(cell, model3, messageDate, messageTime, url)
+                self.shareEventToEvent(cell, model3, messageDate, messageTime)
             }
             
             return cell

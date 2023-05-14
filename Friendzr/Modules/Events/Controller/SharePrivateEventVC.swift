@@ -169,10 +169,10 @@ class SharePrivateEventVC: UIViewController {
         }
     }
     
-    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
-        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: self.eventID) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -262,9 +262,6 @@ extension SharePrivateEventVC: UITableViewDataSource {
         
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
-        let url:URL? = URL(string: "https://www.apple.com/eg/")
-        
-        
         
         let model = viewmodel.attendees.value?.data?[indexPath.row]
         
@@ -277,7 +274,7 @@ extension SharePrivateEventVC: UITableViewDataSource {
         
         cell.HandleSendBtn = {
             if NetworkConected.internetConect {
-                self.shareEventToUser(cell, model, messageDate, messageTime, url)
+                self.shareEventToUser(cell, model, messageDate, messageTime)
             }
         }
         return cell

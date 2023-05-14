@@ -82,7 +82,7 @@ class SendLocationChatVC: UIViewController {
     func setupMarker(for position:CLLocationCoordinate2D)  {
         self.mapView.clear()
         let marker = GMSMarker(position: position)
-        marker.icon = UIImage.init(named: "arrow_Select")
+        marker.icon = UIImage.init(named: "ic_map_marker")
         marker.map = mapView
     }
     

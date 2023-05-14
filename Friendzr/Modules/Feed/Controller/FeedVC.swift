@@ -118,7 +118,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     let switchCompassBarButton: CustomSwitch = CustomSwitch()
     var switchGhostModeBarButton: CustomSwitch = CustomSwitch()
     var switchSortedByInterestsButton: CustomSwitch = CustomSwitch()
-    
+//    var switchEyeBarButton: CustomSwitch = CustomSwitch()
+
     var titleViewBtn:UIButton = UIButton()
     var btnsSelected:Bool = false
     
@@ -132,7 +133,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     var isCompassOpen:Bool = false
     var sortByInterestMatch:Bool = false
-    
+//    var isEyeOpen:Bool = false
+
     var bannerView2: GADBannerView!
 
     var deeplinkValue:String = ""
@@ -154,6 +156,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         initCompassSwitchBarButton()
+//        initEyeSwitchBarButton()
         Defaults.availableVC = ""
     }
     
@@ -217,6 +220,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.switchGhostModeBarButton.isUserInteractionEnabled = false
                 self.switchCompassBarButton.isUserInteractionEnabled = false
                 self.switchSortedByInterestsButton.isUserInteractionEnabled = false
+//                self.switchEyeBarButton.isUserInteractionEnabled = false
                 NetworkConected.internetConect = false
                 self.HandleInternetConnection()
             }
@@ -346,7 +350,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                         self?.hideView.isHidden = true
                     }
                     
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self?.tableView.delegate = self
                         self?.tableView.dataSource = self
                         self?.tableView.reloadData()

@@ -10,17 +10,23 @@ import GoogleMaps
 import GooglePlaces
 
 class ShareLocationVC: UIViewController {
-
+    
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var subView: UIView!
-    
     @IBOutlet weak var myCurrentLocationBtn: UIButton!
     @IBOutlet weak var locationNameLbl: UILabel!
     @IBOutlet weak var shareLocationBtn: UIButton!
     @IBOutlet weak var shareMyCurrentLocationBtn: UIButton!
+    @IBOutlet weak var subView2: UIView!
+    @IBOutlet weak var addCaptionView: UIView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var addCaptionTxt: UITextField!
+    @IBOutlet weak var sendCaptionBtn: UIButton!
+    
+    @IBOutlet weak var closeSubView2Btn: UIButton!
     
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -30,13 +36,31 @@ class ShareLocationVC: UIViewController {
     var locationLat:Double = 0.0
     var locationLng:Double = 0.0
     var locationTitle:String = ""
+    
+    var endDate:Date = Date()
 
-    var onLocationCallBackResponse: ((_ lat: String, _ lng: String,_ locationTitle:String) -> ())?
+    var endDateStr:String = ""
+    var startDateStr:String = ""
+    
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeZone = .current
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter
+    }()
+
+    var onLocationCallBackResponse: ((_ lat: String, _ lng: String,_ locationTitle:String,_ isLiveLocation: Bool,_ captionTxt:String,_ locationPeriod:String,_ startTime:String,_ endTime:String) -> ())?
     
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
     private var tableDataSource: GMSAutocompleteTableDataSource!
-
+    
+    
+    var liveTimeArray = ["15 Minutes","1 Hour","8 Hours"]
+    var liveTime:String = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,26 +76,37 @@ class ShareLocationVC: UIViewController {
         
         Defaults.availableVC = "SendLocationChatVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         initCloseBarButton()
         removeNavigationBorder()
         clearNavigationBar()
+        
+        pickerView.selectedRow(inComponent: 0)
     }
     
     //MARK: - Helpers
     func setupViews() {
-        subView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 25)
+        subView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
+        subView2.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         searchView.setBorder()
         searchView.cornerRadiusView(radius: 25)
         shareLocationBtn.cornerRadiusView(radius: 8)
         shareMyCurrentLocationBtn.cornerRadiusView(radius: 8)
         myCurrentLocationBtn.cornerRadiusView(radius: 8)
+        addCaptionView.cornerRadiusView(radius: 8)
+        addCaptionView.setBorder(color: UIColor.white.cgColor, width: 1)
+        sendCaptionBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+        sendCaptionBtn.cornerRadiusView()
+//        closeSubView2Btn.cornerRadiusView()
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
     }
     
     func setupMarker(for position:CLLocationCoordinate2D)  {
         self.mapView.clear()
         let marker = GMSMarker(position: position)
-        marker.icon = UIImage.init(named: "arrow_Select")
+        marker.icon = UIImage(named: "ic_map_marker")
         marker.map = mapView
     }
     
@@ -94,7 +129,7 @@ class ShareLocationVC: UIViewController {
         
         location?.latitude = Double(Defaults.LocationLat)!
         location?.longitude = Double(Defaults.LocationLng)!
-
+        
         let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17)
         self.mapView.animate(to: camera)
         self.mapView.animate(toViewingAngle: 10)
@@ -108,7 +143,7 @@ class ShareLocationVC: UIViewController {
                 self.locationLat = self.location!.latitude
                 self.locationLng = self.location!.longitude
                 self.locationNameLbl.text = "Location Name: \(self.locationTitle)"
-
+                
                 return
             }
             self.showAlert(withMessage: error.localizedDescription)
@@ -146,40 +181,61 @@ class ShareLocationVC: UIViewController {
     }
     
     @IBAction func shareMyCurrentLocationBtn(_ sender: Any) {
-        onLocationCallBackResponse?(Defaults.LocationLat ,Defaults.LocationLng,self.locationTitle)
+        onLocationCallBackResponse?(Defaults.LocationLat ,Defaults.LocationLng,self.locationTitle, false,"","","","")
         self.onDismiss()
     }
     
     @IBAction func shareLocationBtn(_ sender: Any) {
-        
+        subView2.isHidden = false
+        pickerView.delegate = self
+        pickerView.dataSource = self
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
         setupGoogleMap()
+    }
+    
+    @IBAction func sendCaptionBtn(_ sender: Any) {
+        
+        startDateStr = formatter.string(from: Date())
+
+        onLocationCallBackResponse?(Defaults.LocationLat ,Defaults.LocationLng,self.locationTitle, true,addCaptionTxt.text!,liveTime,startDateStr,endDateStr)
+        
+        subView2.isHidden = true
+        self.onDismiss()
+    }
+    
+    @IBAction func closeSubView2Btn(_ sender: Any) {
+        subView2.isHidden = true
     }
 }
 
 //MARK: - GMSMapViewDelegate
 extension ShareLocationVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        self.location = coordinate
-        let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
-        mapView.animate(to: camera)
-        self.setupMarker(for: location!)
-        geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
-            
-            guard let error = error else {
-                self.currentPlaceMark = PM!
-                self.locationLat = self.location!.latitude
-                self.locationLng = self.location!.longitude
-                self.locationTitle = PM?.name ?? ""
-                
-                print("Location Name: \(self.locationTitle)")
-                self.locationNameLbl.text = "Location Name: \(self.locationTitle)"
-                return
-            }
-            self.showAlert(withMessage: error.localizedDescription)
-        }
+//        self.location = coordinate
+//        let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
+//        mapView.animate(to: camera)
+//        self.setupMarker(for: location!)
+//        geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
+//
+//            guard let error = error else {
+//                self.currentPlaceMark = PM!
+//                self.locationLat = self.location!.latitude
+//                self.locationLng = self.location!.longitude
+//                self.locationTitle = PM?.name ?? ""
+//
+//                print("Location Name: \(self.locationTitle)")
+//                self.locationNameLbl.text = "Location Name: \(self.locationTitle)"
+//                return
+//            }
+//            self.showAlert(withMessage: error.localizedDescription)
+//        }
+        
+        print("didTapAt")
+        
+        dismissKeyboard()
+        subView2.isHidden = true
     }
 }
 
@@ -303,3 +359,54 @@ extension ShareLocationVC: GMSAutocompleteTableDataSourceDelegate {
     }
 }
 
+extension ShareLocationVC: UIPickerViewDataSource,UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return liveTimeArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let model = liveTimeArray[row]
+        return model
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        liveTime = liveTimeArray[row]
+        
+        let calendar = Calendar.current
+        
+        if row == 0 {
+            endDate = calendar.date(byAdding: .minute, value: 15, to: Date()) ?? Date()
+        }else if row == 1 {
+            endDate = calendar.date(byAdding: .hour, value: 1, to: Date()) ?? Date()
+
+        }else {
+            endDate = calendar.date(byAdding: .hour, value: 8, to: Date()) ?? Date()
+        }
+        
+        startDateStr = formatter.string(from: Date())
+        endDateStr = formatter.string(from: endDate)
+        
+        print("endDateStr = \(String(describing: endDateStr))")
+        print("startDateStr = \(String(describing: startDateStr))")
+
+        print(liveTime)
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label = UILabel()
+        
+        if let v = view {
+            label = v as! UILabel
+        }
+        
+        label.font = UIFont (name: "Montserrat-Medium", size: 20)
+        label.textColor = .white
+        label.text =  liveTimeArray[row]
+        label.textAlignment = .center
+        return label
+    }
+}

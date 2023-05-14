@@ -110,9 +110,13 @@ class ShareLocationTableViewCell: UITableViewCell, GMSMapViewDelegate {
     @IBOutlet weak var profileBtn: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var locNameLbl: UILabel!
+    @IBOutlet weak var tapLocationBtn: UIButton!
+    @IBOutlet weak var stopLiveLocBtn: UIButton!
     
     
     var HandleUserProfileBtn: (() -> ())?
+    var HandleTapLocationBtn: (() -> ())?
+    var HandleStopLiveLocBtn: (() -> ())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -126,12 +130,17 @@ class ShareLocationTableViewCell: UITableViewCell, GMSMapViewDelegate {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
     
     @IBAction func profileBtn(_ sender: Any) {
         HandleUserProfileBtn?()
+    }
+    
+    @IBAction func tapLocationBtn(_ sender: Any) {
+        HandleTapLocationBtn?()
+    }
+    @IBAction func stopLiveLocBtn(_ sender: Any) {
+        HandleStopLiveLocBtn?()
     }
 }
 
@@ -150,7 +159,7 @@ extension ShareLocationTableViewCell {
     func setupMarker(for position:CLLocationCoordinate2D)  {
         self.mapView.clear()
         let marker = GMSMarker(position: position)
-        marker.icon = UIImage.init(named: "arrow_Select")
+        marker.icon = UIImage(named: "ic_map_marker")
         marker.map = mapView
     }
 }

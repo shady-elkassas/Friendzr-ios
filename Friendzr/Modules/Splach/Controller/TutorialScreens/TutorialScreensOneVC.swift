@@ -52,6 +52,7 @@ class TutorialScreensOneVC: UIViewController {
         setupAnimations()
     }
     
+    //Animations
     func setupAnimations() {
         guard let path = Bundle.main.path(forResource: "Tutorial1", ofType:"mov") else {
             debugPrint("Tutorial1.mov not found")

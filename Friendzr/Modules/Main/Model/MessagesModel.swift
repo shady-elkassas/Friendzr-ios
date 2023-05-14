@@ -74,8 +74,13 @@ class MessageObj: NSObject,Mappable {
     var isWhitelabel:Bool = false
     var latitude:String? = ""
     var longitude:String? = ""
+    var locationName:String? = ""
 
-    
+    var isLiveLocation:Bool = false
+    var locationPeriod:String = ""
+    var locationStartTime:String = ""
+    var locationEndTime:String = ""
+
     override init() {
         super.init()
     }
@@ -102,6 +107,13 @@ class MessageObj: NSObject,Mappable {
         isWhitelabel   <- map["isWhitelabel"]
         latitude   <- map["latitude"]
         longitude   <- map["longitude"]
+        locationName   <- map["locationName"]
+        
+        isLiveLocation   <- map["isLiveLocation"]
+        locationPeriod   <- map["locationPeriod"]
+        locationStartTime   <- map["locationStartTime"]
+        locationEndTime   <- map["locationEndTime"]
+
     }
 }
 

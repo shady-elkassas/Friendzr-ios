@@ -80,6 +80,9 @@ class UserChatObj: NSObject,Mappable {
     var isWhiteLabel:Bool = false
     var imageIsVerified:Bool = false
     
+    var isLiveLocation:Bool? = false
+    var locationStartTime:String? = ""
+    var locationPeriod:String? = ""
     
     override init() {
         super.init()
@@ -113,6 +116,9 @@ class UserChatObj: NSObject,Mappable {
         isWhiteLabel <- map["isWhiteLabel"]
         imageIsVerified    <- map["imageIsVerified"]
 
+        isLiveLocation    <- map["isLiveLocation"]
+        locationStartTime    <- map["locationStartTime"]
+        locationPeriod    <- map["locationPeriod"]
     }
 }
 

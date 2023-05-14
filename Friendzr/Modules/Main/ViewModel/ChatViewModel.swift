@@ -72,15 +72,15 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with user
-    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,eventShareid:String,latitude:String? = "",longitude:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,_ fileUrl: URL? = URL(string: "https://www.apple.com/eg/"),eventShareid:String,latitude:String? = "",longitude:String? = "",locationName:String? = "",isLiveLocation:Bool? = false,locationStartTime:String? = "",locationEndTime:String? = "",locationPeriod:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendMessage"
         
-        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"EventLINKid":eventShareid,"Longitude":longitude ?? "","Latitude":latitude ?? ""]
+        var parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"EventLINKid":eventShareid,"longitude":longitude ?? "","latitude":latitude ?? "","locationName":locationName ?? "","isLiveLocation":isLiveLocation ?? false,"locationStartTime":locationStartTime ?? "","locationPeriod":locationPeriod ?? "","locationEndTime":locationEndTime ?? ""]
         
-        let oParam = NSString(string: parameters.description)
-        print(oParam)
-        
+//        let oParam = NSString(string: parameters.description)
+//        print(oParam)
+
         if attachedImg {
             if messagetype == 2 {
                 guard let mediaImage = Media(withImage: attachImage, forKey: "Attach") else { return }
@@ -138,7 +138,7 @@ class ChatViewModel {
                 
             }
             else if messagetype == 3 {
-                guard let mediaImage = MediaFile(url: fileUrl, forKey: "Attach") else { return }
+                guard let mediaImage = MediaFile(url: fileUrl!, forKey: "Attach") else { return }
                 guard let urlRequest = URL(string: url) else { return }
                 var request = URLRequest(url: urlRequest)
                 request.httpMethod = "POST"
@@ -248,14 +248,14 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with Event
-    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,eventShareid:String,latitude:String? = "",longitude:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,_ fileUrl: URL? = URL(string: "https://www.apple.com/eg/"),eventShareid:String,latitude:String? = "",longitude:String? = "",locationName:String? = "",isLiveLocation:Bool? = false,locationStartTime:String? = "",locationEndTime:String? = "",locationPeriod:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendEventMessage"
         
-        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"EventLINKid":eventShareid,"Longitude":longitude ?? "","Latitude":latitude ?? ""]
+        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"EventLINKid":eventShareid,"longitude":longitude ?? "","latitude":latitude ?? "","locationName":locationName ?? "","isLiveLocation":isLiveLocation ?? false,"locationStartTime":locationStartTime ?? "","locationEndTime":locationEndTime ?? "","locationPeriod":locationPeriod ?? ""]
         
-        let oParam = NSString(string: parameters.description)
-        print(oParam)
+//        let oParam = NSString(string: parameters.description)
+//        print(oParam)
         
         if attachedImg {
             if messagetype == 2 {
@@ -313,7 +313,7 @@ class ChatViewModel {
                 }
                 
             }else if messagetype == 3 {
-                guard let mediaFile = MediaFile(url: fileUrl, forKey: "Attach") else { return }
+                guard let mediaFile = MediaFile(url: fileUrl!, forKey: "Attach") else { return }
                 guard let urlRequest = URL(string: url) else { return }
                 var request = URLRequest(url: urlRequest)
                 request.httpMethod = "POST"
@@ -495,14 +495,15 @@ class ChatViewModel {
         }
     }
     
-    func SendMessage(withGroupId groupId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,eventShareid:String,latitude:String? = "",longitude:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withGroupId groupId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,_ fileUrl: URL? = URL(string: "https://www.apple.com/eg/"),eventShareid:String,latitude:String? = "",longitude:String? = "",locationName:String? = "",isLiveLocation:Bool? = false,locationStartTime:String? = "",locationEndTime:String? = "",locationPeriod:String? = "",completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendChatGroupMessage"
         
-        let parameters:[String:Any] = ["ChatGroupID":groupId,"Message":message,"Messagetype":messagetype,"MessagesDateTime":"\(messagesdate) \(messagestime)","EventLINKid":eventShareid,"Longitude":longitude ?? "","Latitude":latitude ?? ""]
-        let oParam = NSString(string: parameters.description)
-        print(oParam)
+        let parameters:[String:Any] = ["ChatGroupID":groupId,"Message":message,"Messagetype":messagetype,"MessagesDateTime":"\(messagesdate) \(messagestime)","EventLINKid":eventShareid,"longitude":longitude ?? "","latitude":latitude ?? "","locationName":locationName ?? "","isLiveLocation":isLiveLocation ?? false,"locationStartTime":locationStartTime ?? "","locationPeriod":locationPeriod ?? "","locationEndTime":locationEndTime ?? ""]
+        
+//        let oParam = NSString(string: parameters.description)
+//        print(oParam)
         
         if attachedImg {
             if messagetype == 2 {
@@ -561,7 +562,7 @@ class ChatViewModel {
                 
             }
             else if messagetype == 3 {
-                guard let mediaFile = MediaFile(url: fileUrl, forKey: "Attach_File") else { return }
+                guard let mediaFile = MediaFile(url: fileUrl!, forKey: "Attach_File") else { return }
                 guard let urlRequest = URL(string: url) else { return }
                 var request = URLRequest(url: urlRequest)
                 request.httpMethod = "POST"
@@ -707,7 +708,6 @@ class ChatViewModel {
             }
         }
     }
-    
     
     //MARK:- mute chat
     func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {

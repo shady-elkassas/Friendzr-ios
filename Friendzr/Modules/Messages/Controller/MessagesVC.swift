@@ -18,6 +18,43 @@ import Photos
 import ListPlaceholder
 import MapKit
 
+extension MessagesVC {
+    func checkTime(timeDate1:String,timeDate2:String) -> Bool {
+        
+//        let dateFormatter: DateFormatter = DateFormatter()
+//        dateFormatter.timeZone = TimeZone.current
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+//        let startingSlot = "2000-01-01 08:00:00" //UTC
+//        let endingSlot = "2000-01-01 23:00:00" //UTC
+        
+        let date = Date()
+        
+        let date1: Date = formatter.date(from: timeDate1) ?? Date()
+        let date2: Date = formatter.date(from: timeDate2) ?? Date()
+        
+        let currentTime = 60*Calendar.current.component(.hour, from: date) + Calendar.current.component(.minute, from: date) + (Calendar.current.component(.second, from: date)/60) // in minutes
+        let time1 = 60*Calendar.current.component(.hour, from: date1) + Calendar.current.component(.minute, from: date1) + (Calendar.current.component(.second, from: date1)/60) // in minutes
+        let time2 =  60*Calendar.current.component(.hour, from: date2) + Calendar.current.component(.minute, from: date2) + (Calendar.current.component(.second, from: date2)/60) // in minutes
+        
+        print(currentTime)
+        print(time1)
+        print(time2)
+        
+        
+        if time1 >= time2 {
+            return true
+        }else {
+            return false
+        }
+        
+//        if(currentTime >= time1 && currentTime <= time2) {
+//            return true
+//        } else {
+//            return false
+//        }
+    }
+}
 
 class MessagesVC: UIViewController {
     
@@ -36,7 +73,7 @@ class MessagesVC: UIViewController {
     
     
     let currentSender = SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName, isWhitelabel: Defaults.isWhiteLable)
-
+    
     var bottomInset: CGFloat {
         return view.safeAreaInsets.bottom + 50
     }
@@ -52,6 +89,7 @@ class MessagesVC: UIViewController {
     }()
     
     var viewmodel:ChatViewModel = ChatViewModel()
+    var liveLocationVM:LocationViewModel = LocationViewModel()
     
     var cellSelect:Bool = false
     var currentPage : Int = 1
@@ -78,6 +116,7 @@ class MessagesVC: UIViewController {
     var isCommunityGroup:Bool = false
     var fileUpload = ""
     var isUserWhiteLabel:Bool = false
+    var timeNowSwting:String = ""
     
     var messageTableViewViewBottomInset: CGFloat = 0 {
         didSet {
@@ -99,6 +138,9 @@ class MessagesVC: UIViewController {
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
+        formatter.timeZone = .current
+        formatter.locale = .current
+        
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return formatter
     }()
@@ -106,6 +148,7 @@ class MessagesVC: UIViewController {
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
+        formatter.timeZone = .current
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
@@ -113,6 +156,7 @@ class MessagesVC: UIViewController {
     let formatterUnfriendDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
+        formatter.timeZone = .current
         formatter.dateFormat = "dd-MM-yyyy"
         return formatter
     }()
@@ -120,6 +164,7 @@ class MessagesVC: UIViewController {
     let formatterTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
+        formatter.timeZone = .current
         formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
@@ -127,6 +172,7 @@ class MessagesVC: UIViewController {
     let formatterTime2: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
+        formatter.timeZone = .current
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
@@ -147,7 +193,7 @@ class MessagesVC: UIViewController {
         initBackButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleSetupMessages), name: Notification.Name("handleSetupMessages"), object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
@@ -255,6 +301,9 @@ class MessagesVC: UIViewController {
     }
     
     func setupMessages() {
+        
+        timeNowSwting = formatter.string(from: Date())
+        
         if isEvent {
             self.getEventChatMessages(pageNumber: 1)
         }
@@ -278,20 +327,38 @@ class MessagesVC: UIViewController {
         }
     }
     
-        
-    func onLocationShareCallBack(_ lat: String, _ lng: String,_ locationTitle:String) -> () {
-        print("lat: \(lat), lng: \(lng) ,title: \(locationTitle)")
+    
+    func onLocationShareCallBack(_ lat: String, _ lng: String,_ locationTitle:String,_ isLiveLocation: Bool,_ captionTxt:String,_ locationPeriod:String,_ startTime:String,_ endTime:String) -> () {
+        print("lat: \(lat), lng: \(lng) ,title: \(locationTitle),isLiveLocation: \(isLiveLocation),captionTxt: \(captionTxt),locationPeriod: \(locationPeriod),startTime: \(startTime),endTime: \(endTime)")
         
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let messageTime2 = formatterTime2.string(from: Date())
-
-        let url:URL? = URL(string: "https://www.apple.com/eg/")
-
-        self.insertMessage(ChatMessage(sender: self.currentSender, messageId: "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle)))
+        
+        var locName = ""
+        var locPeriodStr = ""
+        
+        if locationPeriod == "" {
+            locPeriodStr = "15 Minutes"
+        }else {
+            locPeriodStr = locationPeriod
+        }
+        
+        if isLiveLocation {
+            locName = ""
+        } else {
+            locName = locationTitle
+        }
+        
+        shareLocationWith(messageDate, messageTime2, lat, lng, locName , messageTime, isLiveLocation, captionTxt, locPeriodStr, startTime, endTime)
+    }
+    
+    func shareLocationWith(_ messageDate: String, _ messageTime2: String, _ lat: String, _ lng: String, _ locationTitle: String, _ messageTime: String,_ isLiveLocation: Bool,_ captionTxt:String,_ locationPeriod:String,_ startTime:String,_ endTime:String) {
+        
+//        self.insertMessage(ChatMessage(sender: self.currentSender, messageId: "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle,captionTxt:captionTxt,isLiveLocation: isLiveLocation,locationPeriod: locationPeriod,locationStartTime: startTime,locationEndTime: endTime)))
         
         if isEvent {
-            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 5, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: "",latitude: lat,longitude: lng) { error, data in
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 5, AndMessage: captionTxt, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), eventShareid: "",latitude: lat,longitude: lng, locationName: locationTitle,isLiveLocation: isLiveLocation,locationStartTime: startTime,locationEndTime: endTime,locationPeriod: locationPeriod) { error, data in
                 
                 if let error = error {
                     DispatchQueue.main.async {
@@ -304,10 +371,7 @@ class MessagesVC: UIViewController {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.tableView.scroll(to: .bottom, animated: true)
-                }
+                self.insertMessage(ChatMessage(sender: self.currentSender, messageId: data?.id ?? "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle,captionTxt:captionTxt,isLiveLocation: isLiveLocation,locationPeriod: locationPeriod,locationStartTime: startTime,locationEndTime: endTime)))
                 
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -316,7 +380,7 @@ class MessagesVC: UIViewController {
         }
         else {
             if isChatGroup {
-                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 5, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "",latitude: lat,longitude: lng) { error, data in
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 5, AndMessage: captionTxt, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: "",latitude: lat,longitude: lng, locationName: locationTitle,isLiveLocation: isLiveLocation,locationStartTime: startTime,locationEndTime: endTime,locationPeriod: locationPeriod) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -328,10 +392,7 @@ class MessagesVC: UIViewController {
                         return
                     }
                     
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.tableView.scroll(to: .bottom, animated: true)
-                    }
+                    self.insertMessage(ChatMessage(sender: self.currentSender, messageId: data?.id ?? "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle,captionTxt:captionTxt,isLiveLocation: isLiveLocation,locationPeriod: locationPeriod,locationStartTime: startTime,locationEndTime: endTime)))
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -339,7 +400,7 @@ class MessagesVC: UIViewController {
                 }
             }
             else {
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 5, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "",latitude: lat,longitude: lng) { error, data in
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: captionTxt, AndMessageType: 5, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: "",latitude: lat,longitude: lng, locationName: locationTitle,isLiveLocation: isLiveLocation,locationStartTime: startTime,locationEndTime: endTime,locationPeriod: locationPeriod) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -351,10 +412,13 @@ class MessagesVC: UIViewController {
                         return
                     }
                     
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.tableView.scroll(to: .bottom, animated: true)
-                    }
+                    
+                    self.insertMessage(ChatMessage(sender: self.currentSender, messageId: data?.id ?? "", messageType: 5, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageLoc: MessageLocation(lat: lat, lng: lng, locationName: locationTitle,captionTxt:captionTxt,isLiveLocation: isLiveLocation,locationPeriod: locationPeriod,locationStartTime: startTime,locationEndTime: endTime)))
+
+//                    DispatchQueue.main.async {
+//                        self.tableView.reloadData()
+//                        self.tableView.scroll(to: .bottom, animated: true)
+//                    }
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -363,6 +427,7 @@ class MessagesVC: UIViewController {
             }
         }
     }
+    
     
     //MARK: - Load More Messages
     @objc func loadMoreMessages() {
@@ -436,11 +501,6 @@ class MessagesVC: UIViewController {
         }
     }
     
-    @objc func handleTouched(_ sender: UITapGestureRecognizer? = nil) {
-        // handling code
-        print("handleTouched handleTouched")
-    }
-    
     @objc func updateNavBar() {
         setupNavigationbar()
         
@@ -461,14 +521,13 @@ extension MessagesVC {
         let messageTime2 = formatterTime2.string(from: Date())
         
         guard let text = inputTextField.text, !text.isEmpty else { return }
-        let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         self.insertMessage(ChatMessage(sender: self.currentSender, messageId: "", messageType: 1, date: Date(), messageDate: messageDate, messageTime: messageTime2,messageText: MessageText(text: inputTextField.text ?? "")))
         
         inputTextField.text = ""
         
         if isEvent {
-            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: "") { error, data in
                 
                 if let error = error {
                     DispatchQueue.main.async {
@@ -493,7 +552,7 @@ extension MessagesVC {
         }
         else {
             if isChatGroup {
-                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -516,7 +575,7 @@ extension MessagesVC {
                 }
             }
             else {
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -569,7 +628,7 @@ extension MessagesVC {
         cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         //        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-//        locationBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        locationBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
         
         actionSheet.addAction(cameraBtn)
@@ -811,7 +870,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-
+            
             
             //            cell.delegate = self
             //            cell.delegate?.messageTableViewCellUpdate()
@@ -822,15 +881,58 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "userPlaceHolderImage"))
-
+            
             let lat = Double("\(model.messageLoc.lat )")
             let lng = Double("\(model.messageLoc.lng )")
-
+            
             cell.setupGoogleMap(lat: lat ?? 0.0, lng: lng ?? 0.0)
             
-            cell.locNameLbl.text = model.messageLoc.locationName
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
-
+            
+            
+            let checkTime = checkTime(timeDate1: model.messageLoc.locationEndTime, timeDate2: timeNowSwting)
+            print("checkTime ==== \(checkTime)")
+            
+            
+            if model.messageLoc.isLiveLocation == true && checkTime == true {
+                if model.sender.senderId == Defaults.token {
+                    cell.stopLiveLocBtn.isHidden = false
+                }
+                else {
+                    cell.locNameLbl.text = "Live location"
+//                    cell.locNameLbl.textColor = .FriendzrColors.primary
+                }
+            }
+            else {
+                if model.messageLoc.locationName != "" {
+                    cell.locNameLbl.text = model.messageLoc.locationName
+                }else {
+                    cell.locNameLbl.text = "Live location ended"
+                }
+                
+                if model.sender.senderId == Defaults.token {
+                    cell.stopLiveLocBtn.isHidden = true
+                }
+            }
+            
+            cell.HandleStopLiveLocBtn = {
+                if !model.sender.isWhitelabel {
+                    //stop location live
+                    self.liveLocationVM.stopLiveLocation(WithID: model.messageId) { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {return}
+                        cell.stopLiveLocBtn.isHidden = true
+                        cell.locNameLbl.text = "Live location ended"
+                    }
+                }
+            }
+            
             cell.HandleUserProfileBtn = {
                 if !model.sender.isWhitelabel {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
@@ -839,11 +941,11 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
-//            cell.HandleTapLocationBtn = {
-//                if !model.sender.isWhitelabel {
-//                    self.setupDirection(model.messageLoc)
-//                }
-//            }
+            cell.HandleTapLocationBtn = {
+                if !model.sender.isWhitelabel {
+                    self.setupDirection(model.messageLoc,model.messageId)
+                }
+            }
             
             return cell
         }
@@ -852,18 +954,18 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func setupDirection(_ model:MessageLocation?) {
-        let lat = Double("\(model?.lat ?? "")") ?? 0.0
-        let lng = Double("\(model?.lng ?? "")") ?? 0.0
+    func goToMapInMobile(_ locLat:String ,_ locLng:String,_ locationName:String) {
+        let lat = Double("\(locLat )") ?? 0.0
+        let lng = Double("\(locLng )") ?? 0.0
         
         if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-            UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lng ?? "")&directionsmode=driving")!)
+            UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(locLat),\(locLng)&directionsmode=driving")!)
         }
         else {
             let coordinates = CLLocationCoordinate2DMake(lat, lng)
             let source = MKMapItem(coordinate: coordinates, name: "Source")
             let regionDistance:CLLocationDistance = 10000
-            let destination = MKMapItem(coordinate: coordinates, name: model?.locationName ?? "")
+            let destination = MKMapItem(coordinate: coordinates, name: locationName )
             let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
             let options = [
                 MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
@@ -873,6 +975,39 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                 with: [source, destination],
                 launchOptions: options
             )
+        }
+    }
+    
+    func setupDirection(_ model:MessageLocation?,_ id:String) {
+        
+        if model?.isLiveLocation == true && id != "" {
+            DispatchQueue.main.async {
+                self.liveLocationVM.getLiveLocation(WithID: id)
+                self.liveLocationVM.liveLocationDet.bind { [weak self] value in
+                    DispatchQueue.main.async {
+                        self?.goToMapInMobile(value.latitude ?? "", value.longitude ?? "", value.locationName ?? "")
+                    }
+                }
+                
+                // Set View Model Event Listener
+                self.liveLocationVM.error.bind { [weak self]error in
+                    DispatchQueue.main.async {
+                        if error == "Internal Server Error" {
+                            self?.HandleInternetConnection()
+                        }else if error == "Bad Request" {
+                            self?.HandleinvalidUrl()
+                        }else {
+                            DispatchQueue.main.async {
+                                self?.view.makeToast(error)
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            self.goToMapInMobile(model?.lat ?? "", model?.lng ?? "", model?.locationName ?? "")
         }
     }
 }
@@ -905,6 +1040,19 @@ extension MessagesVC: MessageTableViewCellDelegate {
 }
 
 extension MessagesVC {
+    func updatelivelocationMessage(_ id: String) {
+        liveLocationVM.updateLiveLoction(WithID: id) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+        }
+    }
+    
     func extractedMessages(_ itm: MessageObj) {
         if !(self.messageList.contains(where: { $0.messageId == itm.id})) {
             switch itm.currentuserMessage! {
@@ -926,7 +1074,12 @@ extension MessagesVC {
                 case 4://link
                     self.messageList.insert(ChatMessage(sender: self.currentSender, messageId: itm.id ?? "", messageType: 4, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventTypeName ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? "")), at: 0)
                 case 5://location
-                    self.messageList.insert(ChatMessage(sender: self.currentSender, messageId: itm.id ?? "", messageType: 5, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.latitude ?? "", lng: itm.longitude ?? "", locationName: "Current Location")), at: 0)
+                    
+                    if itm.isLiveLocation == true {
+                        self.updatelivelocationMessage(itm.id ?? "")
+                    }
+                    
+                    self.messageList.insert(ChatMessage(sender: self.currentSender, messageId: itm.id ?? "", messageType: 5, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.latitude ?? "", lng: itm.longitude ?? "", locationName: itm.locationName ?? "",captionTxt: itm.messages ?? "",isLiveLocation: itm.isLiveLocation,locationPeriod: itm.locationPeriod,locationStartTime: itm.locationStartTime,locationEndTime: itm.locationEndTime)), at: 0)
                 default:
                     break
                 }
@@ -945,7 +1098,11 @@ extension MessagesVC {
                 case 4://link
                     self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? "", isWhitelabel: itm.isWhitelabel), messageId: itm.id ?? "", messageType: 4, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventTypeName ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? "")), at: 0)
                 case 5://location
-                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? "", isWhitelabel: itm.isWhitelabel), messageId: itm.id ?? "", messageType: 1, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.latitude ?? "", lng: itm.longitude ?? "", locationName: "Current Location")), at: 0)
+                    if itm.isLiveLocation == true {
+                        self.updatelivelocationMessage(itm.id ?? "")
+                    }
+                    
+                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? "", isWhitelabel: itm.isWhitelabel), messageId: itm.id ?? "", messageType: 5, date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? "",messageLoc: MessageLocation(lat: itm.latitude ?? "", lng: itm.longitude ?? "", locationName: itm.locationName ?? "",captionTxt: itm.messages ?? "",isLiveLocation: itm.isLiveLocation,locationPeriod: itm.locationPeriod,locationStartTime: itm.locationStartTime,locationEndTime: itm.locationEndTime)), at: 0)
                 default:
                     break
                 }
@@ -1769,7 +1926,7 @@ extension MessagesVC {
             self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: 4, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime, messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID)))
         }
         else if NotificationMessage.messageType == 5 {
-            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: NotificationMessage.messageType, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageLoc: MessageLocation(lat: NotificationMessage.locationLat, lng: NotificationMessage.locationLng, locationName: NotificationMessage.locationName)))
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName, isWhitelabel: NotificationMessage.isWhitelabel), messageId: NotificationMessage.messageId, messageType: NotificationMessage.messageType, date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime,messageLoc: MessageLocation(lat: NotificationMessage.locationLat, lng: NotificationMessage.locationLng, locationName: NotificationMessage.locationName, captionTxt: NotificationMessage.messageText, isLiveLocation: NotificationMessage.isLiveLocation == "false" ? false : true, locationPeriod: NotificationMessage.locationPeriod, locationStartTime: NotificationMessage.locationStartTime, locationEndTime: NotificationMessage.locationEndTime)))
         }
     }
     
@@ -1876,7 +2033,6 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let messageTime2 = formatterTime2.string(from: Date())
-        let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
             print(videoURL)
@@ -1888,7 +2044,7 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             self.insertMessage(ChatMessage(sender: currentSender, messageId: "", messageType: 2, date: Date(), messageDate: messageDate, messageTime: messageTime2, messageText: MessageText(text: ""), messageImage: MessageImage(imageView: image)))
             
             if isEvent {
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image,eventShareid: "") { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -1913,7 +2069,7 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             }
             else {
                 if isChatGroup {
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image,eventShareid: "") { error, data in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -1936,7 +2092,7 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
                     }
                 }
                 else {
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1964,8 +2120,6 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             picker.dismiss(animated:true, completion: {
             })
         }
-        
-        
     }
     //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     //        picker.dismiss(animated:true, completion: nil)
@@ -2000,7 +2154,7 @@ extension MessagesVC: UIDocumentPickerDelegate {
             
             self.insertMessage(ChatMessage(sender: currentSender, messageId: "", messageType: 3,date: Date(), messageDate: messageDate, messageTime: messageTime2,messageFile: MessageFile(fileView: imgView.image ?? UIImage())))
             if isEvent {
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), selectedFileURL,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -2024,7 +2178,7 @@ extension MessagesVC: UIDocumentPickerDelegate {
             }
             else {
                 if isChatGroup {
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), selectedFileURL,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -2048,7 +2202,7 @@ extension MessagesVC: UIDocumentPickerDelegate {
                         }
                     }
                 }else {
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), selectedFileURL,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -2198,8 +2352,8 @@ extension MessagesVC {
         navigationController?.navigationBar.shadowImage = UIColor.black.as1ptImage()
         navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
         navigationController?.navigationBar.backgroundColor = .white
-//        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//        self.view.backgroundColor = .white
+        //        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        //        self.view.backgroundColor = .white
         navigationController?.navigationBar.layoutIfNeeded()
         self.view.layoutIfNeeded()
     }

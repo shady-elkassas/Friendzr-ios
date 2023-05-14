@@ -23,7 +23,9 @@ target 'Friendzr' do
   pod 'Firebase/Firestore'
   pod 'Firebase/DynamicLinks'
   pod 'IQKeyboardManager'
+  
   pod 'SDWebImage'
+  
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'MultiSlider'

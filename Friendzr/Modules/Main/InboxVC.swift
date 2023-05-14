@@ -448,13 +448,21 @@ extension InboxVC:UITableViewDataSource {
                 cell.attachImg.image = UIImage(named: "attachFile_ic")
                 cell.attachTypeLbl.text = "File".localizedString
             }
-            else {
+            else if model?.messagestype == 4 {
                 print("\(model?.messagestype ?? 0)")
                 cell.attachImg.isHidden = false
                 cell.attachTypeLbl.isHidden = false
                 cell.lastMessageLbl.isHidden = true
                 cell.attachImg.image = UIImage(named: "Events_ic")
                 cell.attachTypeLbl.text = "Event".localizedString
+            }
+            else if model?.messagestype == 5 {
+                print("\(model?.messagestype ?? 0)")
+                cell.attachImg.isHidden = false
+                cell.attachTypeLbl.isHidden = false
+                cell.lastMessageLbl.isHidden = true
+                cell.attachImg.image = UIImage(named: "ic_map_marker")
+                cell.attachTypeLbl.text = "Location".localizedString
             }
             
             return cell
